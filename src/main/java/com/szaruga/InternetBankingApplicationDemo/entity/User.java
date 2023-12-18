@@ -1,6 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -10,9 +11,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //userName ma nam sie laczyc z UserDetails
-    private String userName;
-    //@Size(min = 9, max = 12)
+    @Email
+    private String email;
+    @Size(min = 9, max = 12)
     private String phoneNumber;
     private String password;
 
@@ -23,9 +24,9 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String userName, String phoneNumber, String password) {
+    public User(Long id, String email, String phoneNumber, String password) {
         this.id = id;
-        this.userName = userName;
+        this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
@@ -38,12 +39,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhoneNumber() {
@@ -74,7 +75,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", password='" + password + '\'' +
                 '}';
