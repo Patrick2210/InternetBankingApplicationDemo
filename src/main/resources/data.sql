@@ -11,8 +11,8 @@ insert into user_details(id, first_name, last_name, birth_date, number_pesel)
 values (101, 'Patryk', 'Szaruga',CURRENT_DATE,'92102245612');
 
 insert into user_details(id, first_name, last_name, birth_date, number_pesel)
-values (101, 'Sebix', 'Klimamaster',CURRENT_DATE,'92120187412');
+values (102, 'Sebix', 'Klimamaster',CURRENT_DATE,'92120187412');
 
 insert into user_details(id, first_name, last_name, birth_date, number_pesel)
-values (101, 'Jessie', 'Godzi',CURRENT_DATE,'92030332564');
+values (103, 'Jessie', 'Godzi',CURRENT_DATE,'92030332564');
 
