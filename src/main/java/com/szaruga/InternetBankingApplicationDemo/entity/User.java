@@ -5,34 +5,36 @@ import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
-@Entity(name = "user_entity")
+@Entity(name = "user_profile")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     //userName ma nam sie laczyc z UserDetails
     private String userName;
-    @Size(min = 9, max = 12)
+    //@Size(min = 9, max = 12)
     private String phoneNumber;
+    private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
-            cascade = CascadeType.ALL)
-    private List<Account> account;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
+//            cascade = CascadeType.ALL)
+//    private List<Account> account;
 
     public User() {
     }
 
-    public User(long id, String userName, String phoneNumber) {
+    public User(Long id, String userName, String phoneNumber, String password) {
         this.id = id;
         this.userName = userName;
         this.phoneNumber = phoneNumber;
+        this.password = password;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,13 +54,21 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Account> getAccount() {
-        return account;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAccount(List<Account> account) {
-        this.account = account;
+    public void setPassword(String password) {
+        this.password = password;
     }
+
+//    public List<Account> getAccount() {
+//        return account;
+//    }
+//
+//    public void setAccount(List<Account> account) {
+//        this.account = account;
+//    }
 
     @Override
     public String toString() {
@@ -66,6 +76,7 @@ public class User {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
