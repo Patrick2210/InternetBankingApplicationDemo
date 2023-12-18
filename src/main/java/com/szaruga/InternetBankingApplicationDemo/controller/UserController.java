@@ -3,14 +3,15 @@ package com.szaruga.InternetBankingApplicationDemo.controller;
 import com.szaruga.InternetBankingApplicationDemo.entity.User;
 import com.szaruga.InternetBankingApplicationDemo.exception.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
@@ -45,4 +46,13 @@ public class UserController {
         return entityModel;
     }
 
+    @PostMapping("/user")
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+        User savedUser = userService.saveUser(user);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedUser)
+                .toUri();
+        return ResponseEntity.created(location).build();
+    }
 }

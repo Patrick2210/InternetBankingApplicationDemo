@@ -32,4 +32,8 @@ public class UserService {
                 .orElse(null);
     }
 
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
 }
