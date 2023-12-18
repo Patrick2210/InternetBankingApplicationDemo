@@ -21,6 +21,10 @@ public class UserDetails {
     private LocalDate birthDate;
     private String numberPesel;
 
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private User user;
+
     public UserDetails() {
     }
 

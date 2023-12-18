@@ -17,6 +17,10 @@ public class User {
     private String phoneNumber;
     private String password;
 
+//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user",
+//            cascade = CascadeType.ALL)
+//    private UserDetails userDetails;
+
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
 //            cascade = CascadeType.ALL)
 //    private List<Account> account;

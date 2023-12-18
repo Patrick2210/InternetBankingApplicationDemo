@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 @Service
 public class UserService {
@@ -19,6 +21,15 @@ public class UserService {
 
     public List<User> findAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User findUserById(long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        Predicate<? super User> predicate = user -> user.getId().equals(id);
+        return optionalUser.stream()
+                .filter(predicate)
+                .findFirst()
+                .orElse(null);
     }
 
 }
