@@ -55,4 +55,9 @@ public class UserController {
                 .toUri();
         return ResponseEntity.created(location).build();
     }
+
+    @DeleteMapping("/user/{id}")
+    public void deleteUser(@PathVariable long id){
+        userService.deleteUser(id);
+    }
 }
