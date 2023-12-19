@@ -2,6 +2,8 @@ package com.szaruga.InternetBankingApplicationDemo.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -11,10 +13,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "email must be not empty")
     @Email
     private String email;
+    @NotEmpty(message = "phone number must be not empty")
     @Size(min = 9, max = 12)
     private String phoneNumber;
+    @NotEmpty(message = "password must be not empty")
+    @Size(min = 6, message = "password must have at least 6 characters")
     private String password;
 
 //    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user",

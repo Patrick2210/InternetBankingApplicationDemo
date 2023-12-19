@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.USER_NOT_FOUND_WITH_ID;
+import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
 @Service
 public class UserService {
@@ -43,6 +43,6 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             userRepository.deleteById(id);
-        }else throw new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id);
+        } else throw new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id);
     }
 }

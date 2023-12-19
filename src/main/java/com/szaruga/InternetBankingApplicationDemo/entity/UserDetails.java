@@ -14,9 +14,9 @@ public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Size(min = 3, message = "Fist Name must contain at least 3 char.")
+    @Size(min = 3, message = "fist name must contain at least 3 char.")
     private String firstName;
-    @Size(min = 3, message = "Last Name must contain at least 3 char.")
+    @Size(min = 3, message = "last name must contain at least 3 char.")
     private String lastName;
     private LocalDate birthDate;
     private String numberPesel;
@@ -75,7 +75,6 @@ public class UserDetails {
     public void setNumberPesel(String numberPesel) {
         this.numberPesel = numberPesel;
     }
-
 
 
     @Override
