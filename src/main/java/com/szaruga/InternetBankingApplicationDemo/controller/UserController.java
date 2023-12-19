@@ -1,7 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
 import com.szaruga.InternetBankingApplicationDemo.entity.User;
-import com.szaruga.InternetBankingApplicationDemo.exception.UserNotFoundException;
+import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

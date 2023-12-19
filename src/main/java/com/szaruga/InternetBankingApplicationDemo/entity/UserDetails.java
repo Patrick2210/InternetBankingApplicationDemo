@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
@@ -14,11 +15,16 @@ public class UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotEmpty(message = "fist name must be not empty")
     @Size(min = 3, message = "fist name must contain at least 3 char.")
     private String firstName;
-    @Size(min = 3, message = "last name must contain at least 3 char.")
+    @NotEmpty(message = "lastname must be not empty")
+    @Size(min = 3, message = "lastname must contain at least 3 char.")
     private String lastName;
+    @NotEmpty(message = "birthdate must be not empty")
     private LocalDate birthDate;
+    @NotEmpty(message = "number pesel must be not empty")
+    @Size(min = 3, message = "number pesel must contain at least 3 char.")
     private String numberPesel;
 
 //    @OneToOne(fetch = FetchType.LAZY)

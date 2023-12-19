@@ -1,7 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
 import com.szaruga.InternetBankingApplicationDemo.entity.User;
-import com.szaruga.InternetBankingApplicationDemo.exception.UserNotFoundException;
+import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
+import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.USER_NOT_FOUND_WITH_ID;
+
 
 @Service
 public class UserService {

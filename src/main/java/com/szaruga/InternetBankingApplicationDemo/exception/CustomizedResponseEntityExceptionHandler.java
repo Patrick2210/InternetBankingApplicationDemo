@@ -1,5 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.exception;
 
+import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
