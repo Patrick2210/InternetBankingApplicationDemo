@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
@@ -21,7 +23,8 @@ public class UserDetails {
     @NotEmpty(message = "lastname must be not empty")
     @Size(min = 3, message = "lastname must contain at least 3 char.")
     private String lastName;
-    @NotEmpty(message = "birthdate must be not empty")
+    @NotNull(message = "birthdate must not be null")
+    @Past(message = "birthdate must be in the past")
     private LocalDate birthDate;
     @NotEmpty(message = "number pesel must be not empty")
     @Size(min = 3, message = "number pesel must contain at least 3 char.")
