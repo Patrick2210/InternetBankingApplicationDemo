@@ -24,3 +24,6 @@ values (70,'Main', 654321, 10000.00, 102);
 
 insert into user_account(id, account_type, reference_account_number,balance,user_id)
 values (71,'Mortgage', 123215, 485231.50, 103);
+
+insert into user_account(id, account_type, reference_account_number,balance,user_id)
+values (73,'Main', 852654, 4896.49, 101);
