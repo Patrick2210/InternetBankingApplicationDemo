@@ -15,3 +15,12 @@ values (91, 'Sebix', 'Klimamaster',CURRENT_DATE,'92120187412',102);
 
 insert into user_details(id, first_name, last_name, birth_date, number_pesel,user_id)
 values (92, 'Jessie', 'Godzi',CURRENT_DATE,'92030332564',103);
+
+insert into user_account(id, account_type, reference_account_number,balance,user_id)
+values (69,'Savings', 123456, 1000.00, 101);
+
+insert into user_account(id, account_type, reference_account_number,balance,user_id)
+values (70,'Main', 654321, 10000.00, 102);
+
+insert into user_account(id, account_type, reference_account_number,balance,user_id)
+values (71,'Mortgage', 123215, 485231.50, 103);

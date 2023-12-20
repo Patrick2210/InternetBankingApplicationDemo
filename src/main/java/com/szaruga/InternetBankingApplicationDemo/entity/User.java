@@ -1,5 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -28,9 +29,10 @@ public class User {
     @JsonManagedReference
     private UserDetails userDetails;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
-//            cascade = CascadeType.ALL)
-//    private List<Account> account;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
+            cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Account> account;
 
     public User() {
     }
@@ -74,13 +76,13 @@ public class User {
         this.password = password;
     }
 
-//    public List<Account> getAccount() {
-//        return account;
-//    }
-//
-//    public void setAccount(List<Account> account) {
-//        this.account = account;
-//    }
+    public List<Account> getAccount() {
+        return account;
+    }
+
+    public void setAccount(List<Account> account) {
+        this.account = account;
+    }
 
 
     public UserDetails getUserDetails() {
