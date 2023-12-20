@@ -1,9 +1,9 @@
 package com.szaruga.InternetBankingApplicationDemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -23,9 +23,10 @@ public class User {
     @Size(min = 6, message = "password must have at least 6 characters")
     private String password;
 
-//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user",
-//            cascade = CascadeType.ALL)
-//    private UserDetails userDetails;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user",
+            cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private UserDetails userDetails;
 
 //    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
 //            cascade = CascadeType.ALL)
@@ -80,6 +81,15 @@ public class User {
 //    public void setAccount(List<Account> account) {
 //        this.account = account;
 //    }
+
+
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
 
     @Override
     public String toString() {
