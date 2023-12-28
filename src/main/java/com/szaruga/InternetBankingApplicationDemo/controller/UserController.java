@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<User> createUser(@RequestBody UserDto user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         CreateUser savedUser = userService.saveUser(user);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

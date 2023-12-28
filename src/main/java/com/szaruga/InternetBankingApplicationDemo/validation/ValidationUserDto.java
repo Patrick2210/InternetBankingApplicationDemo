@@ -1,14 +1,50 @@
 package com.szaruga.InternetBankingApplicationDemo.validation;
 
+import com.szaruga.InternetBankingApplicationDemo.entity.User;
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.ValidationException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
 @Component
 public class ValidationUserDto {
+
+    public User validateDto(User user) {
+        User userValidate = new User();
+
+        Optional.ofNullable(user.getFirstName())
+                .map(this::validateFirstName)
+                .ifPresent(userValidate::setFirstName);
+
+        Optional.ofNullable(user.getLastName())
+                .map(this::validateLastName)
+                .ifPresent(userValidate::setLastName);
+
+        Optional.ofNullable(user.getNumberPesel())
+                .map(this::validatePeselNumber)
+                .ifPresent(userValidate::setNumberPesel);
+
+        Optional.ofNullable(user.getBirthDate())
+                .map(this::validateBirthDate)
+                .ifPresent(userValidate::setBirthDate);
+
+        Optional.ofNullable(user.getPhoneNumber())
+                .map(this::validatePhoneNumber)
+                .ifPresent(userValidate::setPhoneNumber);
+
+        Optional.ofNullable(user.getPassword())
+                .map(this::validatePassword)
+                .ifPresent(userValidate::setPassword);
+
+        Optional.ofNullable(user.getEmail())
+                .map(this::validateEmail)
+                .ifPresent(userValidate::setEmail);
+
+        return userValidate;
+    }
 
     public String validateFirstName(String firstName) {
         if (firstName == null) {

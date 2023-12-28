@@ -50,41 +50,14 @@ public class UserService {
         } else throw new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id);
     }
 
-    public CreateUser saveUser(UserDto dto) {
-        String firstName = dto.getFirstName();
-        String lastName = dto.getLastName();
-        String peselNumber = dto.getNumberPesel();
-        LocalDate birthDate = dto.getBirthDate();
-        String phoneNumber = dto.getPhoneNumber();
-        String password = dto.getPassword();
-        String email = dto.getEmail();
-
-        validationUserDto.validateFirstName(firstName);
-        validationUserDto.validateLastName(lastName);
-        validationUserDto.validatePeselNumber(peselNumber);
-        validationUserDto.validateBirthDate(birthDate);
-        validationUserDto.validatePhoneNumber(phoneNumber);
-        validationUserDto.validatePassword(password);
-        validationUserDto.validateEmail(email);
-
-        final User userEntity = convertDtoToEntity(dto);
-        final User save = userRepository.save(userEntity);
+    public CreateUser saveUser(User dto) {
+        final User  user = validationUserDto.validateDto(dto);
+        final User save = userRepository.save(user);
         return new CreateUser(save.getId());
     }
 
     public void updateUser(UserDtoUpdate update) {
     }
 
-    private User convertDtoToEntity(UserDto dto) {
-        User user = new User();
-        user.setFirstName(dto.getFirstName());
-        user.setLastName(dto.getLastName());
-        user.setBirthDate(dto.getBirthDate());
-        user.setNumberPesel(dto.getNumberPesel());
-        user.setNumberPesel(dto.getNumberPesel());
-        user.setEmail(dto.getEmail());
-        user.setPhoneNumber(dto.getPhoneNumber());
-        user.setPassword(dto.getPassword());
-        return user;
-    }
+
 }
