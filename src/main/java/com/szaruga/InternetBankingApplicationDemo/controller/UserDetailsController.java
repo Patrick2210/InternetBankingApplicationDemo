@@ -55,6 +55,7 @@ public class UserDetailsController {
                 .buildAndExpand(savedUserDetails)
                 .toUri();
         return ResponseEntity.created(location).build();
+        //TODO ask master how to set up user_id when POST Json file
     }
 
     @DeleteMapping("/user/details/{id}")

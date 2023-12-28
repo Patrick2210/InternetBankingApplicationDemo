@@ -1,11 +1,16 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
+import com.szaruga.InternetBankingApplicationDemo.dto.UserDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.UserDtoUpdate;
 import com.szaruga.InternetBankingApplicationDemo.entity.User;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
+import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
+import com.szaruga.InternetBankingApplicationDemo.validation.ValidationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -17,10 +22,12 @@ import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationCo
 public class UserService {
 
     private final UserRepository userRepository;
+    private final ValidationDto validationDto;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ValidationDto validationDto) {
         this.userRepository = userRepository;
+        this.validationDto = validationDto;
     }
 
     public List<User> findAllUsers() {
@@ -36,14 +43,48 @@ public class UserService {
                 .orElse(null);
     }
 
-    public User saveUser(User user) {
-        return userRepository.save(user);
-    }
-
     public void deleteUser(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             userRepository.deleteById(id);
         } else throw new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id);
+    }
+
+    public CreateUser saveUser(UserDto dto) {
+        String firstName = dto.getFirstName();
+        String lastName = dto.getLastName();
+        String peselNumber = dto.getNumberPesel();
+        LocalDate birthDate = dto.getBirthDate();
+        String phoneNumber = dto.getPhoneNumber();
+        String password = dto.getPassword();
+        String email = dto.getEmail();
+
+        validationDto.validateFirstName(firstName);
+        validationDto.validateLastName(lastName);
+        validationDto.validatePeselNumber(peselNumber);
+        validationDto.validateBirthDate(birthDate);
+        validationDto.validatePhoneNumber(phoneNumber);
+        validationDto.validatePassword(password);
+        validationDto.validateEmail(email);
+
+        final User userEntity = convertDtoToEntity(dto);
+        final User save = userRepository.save(userEntity);
+        return new CreateUser(save.getId());
+    }
+
+    public void updateUser(UserDtoUpdate update) {
+    }
+
+    private User convertDtoToEntity(UserDto dto) {
+        User user = new User();
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setBirthDate(dto.getBirthDate());
+        user.setNumberPesel(dto.getNumberPesel());
+        user.setNumberPesel(dto.getNumberPesel());
+        user.setEmail(dto.getEmail());
+        user.setPhoneNumber(dto.getPhoneNumber());
+        user.setPassword(dto.getPassword());
+        return user;
     }
 }

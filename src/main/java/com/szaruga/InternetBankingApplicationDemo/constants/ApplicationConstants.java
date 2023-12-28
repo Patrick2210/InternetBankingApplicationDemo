@@ -1,6 +1,15 @@
 package com.szaruga.InternetBankingApplicationDemo.constants;
 
 public enum ApplicationConstants {
+    FIRST_NAME("firstname "),
+    LAST_NAME("lastname "),
+    BIRTH_DATE("birthday date "),
+    PESEL_NUMBER("pesel number "),
+    PHONE_NUMBER("phone number "),
+    PASSWORD("password "),
+    EMAIL("email "),
+    MINIMUM_18_YEARS_OLD("must be at least 18 years old"),
+    MUST_BE_NOT_NULL("must be not null"),
     ACCOUNT_NOT_FOUND_WITH_ID("ACCOUNT NOT FOUND WITH ID: "),
     USER_DETAILS_NOT_FOUND_WITH_ID("USER DETAILS NOT FOUND WITH ID: "),
     USER_NOT_FOUND_WITH_ID("USER NOT FOUND WITH ID: ");

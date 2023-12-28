@@ -2,32 +2,14 @@ package com.szaruga.InternetBankingApplicationDemo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
-
-import java.time.LocalDate;
 
 @Entity(name = "user_details")
 public class UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotEmpty(message = "fist name must be not empty")
-    @Size(min = 3, message = "fist name must contain at least 3 char.")
-    private String firstName;
-    @NotEmpty(message = "lastname must be not empty")
-    @Size(min = 3, message = "lastname must contain at least 3 char.")
-    private String lastName;
-    @NotNull(message = "birthdate must not be null")
-    @Past(message = "birthdate must be in the past")
-    private LocalDate birthDate;
-    @NotEmpty(message = "number pesel must be not empty")
-    @Size(min = 3, message = "number pesel must contain at least 3 char.")
-    private String numberPesel;
-
+    private String address;
+    private String correspondenceAddress;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonBackReference
@@ -36,12 +18,9 @@ public class UserDetails {
     public UserDetails() {
     }
 
-    public UserDetails(Integer id, String firstName, String lastName, LocalDate birthDate, String numberPesel) {
+    public UserDetails(int id, String correspondenceAddress) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
-        this.numberPesel = numberPesel;
+        this.correspondenceAddress = correspondenceAddress;
     }
 
     public Integer getId() {
@@ -52,54 +31,28 @@ public class UserDetails {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getAddress() {
+        return address;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getCorrespondenceAddress() {
+        return correspondenceAddress;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getNumberPesel() {
-        return numberPesel;
-    }
-
-    public void setNumberPesel(String numberPesel) {
-        this.numberPesel = numberPesel;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setCorrespondenceAddress(String correspondenceAddress) {
+        this.correspondenceAddress = correspondenceAddress;
     }
 
     @Override
     public String toString() {
         return "UserDetails{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDate=" + birthDate +
-                ", numberPesel='" + numberPesel + '\'' +
+                ", address='" + address + '\'' +
+                ", correspondenceAddress='" + correspondenceAddress + '\'' +
                 '}';
     }
 }

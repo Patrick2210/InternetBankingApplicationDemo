@@ -1,9 +1,11 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
+import com.szaruga.InternetBankingApplicationDemo.dto.UserDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.UserDtoUpdate;
 import com.szaruga.InternetBankingApplicationDemo.entity.User;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
+import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -47,8 +49,8 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
-        User savedUser = userService.saveUser(user);
+    public ResponseEntity<User> createUser(@RequestBody UserDto user) {
+        CreateUser savedUser = userService.saveUser(user);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(savedUser)
@@ -59,5 +61,11 @@ public class UserController {
     @DeleteMapping("/user/{id}")
     public void deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
+    }
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<Void> updateUser(UserDtoUpdate update){
+        userService.updateUser(update);
+        return ResponseEntity.ok().build();
     }
 }
