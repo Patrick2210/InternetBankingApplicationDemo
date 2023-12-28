@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
 @Component
-public class ValidationDto {
+public class ValidationUserDto {
 
     public String validateFirstName(String firstName) {
         if (firstName == null) {

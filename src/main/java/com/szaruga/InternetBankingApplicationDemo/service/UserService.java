@@ -6,7 +6,7 @@ import com.szaruga.InternetBankingApplicationDemo.entity.User;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
-import com.szaruga.InternetBankingApplicationDemo.validation.ValidationDto;
+import com.szaruga.InternetBankingApplicationDemo.validation.ValidationUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +22,12 @@ import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationCo
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ValidationDto validationDto;
+    private final ValidationUserDto validationUserDto;
 
     @Autowired
-    public UserService(UserRepository userRepository, ValidationDto validationDto) {
+    public UserService(UserRepository userRepository, ValidationUserDto validationUserDto) {
         this.userRepository = userRepository;
-        this.validationDto = validationDto;
+        this.validationUserDto = validationUserDto;
     }
 
     public List<User> findAllUsers() {
@@ -59,13 +59,13 @@ public class UserService {
         String password = dto.getPassword();
         String email = dto.getEmail();
 
-        validationDto.validateFirstName(firstName);
-        validationDto.validateLastName(lastName);
-        validationDto.validatePeselNumber(peselNumber);
-        validationDto.validateBirthDate(birthDate);
-        validationDto.validatePhoneNumber(phoneNumber);
-        validationDto.validatePassword(password);
-        validationDto.validateEmail(email);
+        validationUserDto.validateFirstName(firstName);
+        validationUserDto.validateLastName(lastName);
+        validationUserDto.validatePeselNumber(peselNumber);
+        validationUserDto.validateBirthDate(birthDate);
+        validationUserDto.validatePhoneNumber(phoneNumber);
+        validationUserDto.validatePassword(password);
+        validationUserDto.validateEmail(email);
 
         final User userEntity = convertDtoToEntity(dto);
         final User save = userRepository.save(userEntity);
