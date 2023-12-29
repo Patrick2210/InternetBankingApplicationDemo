@@ -8,23 +8,16 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "user_profile")
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min = 3, message = "firstname must contain at least 3 char.")
     private String firstName;
-    @Size(min = 3, message = "lastname must contain at least 3 char.")
     private String lastName;
-    @Past(message = "birthdate must be in the past")
     private LocalDate birthDate;
-    @Size(min = 3, message = "number pesel must contain at least 3 char.")
     private String numberPesel;
-    @Email
     private String email;
-    @Size(min = 9, max = 12)
     private String phoneNumber;
-    @Size(min = 6, message = "password must have at least 6 characters")
     private String password;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user",
@@ -37,10 +30,27 @@ public class User {
     @JsonManagedReference
     private List<Account> account;
 
-    public User() {
+    public UserEntity() {
     }
 
-    public User(
+    public UserEntity(
+            String firstName,
+            String lastName,
+            LocalDate birthDate,
+            String numberPesel,
+            String email,
+            String phoneNumber,
+            String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.numberPesel = numberPesel;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
+
+    public UserEntity(
             Long id,
             String firstName,
             String lastName,

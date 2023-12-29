@@ -13,7 +13,7 @@ public class UserDetails {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonBackReference
-    private User user;
+    private UserEntity user;
 
     public UserDetails() {
     }

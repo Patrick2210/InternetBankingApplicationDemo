@@ -15,7 +15,7 @@ public class Account {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonBackReference
-    private User user;
+    private UserEntity user;
 
     public Account() {
     }
@@ -59,11 +59,11 @@ public class Account {
         this.balance = balance;
     }
 
-    public User getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 

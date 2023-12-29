@@ -2,15 +2,16 @@ package com.szaruga.InternetBankingApplicationDemo.service;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.UserDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.UserDtoUpdate;
-import com.szaruga.InternetBankingApplicationDemo.entity.User;
+import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
+import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.validation.ValidationUserDto;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -30,13 +31,13 @@ public class UserService {
         this.validationUserDto = validationUserDto;
     }
 
-    public List<User> findAllUsers() {
+    public List<UserEntity> findAllUsers() {
         return userRepository.findAll();
     }
 
-    public User findUserById(long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        Predicate<? super User> predicate = user -> user.getId().equals(id);
+    public UserEntity findUserById(long id) {
+        Optional<UserEntity> optionalUser = userRepository.findById(id);
+        Predicate<? super UserEntity> predicate = user -> user.getId().equals(id);
         return optionalUser.stream()
                 .filter(predicate)
                 .findFirst()
@@ -44,15 +45,14 @@ public class UserService {
     }
 
     public void deleteUser(long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            userRepository.deleteById(id);
-        } else throw new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id);
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
+        userRepository.delete(userEntity);
     }
 
-    public CreateUser saveUser(User dto) {
-        final User  user = validationUserDto.validateDto(dto);
-        final User save = userRepository.save(user);
+    public CreateUser saveUser(UserDto dto) {
+        validationUserDto.validateDto(dto);
+        UserEntity save = userRepository.save(UserMapper.toEntity(dto));
         return new CreateUser(save.getId());
     }
 
