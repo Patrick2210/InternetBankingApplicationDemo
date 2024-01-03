@@ -6,6 +6,12 @@ import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationCo
 
 public class ValidatePeselNumber {
 
+    public static void validate(String peselNumber) {
+        checkNotNull(peselNumber);
+        checkNotEmpty(peselNumber);
+        checkNumberSize(peselNumber);
+    }
+
     private static void checkNotNull(String peselNumber) {
         if (peselNumber == null) {
             throw new ValidationException(PESEL_NUMBER.getMessage() + MUST_BE_NOT_NULL.getMessage());
@@ -22,11 +28,5 @@ public class ValidatePeselNumber {
         if (peselNumber.length() != 11) {
             throw new ValidationException(PESEL_NUMBER.getMessage() + PESEL_NUMBER_LENGTH.getMessage());
         }
-    }
-
-    public static void validatePeselNumber(String peselNumber) {
-        checkNotNull(peselNumber);
-        checkNotEmpty(peselNumber);
-        checkNumberSize(peselNumber);
     }
 }

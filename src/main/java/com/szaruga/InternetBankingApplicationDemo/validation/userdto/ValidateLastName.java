@@ -5,6 +5,14 @@ import com.szaruga.InternetBankingApplicationDemo.exception.validation.Validatio
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
 public class ValidateLastName {
+    public static void validate(String lastName) {
+        checkNotNull(lastName);
+        checkNotEmpty(lastName);
+        checkMinSize(lastName);
+        checkMaxSize(lastName);
+        checkSpecialCharacters(lastName);
+    }
+
     private static void checkNotNull(String lastName) {
         if (lastName == null) {
             throw new ValidationException(LAST_NAME.getMessage() + MUST_BE_NOT_NULL.getMessage());
@@ -35,13 +43,5 @@ public class ValidateLastName {
         if (!lastName.matches("^[a-zA-Z]+$")) {
             throw new ValidationException(LAST_NAME.getMessage() + SPECIAL_CHARACTERS.getMessage());
         }
-    }
-
-    public static void validateLastName(String lastName) {
-        checkNotNull(lastName);
-        checkNotEmpty(lastName);
-        checkMinSize(lastName);
-        checkMaxSize(lastName);
-        checkSpecialCharacters(lastName);
     }
 }
