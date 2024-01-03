@@ -14,6 +14,5 @@ public class UserMapper {
                 dto.getEmail(),
                 dto.getPhoneNumber(),
                 dto.getPassword());
-
     }
 }

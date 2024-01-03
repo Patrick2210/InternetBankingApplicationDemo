@@ -2,18 +2,20 @@ package com.szaruga.InternetBankingApplicationDemo.validation.userdto;
 
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.ValidationException;
 
-import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.MUST_BE_NOT_NULL;
-import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.PHONE_NUMBER;
+import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
+import static com.szaruga.InternetBankingApplicationDemo.util.ValidationUserDtoUtils.*;
 
 public class ValidatePhoneNumber {
 
     public static void validate(String phoneNumber) {
-        checkNotNull(phoneNumber);
+        checkNotNull(phoneNumber, PHONE_NUMBER.getMessage());
+        checkNotEmpty(phoneNumber, PHONE_NUMBER.getMessage());
+        checkFormatNumber(phoneNumber);
     }
 
-    private static void checkNotNull(String phoneNumber) {
-        if (phoneNumber == null) {
-            throw new ValidationException(PHONE_NUMBER.getMessage() + MUST_BE_NOT_NULL.getMessage());
+    private static void checkFormatNumber(String phoneNumber) {
+        if (!(phoneNumber.matches("^\\+48\\d{9}$") || phoneNumber.matches("^\\d{9}$"))) {
+            throw new ValidationException(PHONE_NUMBER.getMessage() + PHONE_NUMBER_FORMAT.getMessage());
         }
     }
 }
