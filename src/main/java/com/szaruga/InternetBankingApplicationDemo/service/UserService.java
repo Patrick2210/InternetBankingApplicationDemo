@@ -7,8 +7,7 @@ import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundExc
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
-import com.szaruga.InternetBankingApplicationDemo.validation.ValidationUserDto;
-import org.apache.catalina.User;
+import com.szaruga.InternetBankingApplicationDemo.validation.userdto.ValidationUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +57,5 @@ public class UserService {
 
     public void updateUser(UserDtoUpdate update) {
     }
-
 
 }

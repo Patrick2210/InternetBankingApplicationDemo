@@ -1,4 +1,4 @@
-package com.szaruga.InternetBankingApplicationDemo.validation;
+package com.szaruga.InternetBankingApplicationDemo.validation.userdto;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.UserDto;
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.ValidationException;
@@ -10,33 +10,16 @@ import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationCo
 
 @Component
 public class ValidationUserDto {
-//TODO przeprowadzic reszte validacji
+    //TODO przeprowadzic reszte validacji
     public void validateDto(UserDto user) {
-        validateFirstName(user.getFirstName());
-        validateLastName(user.getLastName());
-        validatePeselNumber(user.getNumberPesel());
+        ValidateFirstName.validateFirstName(user.getFirstName());
+        ValidateLastName.validateLastName(user.getLastName());
+        ValidatePeselNumber.validatePeselNumber(user.getNumberPesel());
         validateBirthDate(user.getBirthDate());
         validatePhoneNumber(user.getPhoneNumber());
         validatePassword(user.getPassword());
+        validatePasswordReset(user.getPasswordReset());
         validateEmail(user.getEmail());
-    }
-
-    public void validateFirstName(String firstName) {
-        if (firstName == null) {
-            throw new ValidationException(FIRST_NAME.getMessage() + MUST_BE_NOT_NULL.getMessage());
-        }
-    }
-
-    public void validateLastName(String lastName) {
-        if (lastName == null) {
-            throw new ValidationException(LAST_NAME.getMessage() + MUST_BE_NOT_NULL.getMessage());
-        }
-    }
-
-    public void validatePeselNumber(String peselNumber) {
-        if (peselNumber == null) {
-            throw new ValidationException(PESEL_NUMBER.getMessage() + MUST_BE_NOT_NULL.getMessage());
-        }
     }
 
     public void validateBirthDate(LocalDate birthDate) {
@@ -59,6 +42,12 @@ public class ValidationUserDto {
     public void validatePassword(String password) {
         if (password == null) {
             throw new ValidationException(PASSWORD.getMessage() + MUST_BE_NOT_NULL.getMessage());
+        }
+    }
+
+    private void validatePasswordReset(String passwordReset) {
+        if (passwordReset == null) {
+            throw new ValidationException(PASSWORD_RESET.getMessage() + MUST_BE_NOT_NULL.getMessage());
         }
     }
 

@@ -2,7 +2,6 @@ package com.szaruga.InternetBankingApplicationDemo.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.util.List;
