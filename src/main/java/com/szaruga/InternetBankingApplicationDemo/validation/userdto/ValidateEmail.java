@@ -15,14 +15,14 @@ public class ValidateEmail {
     private static boolean containsUnicodeChar(String text, int uniCodeTable) {
         for (int i = 0; i < text.length(); i++) {
             if (text.codePointAt(i) == uniCodeTable) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private static void isValidEmail(String email) {
-        if (containsUnicodeChar(email, 64) || containsUnicodeChar(email, 46)) {
+        if (!containsUnicodeChar(email, 64) || !containsUnicodeChar(email, 46)) {
             throw new ValidationException(EMAIL.getMessage() + INVALID.getMessage());
         }
     }
