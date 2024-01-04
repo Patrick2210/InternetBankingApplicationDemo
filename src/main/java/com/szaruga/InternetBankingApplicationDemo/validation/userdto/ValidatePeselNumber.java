@@ -18,4 +18,6 @@ public class ValidatePeselNumber {
             throw new ValidationException(PESEL_NUMBER.getMessage() + PESEL_NUMBER_LENGTH.getMessage());
         }
     }
+
+    //Todo sprawdzic czy pesel zgadza sie i jest w bazie polskich peseli?
 }

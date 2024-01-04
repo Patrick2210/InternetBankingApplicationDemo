@@ -17,7 +17,7 @@ public enum ApplicationConstants {
     INVALID("invalid"),
     CHARACTERS(" characters "),
     PASSWORD_REQUIREMENTS("password must contains at least one letter, one digital number and one special character"),
-    PASSWORD_MATCH("passwords do not match"),
+    PASSWORD_DO_NOT_MATCH("passwords do not match"),
     PHONE_NUMBER_FORMAT(" should start with '+48' followed by a 9-digit number, or be a standalone 9-digit number "),
     PESEL_NUMBER_LENGTH(" length is 11 dig number "),
     SPECIAL_CHARACTERS("must contain only letters, special characters not allowed"),

@@ -16,17 +16,16 @@ public class ValidatePasswords {
         isPasswordComplex(password, passwordReset);
     }
 
-    private static boolean arePasswordsEqual(String password, String passwordReset) {
-        if (password.equals(passwordReset)) {
-            return true;
-        } else throw new ValidationException(PASSWORD_MATCH.getMessage());
+    private static void arePasswordsEqual(String password, String passwordReset) {
+        if (!passwordReset.equals(password)) {
+            throw new ValidationException(PASSWORD_DO_NOT_MATCH.getMessage());
+        }
     }
 
-    private static boolean isPasswordComplex(String password, String passwordReset) {
+    private static void isPasswordComplex(String password, String passwordReset) {
         arePasswordsEqual(password, passwordReset);
-        if (password.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&£])[A-Za-z\\d@$!%*?&£]+$")) {
-            return true;
-        } else throw new ValidationException(PASSWORD_REQUIREMENTS.getMessage());
-
+        if (!password.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&£])[A-Za-z\\d@$!%*?&£]+$")) {
+            throw new ValidationException(PASSWORD_REQUIREMENTS.getMessage());
+        }
     }
 }
