@@ -1,10 +1,9 @@
-package com.szaruga.InternetBankingApplicationDemo.validation.user_dto;
+package com.szaruga.InternetBankingApplicationDemo.validation.user_upgrade_dto;
 
-import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
+import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.FIRST_NAME;
 import static com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils.*;
 
-public class ValidateFirstName {
-
+public class ValidateUpdateFirstName {
     public static void validate(String firstName) {
         checkNotNull(firstName, FIRST_NAME.getMessage());
         checkNotEmpty(firstName, FIRST_NAME.getMessage());

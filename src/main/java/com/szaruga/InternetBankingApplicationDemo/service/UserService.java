@@ -1,19 +1,18 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDto;
-import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDtoUpdate;
+import com.szaruga.InternetBankingApplicationDemo.dto.user.UserUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.validation.user_dto.ValidationUserDto;
+import com.szaruga.InternetBankingApplicationDemo.validation.user_upgrade_dto.ValidateUserUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.USER_NOT_FOUND_WITH_ID;
 
@@ -23,11 +22,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ValidationUserDto validationUserDto;
+    private final ValidateUserUpdateDto validateUserUpdateDto;
 
     @Autowired
-    public UserService(UserRepository userRepository, ValidationUserDto validationUserDto) {
+    public UserService(UserRepository userRepository, ValidationUserDto validationUserDto, ValidateUserUpdateDto validateUserUpdateDto) {
         this.userRepository = userRepository;
         this.validationUserDto = validationUserDto;
+        this.validateUserUpdateDto = validateUserUpdateDto;
     }
 
     public List<UserEntity> findAllUsers() {
@@ -51,8 +52,15 @@ public class UserService {
         return new CreateUser(save.getId());
     }
 
-    public void updateUser(UserDtoUpdate update) {
-        //Todo zrobic to
+    public void updateUser(long id, UserUpdateDto updateDto) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
 
+        validateUserUpdateDto.validateUserUpdateDto(updateDto);
+        userEntity.setFirstName(updateDto.getFirstName());
+        userEntity.setLastName(updateDto.getLastName());
+        userEntity.setPhoneNumber(updateDto.getPhoneNumber());
+        userEntity.setEmail(updateDto.getEmail());
+        userRepository.save(UserMapper.updateEntity(updateDto));
     }
 }

@@ -4,7 +4,7 @@ public class CreateUserDetails {
 
     private final long clientUserDetailsId;
 
-    public CreateUserDetails(int clientId) {
+    public CreateUserDetails(Long clientId) {
         this.clientUserDetailsId = clientId;
     }
 

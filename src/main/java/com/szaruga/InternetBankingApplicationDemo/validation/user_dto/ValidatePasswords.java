@@ -3,7 +3,7 @@ package com.szaruga.InternetBankingApplicationDemo.validation.user_dto;
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.ValidationException;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
-import static com.szaruga.InternetBankingApplicationDemo.util.ValidationUserDtoUtils.*;
+import static com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils.*;
 
 public class ValidatePasswords {
 

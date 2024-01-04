@@ -1,7 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.user;
 
-public class UserDtoUpdate {
-    //todo zrobic tyz dzis
+public class UserUpdateDto {
     private String firstName;
     private String lastName;
     private String phoneNumber;

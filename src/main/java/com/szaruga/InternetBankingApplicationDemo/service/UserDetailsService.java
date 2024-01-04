@@ -33,12 +33,8 @@ public class UserDetailsService {
     }
 
     public UserDetailsEntity findUserDetailsById(int id) {
-        Optional<UserDetailsEntity> optionalUserDetails = userDetailsRepository.findById(id);
-        Predicate<? super UserDetailsEntity> predicate = userDetailsEntity -> userDetailsEntity.getId().equals(id);
-        return optionalUserDetails.stream()
-                .filter(predicate)
-                .findFirst()
-                .orElse(null);
+        return userDetailsRepository.findById(id)
+                .orElseThrow(() -> new UserDetailsNotFoundException(USER_DETAILS_NOT_FOUND_WITH_ID.getMessage() + id));
     }
 
     public CreateUserDetails saveUserDetails(UserDetailsDto userDetailsDto) {

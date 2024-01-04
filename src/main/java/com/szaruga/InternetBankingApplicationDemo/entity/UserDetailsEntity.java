@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class UserDetailsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String address;
     private String correspondenceAddress;
     @OneToOne(fetch = FetchType.LAZY)
@@ -23,16 +23,16 @@ public class UserDetailsEntity {
         this.correspondenceAddress = correspondenceAddress;
     }
 
-    public UserDetailsEntity(int id, String correspondenceAddress) {
+    public UserDetailsEntity(long id, String correspondenceAddress) {
         this.id = id;
         this.correspondenceAddress = correspondenceAddress;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
