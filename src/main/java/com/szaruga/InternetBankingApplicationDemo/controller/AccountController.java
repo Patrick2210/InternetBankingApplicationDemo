@@ -1,6 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
-import com.szaruga.InternetBankingApplicationDemo.entity.Account;
+import com.szaruga.InternetBankingApplicationDemo.entity.AccountEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.account.AccountNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.service.AccountService;
 import jakarta.validation.Valid;
@@ -30,28 +30,28 @@ public class AccountController {
     }
 
     @GetMapping("/user/accounts")
-    public List<Account> retrieveAllAccounts() {
+    public List<AccountEntity> retrieveAllAccounts() {
         return accountService.findAllAccounts();
     }
 
     @GetMapping("/user/account/{id}")
-    public EntityModel<Account> retrieveAccountById(@PathVariable int id) {
-        Account Account = accountService.findAccountById(id);
-        if (Account == null) {
+    public EntityModel<AccountEntity> retrieveAccountById(@PathVariable int id) {
+        AccountEntity AccountEntity = accountService.findAccountById(id);
+        if (AccountEntity == null) {
             throw new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + id);
         }
-        EntityModel<Account> entityModel = EntityModel.of(Account);
+        EntityModel<AccountEntity> entityModel = EntityModel.of(AccountEntity);
         WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllAccounts());
         entityModel.add(link.withRel("all-accounts"));
         return entityModel;
     }
 
-    @PostMapping("/user/account")
-    public ResponseEntity<Account> createAccount(@Valid @RequestBody Account account) {
-        Account savedAccount = accountService.saveAccount(account);
+    @PostMapping("/user/accountEntity")
+    public ResponseEntity<AccountEntity> createAccount(@Valid @RequestBody AccountEntity accountEntity) {
+        AccountEntity savedAccountEntity = accountService.saveAccount(accountEntity);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(savedAccount)
+                .buildAndExpand(savedAccountEntity)
                 .toUri();
         return ResponseEntity.created(location).build();
         //TODO ask master how to set up user_id when POST Json file

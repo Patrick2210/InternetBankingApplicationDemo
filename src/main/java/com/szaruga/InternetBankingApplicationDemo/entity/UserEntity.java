@@ -22,12 +22,12 @@ public class UserEntity {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user",
             cascade = CascadeType.ALL)
     @JsonManagedReference
-    private UserDetails userDetails;
+    private UserDetailsEntity userDetails;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
             cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Account> account;
+    private List<AccountEntity> accounts;
 
     public UserEntity() {
     }

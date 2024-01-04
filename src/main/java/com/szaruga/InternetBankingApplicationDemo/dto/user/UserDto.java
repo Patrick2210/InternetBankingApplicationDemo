@@ -1,4 +1,4 @@
-package com.szaruga.InternetBankingApplicationDemo.dto;
+package com.szaruga.InternetBankingApplicationDemo.dto.user;
 
 import java.time.LocalDate;
 

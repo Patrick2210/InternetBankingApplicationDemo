@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity(name = "user_details")
-public class UserDetails {
+public class UserDetailsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -15,10 +15,15 @@ public class UserDetails {
     @JsonBackReference
     private UserEntity user;
 
-    public UserDetails() {
+    public UserDetailsEntity() {
     }
 
-    public UserDetails(int id, String correspondenceAddress) {
+    public UserDetailsEntity(String address, String correspondenceAddress) {
+        this.address = address;
+        this.correspondenceAddress = correspondenceAddress;
+    }
+
+    public UserDetailsEntity(int id, String correspondenceAddress) {
         this.id = id;
         this.correspondenceAddress = correspondenceAddress;
     }
@@ -49,7 +54,7 @@ public class UserDetails {
 
     @Override
     public String toString() {
-        return "UserDetails{" +
+        return "UserDetailsEntity{" +
                 "id=" + id +
                 ", address='" + address + '\'' +
                 ", correspondenceAddress='" + correspondenceAddress + '\'' +

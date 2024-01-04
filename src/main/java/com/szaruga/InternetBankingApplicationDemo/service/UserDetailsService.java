@@ -1,8 +1,12 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
-import com.szaruga.InternetBankingApplicationDemo.entity.UserDetails;
+import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
+import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.userdetails.UserDetailsNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserDetailsRepository;
+import com.szaruga.InternetBankingApplicationDemo.mapper.UserDetailsMapper;
+import com.szaruga.InternetBankingApplicationDemo.model.CreateUserDetails;
+import com.szaruga.InternetBankingApplicationDemo.validation.account_dto.ValidationUserDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,31 +20,35 @@ import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationCo
 public class UserDetailsService {
 
     private final UserDetailsRepository userDetailsRepository;
+    private final ValidationUserDetailsDto validationUserDetailsDto;
 
     @Autowired
-    public UserDetailsService(UserDetailsRepository userDetailsRepository) {
+    public UserDetailsService(UserDetailsRepository userDetailsRepository, ValidationUserDetailsDto validationUserDetailsDto) {
         this.userDetailsRepository = userDetailsRepository;
+        this.validationUserDetailsDto = validationUserDetailsDto;
     }
 
-    public List<UserDetails> findAllUserDetails() {
+    public List<UserDetailsEntity> findAllUserDetails() {
         return userDetailsRepository.findAll();
     }
 
-    public UserDetails findUserDetailsById(int id) {
-        Optional<UserDetails> optionalUserDetails = userDetailsRepository.findById(id);
-        Predicate<? super UserDetails> predicate = userDetails -> userDetails.getId().equals(id);
+    public UserDetailsEntity findUserDetailsById(int id) {
+        Optional<UserDetailsEntity> optionalUserDetails = userDetailsRepository.findById(id);
+        Predicate<? super UserDetailsEntity> predicate = userDetailsEntity -> userDetailsEntity.getId().equals(id);
         return optionalUserDetails.stream()
                 .filter(predicate)
                 .findFirst()
                 .orElse(null);
     }
 
-    public UserDetails saveUserDetails(UserDetails userDetails) {
-        return userDetailsRepository.save(userDetails);
+    public CreateUserDetails saveUserDetails(UserDetailsDto userDetailsDto) {
+        validationUserDetailsDto.validateDto(userDetailsDto);
+        UserDetailsEntity save = userDetailsRepository.save(UserDetailsMapper.toEntity(userDetailsDto));
+        return new CreateUserDetails(save.getId());
     }
 
     public void deleteUserDetails(int id) {
-        Optional<UserDetails> optionalUser = userDetailsRepository.findById(id);
+        Optional<UserDetailsEntity> optionalUser = userDetailsRepository.findById(id);
         if (optionalUser.isPresent()) {
             userDetailsRepository.deleteById(id);
         } else throw new UserDetailsNotFoundException(USER_DETAILS_NOT_FOUND_WITH_ID.getMessage() + id);

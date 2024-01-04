@@ -1,4 +1,4 @@
-package com.szaruga.InternetBankingApplicationDemo.validation.userdto;
+package com.szaruga.InternetBankingApplicationDemo.validation.user_dto;
 
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.ValidationException;
 

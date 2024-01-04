@@ -1,7 +1,9 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
-import com.szaruga.InternetBankingApplicationDemo.entity.UserDetails;
+import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
+import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
+import com.szaruga.InternetBankingApplicationDemo.model.CreateUserDetails;
 import com.szaruga.InternetBankingApplicationDemo.service.UserDetailsService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,31 +33,27 @@ public class UserDetailsController {
 
 
     @GetMapping("/user/details")
-    public List<UserDetails> retrieveAllUserDetails() {
+    public List<UserDetailsEntity> retrieveAllUserDetails() {
         return userDetailsService.findAllUserDetails();
     }
 
     @GetMapping("/user/details/{id}")
-    public EntityModel<UserDetails> retrieveUserDetailsById(@PathVariable int id) {
-        UserDetails userDetails = userDetailsService.findUserDetailsById(id);
-        if (userDetails == null) {
+    public EntityModel<UserDetailsEntity> retrieveUserDetailsById(@PathVariable int id) {
+        //todo cala logic wyjebac
+        UserDetailsEntity userDetailsEntity = userDetailsService.findUserDetailsById(id);
+        if (userDetailsEntity == null) {
             throw new UserNotFoundException(USER_DETAILS_NOT_FOUND_WITH_ID.getMessage() + id);
         }
-        EntityModel<UserDetails> entityModel = EntityModel.of(userDetails);
+        EntityModel<UserDetailsEntity> entityModel = EntityModel.of(userDetailsEntity);
         WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUserDetails());
         entityModel.add(link.withRel("all-users-details"));
         return entityModel;
     }
 
     @PostMapping("/user/details")
-    public ResponseEntity<UserDetails> createUserDetails(@Valid @RequestBody UserDetails userDetails) {
-        UserDetails savedUserDetails = userDetailsService.saveUserDetails(userDetails);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedUserDetails)
-                .toUri();
-        return ResponseEntity.created(location).build();
-        //TODO ask master how to set up user_id when POST Json file
+    public ResponseEntity<CreateUserDetails> createUserDetails(@RequestBody UserDetailsDto userDetailsDto) {
+        return ResponseEntity.ok(userDetailsService.saveUserDetails(userDetailsDto));
+
     }
 
     @DeleteMapping("/user/details/{id}")

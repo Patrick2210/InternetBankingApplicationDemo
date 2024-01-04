@@ -1,7 +1,6 @@
-package com.szaruga.InternetBankingApplicationDemo.validation.userdto;
+package com.szaruga.InternetBankingApplicationDemo.validation.user_dto;
 
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.ValidationException;
-import com.szaruga.InternetBankingApplicationDemo.util.PasswordEncryptionUtil;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 import static com.szaruga.InternetBankingApplicationDemo.util.ValidationUserDtoUtils.*;

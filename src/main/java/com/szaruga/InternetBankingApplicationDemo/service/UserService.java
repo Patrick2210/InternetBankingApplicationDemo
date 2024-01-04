@@ -1,13 +1,13 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
-import com.szaruga.InternetBankingApplicationDemo.dto.UserDto;
-import com.szaruga.InternetBankingApplicationDemo.dto.UserDtoUpdate;
+import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDtoUpdate;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
-import com.szaruga.InternetBankingApplicationDemo.validation.userdto.ValidationUserDto;
+import com.szaruga.InternetBankingApplicationDemo.validation.user_dto.ValidationUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,12 +35,8 @@ public class UserService {
     }
 
     public UserEntity findUserById(long id) {
-        Optional<UserEntity> optionalUser = userRepository.findById(id);
-        Predicate<? super UserEntity> predicate = user -> user.getId().equals(id);
-        return optionalUser.stream()
-                .filter(predicate)
-                .findFirst()
-                .orElse(null);
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
     }
 
     public void deleteUser(long id) {
@@ -56,6 +52,7 @@ public class UserService {
     }
 
     public void updateUser(UserDtoUpdate update) {
-    }
+        //Todo zrobic to
 
+    }
 }

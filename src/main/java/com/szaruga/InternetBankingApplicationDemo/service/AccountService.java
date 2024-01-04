@@ -1,10 +1,9 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
-import com.szaruga.InternetBankingApplicationDemo.entity.Account;
+import com.szaruga.InternetBankingApplicationDemo.entity.AccountEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.account.AccountNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
 import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils;
-import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,27 +25,27 @@ public class AccountService {
         this.accountUtils = accountUtils;
     }
 
-    public List<Account> findAllAccounts() {
+    public List<AccountEntity> findAllAccounts() {
         return accountRepository.findAll();
     }
 
-    public Account findAccountById(int id) {
-        Optional<Account> optionalAccount = accountRepository.findById(id);
-        Predicate<? super Account> predicate = account -> account.getId().equals(id);
+    public AccountEntity findAccountById(int id) {
+        Optional<AccountEntity> optionalAccount = accountRepository.findById(id);
+        Predicate<? super AccountEntity> predicate = accountEntity -> accountEntity.getId().equals(id);
         return optionalAccount.stream()
                 .filter(predicate)
                 .findFirst()
                 .orElse(null);
     }
 
-    public Account saveAccount(Account account) {
-        account.setBalance(0.0f);
-        account.setReferenceAccountNumber(accountUtils.generateReferenceAccountNumber());
-        return accountRepository.save(account);
+    public AccountEntity saveAccount(AccountEntity accountEntity) {
+        accountEntity.setBalance(0.0f);
+        accountEntity.setReferenceAccountNumber(accountUtils.generateReferenceAccountNumber());
+        return accountRepository.save(accountEntity);
     }
 
     public void deleteAccount(int id) {
-        Optional<Account> optionalAccount = accountRepository.findById(id);
+        Optional<AccountEntity> optionalAccount = accountRepository.findById(id);
         if (optionalAccount.isPresent()) {
             accountRepository.deleteById(id);
         } else throw new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + id);

@@ -1,7 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
-import com.szaruga.InternetBankingApplicationDemo.dto.UserDto;
-import com.szaruga.InternetBankingApplicationDemo.dto.UserDtoUpdate;
+import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDtoUpdate;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
@@ -36,14 +36,7 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public EntityModel<UserEntity> retrieveUserById(@PathVariable long id) {
-        UserEntity user = userService.findUserById(id);
-        if (user == null) {
-            throw new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id);
-        }
-        EntityModel<UserEntity> entityModel = EntityModel.of(user);
-        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUsers());
-        entityModel.add(link.withRel("all-users"));
-        return entityModel;
+        return EntityModel.of(userService.findUserById(id));
     }
 
     @PostMapping("/user")
