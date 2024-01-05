@@ -1,14 +1,14 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
-import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDto;
-import com.szaruga.InternetBankingApplicationDemo.dto.user.UserUpdateDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.user.*;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
-import com.szaruga.InternetBankingApplicationDemo.validation.user_dto.ValidationUserDto;
-import com.szaruga.InternetBankingApplicationDemo.validation.user_upgrade_dto.ValidateUserUpdateDto;
+import com.szaruga.InternetBankingApplicationDemo.verification.user_dto.VerificationUserDto;
+import com.szaruga.InternetBankingApplicationDemo.verification.user_password_update_dto.VerificationUserPasswordUpdateDto;
+import com.szaruga.InternetBankingApplicationDemo.verification.user_upgrade_dto.VerificationUserUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +21,16 @@ import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationCo
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ValidationUserDto validationUserDto;
-    private final ValidateUserUpdateDto validateUserUpdateDto;
+    private final VerificationUserDto verificationUserDto;
+    private final VerificationUserUpdateDto verificationUserUpdateDto;
 
     @Autowired
-    public UserService(UserRepository userRepository, ValidationUserDto validationUserDto, ValidateUserUpdateDto validateUserUpdateDto) {
+    public UserService(UserRepository userRepository,
+                       VerificationUserDto verificationUserDto,
+                       VerificationUserUpdateDto verificationUserUpdateDto) {
         this.userRepository = userRepository;
-        this.validationUserDto = validationUserDto;
-        this.validateUserUpdateDto = validateUserUpdateDto;
+        this.verificationUserDto = verificationUserDto;
+        this.verificationUserUpdateDto = verificationUserUpdateDto;
     }
 
     public List<UserEntity> findAllUsers() {
@@ -47,7 +49,7 @@ public class UserService {
     }
 
     public CreateUser saveUser(UserDto dto) {
-        validationUserDto.validateDto(dto);
+        verificationUserDto.userDto(dto);
         UserEntity save = userRepository.save(UserMapper.toEntity(dto));
         return new CreateUser(save.getId());
     }
@@ -56,11 +58,20 @@ public class UserService {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
 
-        validateUserUpdateDto.validateUserUpdateDto(updateDto);
+        verificationUserUpdateDto.userUpdateDto(updateDto);
         userEntity.setFirstName(updateDto.getFirstName());
         userEntity.setLastName(updateDto.getLastName());
         userEntity.setPhoneNumber(updateDto.getPhoneNumber());
         userEntity.setEmail(updateDto.getEmail());
         userRepository.save(UserMapper.updateEntity(updateDto));
+    }
+
+    public void updateUserPassword(long id, UserPasswordUpdateDto updatePasswordDto) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
+
+        VerificationUserPasswordUpdateDto.userPasswordUpdateDto(updatePasswordDto);
+        userEntity.setPassword(updatePasswordDto.getPassword());
+        userRepository.save(UserMapper.updatePassword(updatePasswordDto));
     }
 }

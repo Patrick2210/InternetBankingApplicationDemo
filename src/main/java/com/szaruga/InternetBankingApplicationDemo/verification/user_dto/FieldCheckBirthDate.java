@@ -1,4 +1,4 @@
-package com.szaruga.InternetBankingApplicationDemo.validation.user_dto;
+package com.szaruga.InternetBankingApplicationDemo.verification.user_dto;
 
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.ValidationException;
 
@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
-public class ValidateBirthDate {
+public class FieldCheckBirthDate {
 
     public static void validate(LocalDate birthDate) {
         checkNotNull(birthDate);

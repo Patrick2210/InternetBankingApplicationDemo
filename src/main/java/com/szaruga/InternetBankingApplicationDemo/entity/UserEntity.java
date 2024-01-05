@@ -32,6 +32,10 @@ public class UserEntity {
     public UserEntity() {
     }
 
+    public UserEntity(String password) {
+        this.password = password;
+    }
+
     public UserEntity(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -47,25 +51,6 @@ public class UserEntity {
             String email,
             String phoneNumber,
             String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
-        this.numberPesel = numberPesel;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-    }
-
-    public UserEntity(
-            Long id,
-            String firstName,
-            String lastName,
-            LocalDate birthDate,
-            String numberPesel,
-            String email,
-            String phoneNumber,
-            String password) {
-        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;

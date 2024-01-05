@@ -4,7 +4,7 @@ import com.szaruga.InternetBankingApplicationDemo.exception.validation.Validatio
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
-public class ValidationDtoUtils {
+public class ValidationUserDtoUtils {
 
     public static void checkNotNull(String value, String message) {
         if (value == null) {
@@ -56,6 +56,19 @@ public class ValidationDtoUtils {
     public static void isValidEmail(String email, String message) {
         if (containsUnicodeChar(email, 64) || containsUnicodeChar(email, 46)) {
             throw new ValidationException(message + INVALID.getMessage());
+        }
+    }
+
+    private static void arePasswordsEqual(String password, String passwordReset) {
+        if (!passwordReset.equals(password)) {
+            throw new ValidationException(PASSWORD_DO_NOT_MATCH.getMessage());
+        }
+    }
+
+    public static void isPasswordComplex(String password, String passwordReset) {
+        arePasswordsEqual(password, passwordReset);
+        if (!password.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&£])[A-Za-z\\d@$!%*?&£]+$")) {
+            throw new ValidationException(PASSWORD_REQUIREMENTS.getMessage());
         }
     }
 }

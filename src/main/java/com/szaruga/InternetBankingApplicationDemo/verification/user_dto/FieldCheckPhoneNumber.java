@@ -1,10 +1,10 @@
-package com.szaruga.InternetBankingApplicationDemo.validation.user_dto;
+package com.szaruga.InternetBankingApplicationDemo.verification.user_dto;
 
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
-import static com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils.*;
+import static com.szaruga.InternetBankingApplicationDemo.util.ValidationUserDtoUtils.*;
 
-public class ValidatePhoneNumber {
+public class FieldCheckPhoneNumber {
 
     public static void validate(String phoneNumber) {
         checkNotNull(phoneNumber, PHONE_NUMBER.getMessage());

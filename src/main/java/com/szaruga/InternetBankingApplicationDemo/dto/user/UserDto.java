@@ -9,7 +9,7 @@ public class UserDto {
     private String phoneNumber;
     private String numberPesel;
     private String password;
-    private String passwordReset;
+    private String repeatPassword;
     private String email;
 
     public String getFirstName() {
@@ -60,12 +60,12 @@ public class UserDto {
         this.password = password;
     }
 
-    public String getPasswordReset() {
-        return passwordReset;
+    public String getRepeatPassword() {
+        return repeatPassword;
     }
 
-    public void setPasswordReset(String passwordReset) {
-        this.passwordReset = passwordReset;
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
     }
 
     public String getEmail() {

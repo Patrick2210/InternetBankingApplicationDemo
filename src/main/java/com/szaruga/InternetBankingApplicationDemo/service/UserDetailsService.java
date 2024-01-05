@@ -6,13 +6,12 @@ import com.szaruga.InternetBankingApplicationDemo.exception.userdetails.UserDeta
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserDetailsRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserDetailsMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUserDetails;
-import com.szaruga.InternetBankingApplicationDemo.validation.account_dto.ValidationUserDetailsDto;
+import com.szaruga.InternetBankingApplicationDemo.verification.account_dto.ValidationUserDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.USER_DETAILS_NOT_FOUND_WITH_ID;
 

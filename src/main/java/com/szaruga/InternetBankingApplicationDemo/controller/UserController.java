@@ -1,5 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
+import com.szaruga.InternetBankingApplicationDemo.dto.user.UserPasswordUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
@@ -50,6 +51,14 @@ public class UserController {
             @PathVariable long id,
             @RequestBody UserUpdateDto update) {
         userService.updateUser(id, update);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/user/{id}/password-change")
+    public ResponseEntity<Void> updateUserPassword(
+            @PathVariable long id,
+            @RequestBody UserPasswordUpdateDto updatePasswordDto) {
+        userService.updateUserPassword(id, updatePasswordDto);
         return ResponseEntity.ok().build();
     }
 }
