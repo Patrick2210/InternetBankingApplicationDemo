@@ -1,4 +1,4 @@
-package com.szaruga.InternetBankingApplicationDemo.verification.user_upgrade_dto;
+package com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserUpdateDto;
 import org.springframework.stereotype.Component;

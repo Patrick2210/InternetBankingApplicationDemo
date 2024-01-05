@@ -1,4 +1,4 @@
-package com.szaruga.InternetBankingApplicationDemo.verification.user_upgrade_dto;
+package com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.EMAIL;
 import static com.szaruga.InternetBankingApplicationDemo.util.ValidationUserDtoUtils.*;

@@ -1,4 +1,4 @@
-package com.szaruga.InternetBankingApplicationDemo.verification.account_dto;
+package com.szaruga.InternetBankingApplicationDemo.verification.accountdto;
 
 public class ValidateAddress {
 

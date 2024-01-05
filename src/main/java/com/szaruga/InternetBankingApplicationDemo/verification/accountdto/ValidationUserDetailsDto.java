@@ -1,4 +1,4 @@
-package com.szaruga.InternetBankingApplicationDemo.verification.account_dto;
+package com.szaruga.InternetBankingApplicationDemo.verification.accountdto;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
 import org.springframework.stereotype.Component;
