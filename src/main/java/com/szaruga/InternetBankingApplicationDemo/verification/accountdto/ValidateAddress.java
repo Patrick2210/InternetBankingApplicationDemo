@@ -7,6 +7,6 @@ public class ValidateAddress {
     }
 
     private static void checkAddress(String address) {
-        //todo jak to ogarnac czy sprawdzac gdzies kody pocztowe aby faktycznie ogarnac rzeczywisty addres?
+        //todo stworzyc program zewnetrzny ktory bedzie zawierac baze polskich kodow pocztowych
     }
 }

@@ -28,36 +28,46 @@ public class UserController {
 
     @GetMapping("/users")
     public List<UserEntity> retrieveAllUsers() {
+        //Todo zrobic paginacja
         return userService.findAllUsers();
+        /**
+         * wjebac to i uzytkownik musi w parametrze podac pagerequest i wtedy ma mi sie wyswietlic np. 1-10 potem 11-20 potem 21-30 itp
+         * public static PageRequest of(int pageNumber, int pageSize) {
+         *         return of(pageNumber, pageSize, Sort.unsorted());
+         *     }
+         * */
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/users/{id}")
     public EntityModel<UserEntity> retrieveUserById(@PathVariable long id) {
+        //TOdo userEnityt out i zrobic custom object
         return EntityModel.of(userService.findUserById(id));
     }
 
-    @PostMapping("/user")
+    @PostMapping("/users")
     public ResponseEntity<CreateUser> createUser(@RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.saveUser(userDto));
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<Void> updateUser(
             @PathVariable long id,
-            @RequestBody UserUpdateDto update) {
+            @RequestBody UserUpdateDto update
+    ) {
         userService.updateUser(id, update);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/user/{id}/password-change")
+    @PutMapping("/users/{id}/password-change")
     public ResponseEntity<Void> updateUserPassword(
             @PathVariable long id,
-            @RequestBody UserPasswordUpdateDto updatePasswordDto) {
+            @RequestBody UserPasswordUpdateDto updatePasswordDto
+    ) {
         userService.updateUserPassword(id, updatePasswordDto);
         return ResponseEntity.ok().build();
     }

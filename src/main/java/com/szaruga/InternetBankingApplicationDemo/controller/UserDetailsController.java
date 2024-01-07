@@ -39,7 +39,7 @@ public class UserDetailsController {
 
     @GetMapping("/user/details/{id}")
     public EntityModel<UserDetailsEntity> retrieveUserDetailsById(@PathVariable int id) {
-        //todo cala logic wyjebac
+        //todo cala logic delete
         UserDetailsEntity userDetailsEntity = userDetailsService.findUserDetailsById(id);
         if (userDetailsEntity == null) {
             throw new UserNotFoundException(USER_DETAILS_NOT_FOUND_WITH_ID.getMessage() + id);

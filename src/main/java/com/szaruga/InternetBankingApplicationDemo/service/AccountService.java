@@ -39,7 +39,7 @@ public class AccountService {
     }
 
     public AccountEntity saveAccount(AccountEntity accountEntity) {
-        accountEntity.setBalance(0.0f);
+        accountEntity.setBalance(0.0f); //todo wyjebac float na BigDecimal i nie robic takich operacji na float
         accountEntity.setReferenceAccountNumber(accountUtils.generateReferenceAccountNumber());
         return accountRepository.save(accountEntity);
     }
@@ -48,6 +48,8 @@ public class AccountService {
         Optional<AccountEntity> optionalAccount = accountRepository.findById(id);
         if (optionalAccount.isPresent()) {
             accountRepository.deleteById(id);
-        } else throw new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + id);
+        } else {
+            throw new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + id);
+        }
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.USER_NOT_FOUND_WITH_ID;
 
@@ -35,9 +36,16 @@ public class UserService {
 
     public List<UserEntity> findAllUsers() {
         return userRepository.findAll();
+        // jako return ma pojsc page z ogkreslona ilosc user na stronie
     }
 
     public UserEntity findUserById(long id) {
+//        final UserEntity userEntity = userRepository.findById(id)
+//                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
+
+        //tutaj mapujesz na jakis obiekt
+
+//        return // jakis obiekt dto
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
     }
@@ -46,6 +54,7 @@ public class UserService {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
         userRepository.delete(userEntity);
+        //todo sprawdzic czy user ma jakies konta jezeli sa nie widoczne to git delete
     }
 
     public CreateUser saveUser(UserDto dto) {
@@ -63,7 +72,7 @@ public class UserService {
         userEntity.setLastName(updateDto.getLastName());
         userEntity.setPhoneNumber(updateDto.getPhoneNumber());
         userEntity.setEmail(updateDto.getEmail());
-        userRepository.save(UserMapper.updateEntity(updateDto));
+        userRepository.save(userEntity);
     }
 
     public void updateUserPassword(long id, UserPasswordUpdateDto updatePasswordDto) {
@@ -72,6 +81,6 @@ public class UserService {
 
         VerificationUserPasswordUpdateDto.userPasswordUpdateDto(updatePasswordDto);
         userEntity.setPassword(updatePasswordDto.getPassword());
-        userRepository.save(UserMapper.updatePassword(updatePasswordDto));
+        userRepository.save(userEntity);
     }
 }
