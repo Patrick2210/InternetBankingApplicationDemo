@@ -39,7 +39,7 @@ public class AccountService {
     }
 
     public AccountEntity saveAccount(AccountEntity accountEntity) {
-        accountEntity.setBalance(0.0f); //todo wyjebac float na BigDecimal i nie robic takich operacji na float
+        accountEntity.setBalance(0.0f); //todo change float na BigDecimal i nie robic takich operacji na float
         accountEntity.setReferenceAccountNumber(accountUtils.generateReferenceAccountNumber());
         return accountRepository.save(accountEntity);
     }
