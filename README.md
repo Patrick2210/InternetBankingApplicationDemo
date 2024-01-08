@@ -1,6 +1,8 @@
 # Internet Banking Application Demo
 
-A comprehensive Java-based Internet Banking Application Demo showcasing Spring Boot, JPA, and HATEOAS. The project encompasses a secure and scalable architecture, featuring controllers for user, account and user details, along with services for user management, account operations and user details. The robust validation mechanism ensures data integrity, while the use of Spring HATEOAS facilitates RESTful interactions.
+A comprehensive Java-based Internet Banking Application Demo showcasing Spring Boot, JPA, and HATEOAS. 
+The project encompasses a secure and scalable architecture, featuring controllers for user, account and user details, along with services for user management, account operations and user details. 
+The robust validation mechanism ensures data integrity, while the use of Spring HATEOAS facilitates RESTful interactions.
 
 ## Key Components
 
@@ -28,5 +30,6 @@ A comprehensive Java-based Internet Banking Application Demo showcasing Spring B
 
 ## Features
 
-The project covers essential banking functionalities such as user and account management. It integrates Spring Data JPA for efficient database operations, Spring HATEOAS for RESTful services and Spring Validation to ensure secure and validated data handling. 
+The project covers essential banking functionalities such as user and account management. 
+It integrates Spring Data JPA for efficient database operations, Spring HATEOAS for RESTful services and Spring Validation to ensure secure and validated data handling. 
 Explore the well-structured codebase to understand the implementation of DTO verification, entity mapping and more.
