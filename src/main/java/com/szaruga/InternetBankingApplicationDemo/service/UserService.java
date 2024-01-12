@@ -36,16 +36,17 @@ public class UserService {
     }
 
     public Page<UsersPageDto> getUsersPagination(int pageNumber, int pageSize, String sort) {
+        //todo zawezic sortowanie do: id / firstName/lastName/data uro
         Pageable pageable = PageableUtils.buildPageable(pageNumber, pageSize, sort);
         Page<UserEntity> userPage = userRepository.findAll(pageable);
         List<UsersPageDto> userPageDtoList = UserMapper.mapUsersEntitiesToPageDtoList(userPage.getContent());
         return new PageImpl<>(userPageDtoList, pageable, userPage.getTotalElements());
     }
 
-    public UserPageDto getPageOfUserById(long id) {
+    public GetUserByIdDto getUserById(long id) {
         final UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
-        return UserMapper.mapUserEntityToPageDto(userEntity);
+        return UserMapper.mapUserEntityToGetUserByIdDto(userEntity);
     }
 
     public void deleteUser(long id) {

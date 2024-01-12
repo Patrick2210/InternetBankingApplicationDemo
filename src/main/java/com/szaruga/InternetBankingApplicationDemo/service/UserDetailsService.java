@@ -1,13 +1,18 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.userdetails.UserDetailsNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserDetailsRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserDetailsMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUserDetails;
-import com.szaruga.InternetBankingApplicationDemo.verification.accountdto.ValidationUserDetailsDto;
+import com.szaruga.InternetBankingApplicationDemo.util.PageableUtils;
+import com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto.ValidationUserDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,14 +32,25 @@ public class UserDetailsService {
         this.validationUserDetailsDto = validationUserDetailsDto;
     }
 
-    public List<UserDetailsEntity> findAllUserDetails() {
-        return userDetailsRepository.findAll();
+    public Page<UsersDetailsPageDto> getUsersDetailsPagination(int pageNumber, int pageSize, String sort) {
+        //todo zrobic zawezenie sortowania
+        Pageable pageable = PageableUtils.buildPageable(pageNumber, pageSize, sort);
+        Page<UserDetailsEntity> userDetailsPage = userDetailsRepository.findAll(pageable);
+        List<UsersDetailsPageDto> usersDetailsPageDtoList =
+                UserDetailsMapper.mapUsersDetailsEntitiesToPageDtoList(userDetailsPage.getContent());
+        return new PageImpl<>(usersDetailsPageDtoList,pageable,userDetailsPage.getTotalElements());
     }
 
     public UserDetailsEntity findUserDetailsById(int id) {
+        //    public GetUserByIdDto getPageOfUserById(long id) {
+//        final UserEntity userEntity = userDetailsRepository.findById(id)
+//                .orElseThrow(() -> new UserDetailsNotFoundException((USER_DETAILS_NOT_FOUND_WITH_ID.getMessage()) + id));
+//        return UserMapper.mapUserEntityToPageDto(userEntity);
+//    }
         return userDetailsRepository.findById(id)
                 .orElseThrow(() -> new UserDetailsNotFoundException(USER_DETAILS_NOT_FOUND_WITH_ID.getMessage() + id));
     }
+
 
     public CreateUserDetails saveUserDetails(UserDetailsDto userDetailsDto) {
         validationUserDetailsDto.validateDto(userDetailsDto);

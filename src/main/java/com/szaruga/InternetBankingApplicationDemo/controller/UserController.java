@@ -1,12 +1,10 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.user.*;
-import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,8 +39,8 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public EntityModel<UserPageDto> retrievePageOfUserById(@PathVariable long id) {
-        return EntityModel.of(userService.getPageOfUserById(id));
+    public ResponseEntity<GetUserByIdDto> retrievePageOfUserById(@PathVariable long id) {
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PostMapping("/users")

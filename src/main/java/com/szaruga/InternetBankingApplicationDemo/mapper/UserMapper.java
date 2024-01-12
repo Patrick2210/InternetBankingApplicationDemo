@@ -1,7 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.mapper;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDto;
-import com.szaruga.InternetBankingApplicationDemo.dto.user.UserPageDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.user.GetUserByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UsersPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 
@@ -27,23 +27,23 @@ public class UserMapper {
         usersPageDto.setId(user.getId());
         usersPageDto.setFirstName(user.getFirstName());
         usersPageDto.setLastName(user.getLastName());
+        usersPageDto.setBirthDate(user.getBirthDate());
         return usersPageDto;
     }
 
-    public static UserPageDto mapUserEntityToPageDto(UserEntity user) {
-        UserPageDto userPageDto = new UserPageDto();
+    public static List<UsersPageDto> mapUsersEntitiesToPageDtoList(List<UserEntity> content) {
+        return content.stream()
+                .map(UserMapper::mapUsersEntityToPaginationDto)
+                .collect(Collectors.toList());
+    }
+
+    public static GetUserByIdDto mapUserEntityToGetUserByIdDto(UserEntity user) {
+        GetUserByIdDto userPageDto = new GetUserByIdDto();
         userPageDto.setFirstName(user.getFirstName());
         userPageDto.setLastName(user.getLastName());
         userPageDto.setNumberPesel(user.getNumberPesel());
         userPageDto.setPhoneNumber(user.getPhoneNumber());
         userPageDto.setEmail(user.getEmail());
         return userPageDto;
-    }
-
-
-    public static List<UsersPageDto> mapUsersEntitiesToPageDtoList(List<UserEntity> content) {
-        return content.stream()
-                .map(UserMapper::mapUsersEntityToPaginationDto)
-                .collect(Collectors.toList());
     }
 }

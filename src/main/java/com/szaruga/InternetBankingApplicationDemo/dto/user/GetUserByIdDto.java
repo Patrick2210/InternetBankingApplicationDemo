@@ -1,6 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.user;
 
-public class UserPageDto {
+public class GetUserByIdDto {
     private String firstName;
     private String lastName;
     private String numberPesel;

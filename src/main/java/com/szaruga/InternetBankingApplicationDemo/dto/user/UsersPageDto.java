@@ -1,9 +1,12 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.user;
 
+import java.time.LocalDate;
+
 public class UsersPageDto {
     private long id;
     private String firstName;
     private String lastName;
+    private LocalDate birthDate;
 
     public long getId() {
         return id;
@@ -27,5 +30,13 @@ public class UsersPageDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 }

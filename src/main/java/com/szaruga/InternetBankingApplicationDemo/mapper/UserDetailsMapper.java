@@ -1,12 +1,38 @@
 package com.szaruga.InternetBankingApplicationDemo.mapper;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDetailsMapper {
     public static UserDetailsEntity toEntity(UserDetailsDto dto) {
-        return new UserDetailsEntity(
-                dto.getAddress(),
-                dto.getCorrespondenceAddress());
+        UserDetailsEntity userDetails = new UserDetailsEntity();
+        userDetails.setAddress(dto.getAddress());
+        userDetails.setAddressHomeNumber(dto.getAddressHomeNumber());
+        userDetails.setAddressFlatNumber(dto.getAddressFlatNumber());
+        userDetails.setCorrespondenceAddressFlatNumber(dto.getCorrespondenceAddress());
+        userDetails.setCorrespondenceAddressHomeNumber(dto.getCorrespondenceAddressHomeNumber());
+        userDetails.setCorrespondenceAddressFlatNumber(dto.getCorrespondenceAddressFlatNumber());
+        userDetails.setPostCode(dto.getPostCode());
+        userDetails.setCity(dto.getCity());
+
+        return userDetails;
+    }
+
+    public static UsersDetailsPageDto mapUsersDetailsEntityToPaginationDto(UserDetailsEntity userDetailsEntity) {
+        UsersDetailsPageDto usersDetailsPageDto = new UsersDetailsPageDto();
+        usersDetailsPageDto.setId(userDetailsEntity.getId());
+        usersDetailsPageDto.setCity(userDetailsEntity.getCity());
+        usersDetailsPageDto.setPostCode(userDetailsEntity.getPostCode());
+        return usersDetailsPageDto;
+    }
+
+    public static List<UsersDetailsPageDto> mapUsersDetailsEntitiesToPageDtoList(List<UserDetailsEntity> content) {
+        return content.stream()
+                .map(UserDetailsMapper::mapUsersDetailsEntityToPaginationDto)
+                .collect(Collectors.toList());
     }
 }

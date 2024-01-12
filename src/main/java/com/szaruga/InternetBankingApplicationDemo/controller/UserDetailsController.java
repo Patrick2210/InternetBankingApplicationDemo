@@ -1,24 +1,18 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
-import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUserDetails;
 import com.szaruga.InternetBankingApplicationDemo.service.UserDetailsService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
-import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.USER_DETAILS_NOT_FOUND_WITH_ID;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api")
@@ -31,23 +25,27 @@ public class UserDetailsController {
         this.userDetailsService = userDetailsService;
     }
 
+    @GetMapping("/users-details/{pageNumber}/{pageSize}")
+    public List<UsersDetailsPageDto> retrievePageOfUserDetailsWithoutSorting(
+            @PathVariable Integer pageNumber,
+            @PathVariable Integer pageSize) {
+        Page<UsersDetailsPageDto> data = userDetailsService.getUsersDetailsPagination(pageNumber, pageSize, null);
+        return data.getContent();
+    }
 
-    @GetMapping("/user/details")
-    public List<UserDetailsEntity> retrieveAllUserDetails() {
-        return userDetailsService.findAllUserDetails();
+    @GetMapping("/users-details/{pageNumber}/{pageSize}/{sort}")
+    public List<UsersDetailsPageDto> retrievePageOfUserDetailsWithSorting(
+            @PathVariable Integer pageNumber,
+            @PathVariable Integer pageSize,
+            @PathVariable String sort) {
+        Page<UsersDetailsPageDto> data = userDetailsService.getUsersDetailsPagination(pageNumber, pageSize, sort);
+        return data.getContent();
     }
 
     @GetMapping("/user/details/{id}")
     public EntityModel<UserDetailsEntity> retrieveUserDetailsById(@PathVariable int id) {
-        //todo cala logic delete
-        UserDetailsEntity userDetailsEntity = userDetailsService.findUserDetailsById(id);
-        if (userDetailsEntity == null) {
-            throw new UserNotFoundException(USER_DETAILS_NOT_FOUND_WITH_ID.getMessage() + id);
-        }
-        EntityModel<UserDetailsEntity> entityModel = EntityModel.of(userDetailsEntity);
-        WebMvcLinkBuilder link = linkTo(methodOn(this.getClass()).retrieveAllUserDetails());
-        entityModel.add(link.withRel("all-users-details"));
-        return entityModel;
+        //todo zrobic tylko zwort adress / homeNumber / flatNumber / postCode / city
+        return null;
     }
 
     @PostMapping("/user/details")
