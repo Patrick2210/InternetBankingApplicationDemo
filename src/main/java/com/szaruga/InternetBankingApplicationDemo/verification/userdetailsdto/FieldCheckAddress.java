@@ -1,6 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto;
 
-public class ValidateAddress {
+public class FieldCheckAddress {
 
     public static void validate(String address) {
         checkAddress(address);

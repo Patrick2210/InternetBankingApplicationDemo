@@ -1,6 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto;
 
-public class ValidateCorrespondenceAddress {
+public class FieldCheckCorrespondenceAddress {
 
     public static void validate(String correspondenceAddress){
         checkCorrespondenceAddress(correspondenceAddress);

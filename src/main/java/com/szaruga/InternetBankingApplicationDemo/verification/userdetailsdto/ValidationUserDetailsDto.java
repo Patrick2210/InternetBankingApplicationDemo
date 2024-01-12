@@ -6,7 +6,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidationUserDetailsDto {
     public void validateDto(UserDetailsDto userDetailsDto){
-        ValidateAddress.validate(userDetailsDto.getAddress());
-        ValidateCorrespondenceAddress.validate(userDetailsDto.getCorrespondenceAddress());
+        FieldCheckAddress.validate(userDetailsDto.getAddress());
+        FieldCheckAddressHomeNumber.validate(userDetailsDto.getAddressHomeNumber());
+        FiledCheckAddressFlatNumber.validate(userDetailsDto.getAddressFlatNumber());
+        FieldCheckCorrespondenceAddress.validate(userDetailsDto.getCorrespondenceAddress());
+        FieldCheckCorrespondenceAddressHomeNumber.validate(userDetailsDto.getCorrespondenceAddressHomeNumber());
+        FieldCheckCorrespondenceAddressFlatNumber.validate(userDetailsDto.getCorrespondenceAddressFlatNumber());
+        FieldCheckPostCode.validate(userDetailsDto.getPostCode());
+        FieldCheckCity.validate(userDetailsDto.getCity());
     }
 }
