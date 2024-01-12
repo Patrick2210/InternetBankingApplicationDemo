@@ -1,5 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.mapper;
 
+import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.GetUserDetailsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
@@ -34,5 +35,15 @@ public class UserDetailsMapper {
         return content.stream()
                 .map(UserDetailsMapper::mapUsersDetailsEntityToPaginationDto)
                 .collect(Collectors.toList());
+    }
+
+    public static GetUserDetailsByIdDto mapUserEntityToGetUserById(UserDetailsEntity userDetailsEntity) {
+        GetUserDetailsByIdDto userDetailsByIdDto = new GetUserDetailsByIdDto();
+        userDetailsByIdDto.setAddress(userDetailsEntity.getAddress());
+        userDetailsByIdDto.setAddressHomeNumber(userDetailsEntity.getAddressHomeNumber());
+        userDetailsByIdDto.setAddressFlatNumber(userDetailsEntity.getAddressFlatNumber());
+        userDetailsByIdDto.setPostCode(userDetailsEntity.getPostCode());
+        userDetailsByIdDto.setCity(userDetailsEntity.getCity());
+        return userDetailsByIdDto;
     }
 }

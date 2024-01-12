@@ -1,5 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
+import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.GetUserDetailsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
@@ -38,17 +39,13 @@ public class UserDetailsService {
         Page<UserDetailsEntity> userDetailsPage = userDetailsRepository.findAll(pageable);
         List<UsersDetailsPageDto> usersDetailsPageDtoList =
                 UserDetailsMapper.mapUsersDetailsEntitiesToPageDtoList(userDetailsPage.getContent());
-        return new PageImpl<>(usersDetailsPageDtoList,pageable,userDetailsPage.getTotalElements());
+        return new PageImpl<>(usersDetailsPageDtoList, pageable, userDetailsPage.getTotalElements());
     }
 
-    public UserDetailsEntity findUserDetailsById(int id) {
-        //    public GetUserByIdDto getPageOfUserById(long id) {
-//        final UserEntity userEntity = userDetailsRepository.findById(id)
-//                .orElseThrow(() -> new UserDetailsNotFoundException((USER_DETAILS_NOT_FOUND_WITH_ID.getMessage()) + id));
-//        return UserMapper.mapUserEntityToPageDto(userEntity);
-//    }
-        return userDetailsRepository.findById(id)
+    public GetUserDetailsByIdDto getUserDetailsById(int id) {
+        final UserDetailsEntity userDetailsEntity = userDetailsRepository.findById(id)
                 .orElseThrow(() -> new UserDetailsNotFoundException(USER_DETAILS_NOT_FOUND_WITH_ID.getMessage() + id));
+        return UserDetailsMapper.mapUserEntityToGetUserById(userDetailsEntity);
     }
 
 

@@ -1,5 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
+import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.GetUserDetailsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
@@ -25,7 +26,7 @@ public class UserDetailsController {
         this.userDetailsService = userDetailsService;
     }
 
-    @GetMapping("/users-details/{pageNumber}/{pageSize}")
+    @GetMapping("/users/details/{pageNumber}/{pageSize}")
     public List<UsersDetailsPageDto> retrievePageOfUserDetailsWithoutSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize) {
@@ -33,7 +34,7 @@ public class UserDetailsController {
         return data.getContent();
     }
 
-    @GetMapping("/users-details/{pageNumber}/{pageSize}/{sort}")
+    @GetMapping("/users/details/{pageNumber}/{pageSize}/{sort}")
     public List<UsersDetailsPageDto> retrievePageOfUserDetailsWithSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize,
@@ -42,10 +43,9 @@ public class UserDetailsController {
         return data.getContent();
     }
 
-    @GetMapping("/user/details/{id}")
-    public EntityModel<UserDetailsEntity> retrieveUserDetailsById(@PathVariable int id) {
-        //todo zrobic tylko zwort adress / homeNumber / flatNumber / postCode / city
-        return null;
+    @GetMapping("/users/details/{id}")
+    public ResponseEntity<GetUserDetailsByIdDto> retrieveUserDetailsById(@PathVariable int id) {
+        return ResponseEntity.ok(userDetailsService.getUserDetailsById(id));
     }
 
     @PostMapping("/user/details")

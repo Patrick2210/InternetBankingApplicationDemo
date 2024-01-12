@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<GetUserByIdDto> retrievePageOfUserById(@PathVariable long id) {
+    public ResponseEntity<GetUserByIdDto> retrieveUserById(@PathVariable long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 

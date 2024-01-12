@@ -10,7 +10,7 @@ public class UserDetailsEntity {
     private Integer id;
     private String address;
     private String addressHomeNumber;
-    String addressFlatNumber;
+    private String addressFlatNumber;
     private String correspondenceAddress;
     private String correspondenceAddressHomeNumber;
     private String correspondenceAddressFlatNumber;
