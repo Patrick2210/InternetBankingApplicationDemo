@@ -44,17 +44,8 @@ public class ValidationUserDtoUtils {
         }
     }
 
-    private static boolean containsUnicodeChar(String text, int uniCodeTable) {
-        for (int i = 0; i < text.length(); i++) {
-            if (text.codePointAt(i) == uniCodeTable) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static void isValidEmail(String email, String message) {
-        if (containsUnicodeChar(email, 64) || containsUnicodeChar(email, 46)) {
+        if (email.contains("@") || email.contains(".")) {
             throw new ValidationException(message + INVALID.getMessage());
         }
     }

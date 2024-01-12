@@ -6,10 +6,12 @@ import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundExc
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
+import com.szaruga.InternetBankingApplicationDemo.util.PageableUtils;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdto.VerificationUserDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userpasswordupdatedto.VerificationUserPasswordUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto.VerificationUserUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,9 +35,11 @@ public class UserService {
         this.verificationUserUpdateDto = verificationUserUpdateDto;
     }
 
-    public List<UserEntity> findAllUsers() {
-        return userRepository.findAll();
-        // jako return ma pojsc page z ogkreslona ilosc user na stronie
+    public Page<UserPageDto> getUsersPagination(int pageNumber, int pageSize, String sort) {
+        Pageable pageable = PageableUtils.buildPageable(pageNumber, pageSize, sort);
+        Page<UserEntity> userPage = userRepository.findAll(pageable);
+        List<UserPageDto> userPageDtoList = UserMapper.mapUserEntitiesToPaginationDtoList(userPage.getContent());
+        return new PageImpl<>(userPageDtoList, pageable, userPage.getTotalElements());
     }
 
     public UserEntity findUserById(long id) {

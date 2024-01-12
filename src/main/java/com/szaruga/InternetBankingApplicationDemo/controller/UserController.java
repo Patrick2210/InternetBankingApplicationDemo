@@ -1,5 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
+import com.szaruga.InternetBankingApplicationDemo.dto.user.UserPageDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserPasswordUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserUpdateDto;
@@ -7,13 +8,12 @@ import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("/api")
@@ -26,16 +26,21 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
-    public List<UserEntity> retrieveAllUsers() {
-        //Todo zrobic paginacja
-        return userService.findAllUsers();
-        /**
-         * wjebac to i uzytkownik musi w parametrze podac pagerequest i wtedy ma mi sie wyswietlic np. 1-10 potem 11-20 potem 21-30 itp
-         * public static PageRequest of(int pageNumber, int pageSize) {
-         *         return of(pageNumber, pageSize, Sort.unsorted());
-         *     }
-         * */
+    @GetMapping("/users/{pageNumber}/{pageSize}")
+    public List<UserPageDto> retrievePageOfUsersWithoutSorting(
+            @PathVariable Integer pageNumber,
+            @PathVariable Integer pageSize) {
+        Page<UserPageDto> data = userService.getUsersPagination(pageNumber, pageSize, null);
+        return data.getContent();
+    }
+
+    @GetMapping("/users/{pageNumber}/{pageSize}/{sort}")
+    public List<UserPageDto> retrievePageOfUsersWithSorting(
+            @PathVariable Integer pageNumber,
+            @PathVariable Integer pageSize,
+            @PathVariable String sort) {
+        Page<UserPageDto> data = userService.getUsersPagination(pageNumber, pageSize, sort);
+        return data.getContent();
     }
 
     @GetMapping("/users/{id}")
