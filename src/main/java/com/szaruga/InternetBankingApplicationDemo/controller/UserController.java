@@ -1,9 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
-import com.szaruga.InternetBankingApplicationDemo.dto.user.UserPageDto;
-import com.szaruga.InternetBankingApplicationDemo.dto.user.UserPasswordUpdateDto;
-import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDto;
-import com.szaruga.InternetBankingApplicationDemo.dto.user.UserUpdateDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.user.*;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.service.UserService;
@@ -27,26 +24,25 @@ public class UserController {
     }
 
     @GetMapping("/users/{pageNumber}/{pageSize}")
-    public List<UserPageDto> retrievePageOfUsersWithoutSorting(
+    public List<UsersPageDto> retrievePageOfUsersWithoutSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize) {
-        Page<UserPageDto> data = userService.getUsersPagination(pageNumber, pageSize, null);
+        Page<UsersPageDto> data = userService.getUsersPagination(pageNumber, pageSize, null);
         return data.getContent();
     }
 
     @GetMapping("/users/{pageNumber}/{pageSize}/{sort}")
-    public List<UserPageDto> retrievePageOfUsersWithSorting(
+    public List<UsersPageDto> retrievePageOfUsersWithSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize,
             @PathVariable String sort) {
-        Page<UserPageDto> data = userService.getUsersPagination(pageNumber, pageSize, sort);
+        Page<UsersPageDto> data = userService.getUsersPagination(pageNumber, pageSize, sort);
         return data.getContent();
     }
 
     @GetMapping("/users/{id}")
-    public EntityModel<UserEntity> retrieveUserById(@PathVariable long id) {
-        //TOdo userEnityt out i zrobic custom object
-        return EntityModel.of(userService.findUserById(id));
+    public EntityModel<UserPageDto> retrievePageOfUserById(@PathVariable long id) {
+        return EntityModel.of(userService.getPageOfUserById(id));
     }
 
     @PostMapping("/users")

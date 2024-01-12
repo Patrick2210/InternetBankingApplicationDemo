@@ -1,19 +1,11 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.user;
 
 public class UserPageDto {
-    private long id;
     private String firstName;
     private String lastName;
+    private String numberPesel;
     private String phoneNumber;
     private String email;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -29,6 +21,14 @@ public class UserPageDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getNumberPesel() {
+        return numberPesel;
+    }
+
+    public void setNumberPesel(String numberPesel) {
+        this.numberPesel = numberPesel;
     }
 
     public String getPhoneNumber() {

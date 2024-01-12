@@ -35,22 +35,17 @@ public class UserService {
         this.verificationUserUpdateDto = verificationUserUpdateDto;
     }
 
-    public Page<UserPageDto> getUsersPagination(int pageNumber, int pageSize, String sort) {
+    public Page<UsersPageDto> getUsersPagination(int pageNumber, int pageSize, String sort) {
         Pageable pageable = PageableUtils.buildPageable(pageNumber, pageSize, sort);
         Page<UserEntity> userPage = userRepository.findAll(pageable);
-        List<UserPageDto> userPageDtoList = UserMapper.mapUserEntitiesToPaginationDtoList(userPage.getContent());
+        List<UsersPageDto> userPageDtoList = UserMapper.mapUsersEntitiesToPageDtoList(userPage.getContent());
         return new PageImpl<>(userPageDtoList, pageable, userPage.getTotalElements());
     }
 
-    public UserEntity findUserById(long id) {
-//        final UserEntity userEntity = userRepository.findById(id)
-//                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
-
-        //tutaj mapujesz na jakis obiekt
-
-//        return // jakis obiekt dto
-        return userRepository.findById(id)
+    public UserPageDto getPageOfUserById(long id) {
+        final UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
+        return UserMapper.mapUserEntityToPageDto(userEntity);
     }
 
     public void deleteUser(long id) {

@@ -2,6 +2,7 @@ package com.szaruga.InternetBankingApplicationDemo.mapper;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserPageDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.user.UsersPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 
 import java.util.List;
@@ -21,19 +22,28 @@ public class UserMapper {
         return user;
     }
 
-    public static UserPageDto mapUserEntityToPaginationDto(UserEntity user) {
-        UserPageDto userRetrieveDto = new UserPageDto();
-        userRetrieveDto.setId(user.getId());
-        userRetrieveDto.setFirstName(user.getFirstName());
-        userRetrieveDto.setLastName(user.getLastName());
-        userRetrieveDto.setEmail(user.getEmail());
-        userRetrieveDto.setPhoneNumber(user.getPhoneNumber());
-        return userRetrieveDto;
+    public static UsersPageDto mapUsersEntityToPaginationDto(UserEntity user) {
+        UsersPageDto usersPageDto = new UsersPageDto();
+        usersPageDto.setId(user.getId());
+        usersPageDto.setFirstName(user.getFirstName());
+        usersPageDto.setLastName(user.getLastName());
+        return usersPageDto;
     }
 
-    public static List<UserPageDto> mapUserEntitiesToPaginationDtoList(List<UserEntity> userEntities) {
-        return userEntities.stream()
-                .map(UserMapper::mapUserEntityToPaginationDto)
+    public static UserPageDto mapUserEntityToPageDto(UserEntity user) {
+        UserPageDto userPageDto = new UserPageDto();
+        userPageDto.setFirstName(user.getFirstName());
+        userPageDto.setLastName(user.getLastName());
+        userPageDto.setNumberPesel(user.getNumberPesel());
+        userPageDto.setPhoneNumber(user.getPhoneNumber());
+        userPageDto.setEmail(user.getEmail());
+        return userPageDto;
+    }
+
+
+    public static List<UsersPageDto> mapUsersEntitiesToPageDtoList(List<UserEntity> content) {
+        return content.stream()
+                .map(UserMapper::mapUsersEntityToPaginationDto)
                 .collect(Collectors.toList());
     }
 }
