@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity
+@Entity(name = "address_entity")
 public final class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
