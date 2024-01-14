@@ -1,4 +1,4 @@
-package com.szaruga.InternetBankingApplicationDemo.model;
+package com.szaruga.InternetBankingApplicationDemo.model.userdetails;
 
 public class CreateUserDetails {
 

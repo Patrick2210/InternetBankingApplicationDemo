@@ -2,7 +2,7 @@ package com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.FIRST_NAME;
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.LAST_NAME;
-import static com.szaruga.InternetBankingApplicationDemo.util.ValidationUserDtoUtils.*;
+import static com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils.*;
 
 public class FieldCheckLastNameUpdate {
     public static void validate(String lastName) {

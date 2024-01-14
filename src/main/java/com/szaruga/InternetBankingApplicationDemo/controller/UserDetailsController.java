@@ -3,7 +3,7 @@ package com.szaruga.InternetBankingApplicationDemo.controller;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.GetUserDetailsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
-import com.szaruga.InternetBankingApplicationDemo.model.CreateUserDetails;
+import com.szaruga.InternetBankingApplicationDemo.model.userdetails.CreateUserDetails;
 import com.szaruga.InternetBankingApplicationDemo.service.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

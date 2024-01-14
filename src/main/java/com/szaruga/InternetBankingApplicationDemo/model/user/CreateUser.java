@@ -1,10 +1,10 @@
-package com.szaruga.InternetBankingApplicationDemo.model;
+package com.szaruga.InternetBankingApplicationDemo.model.user;
 
-public class UpdateUser {
+public class CreateUser {
 
     private final long clientId;
 
-    public UpdateUser(long clientId) {
+    public CreateUser(long clientId) {
         this.clientId = clientId;
     }
 

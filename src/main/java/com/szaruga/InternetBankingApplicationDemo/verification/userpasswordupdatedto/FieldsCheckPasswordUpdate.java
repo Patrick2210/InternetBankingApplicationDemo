@@ -1,7 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.verification.userpasswordupdatedto;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
-import static com.szaruga.InternetBankingApplicationDemo.util.ValidationUserDtoUtils.*;
+import static com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils.*;
 
 public class FieldsCheckPasswordUpdate {
     public static void validate(String password, String repeatPassword) {

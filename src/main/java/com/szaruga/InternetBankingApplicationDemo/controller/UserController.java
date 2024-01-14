@@ -1,7 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.user.*;
-import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
+import com.szaruga.InternetBankingApplicationDemo.model.user.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

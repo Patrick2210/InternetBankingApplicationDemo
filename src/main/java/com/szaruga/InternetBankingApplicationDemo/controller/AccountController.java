@@ -1,17 +1,15 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
+import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.GetAccountsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountsPageDto;
-import com.szaruga.InternetBankingApplicationDemo.entity.AccountEntity;
+import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
 import com.szaruga.InternetBankingApplicationDemo.service.AccountService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -27,7 +25,7 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping("/user/accounts/{pageNumber}/{pageSize}")
+    @GetMapping("/users/accounts/{pageNumber}/{pageSize}")
     public List<AccountsPageDto> retrievePageOfAccountsWithoutSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize) {
@@ -35,7 +33,7 @@ public class AccountController {
         return data.getContent();
     }
 
-    @GetMapping("/user/accounts/{pageNumber}/{pageSize}/{sort}")
+    @GetMapping("/users/accounts/{pageNumber}/{pageSize}/{sort}")
     public List<AccountsPageDto> retrievePageOfAccountsWithSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize,
@@ -44,22 +42,17 @@ public class AccountController {
         return data.getContent();
     }
 
-    @GetMapping("/user/account/{id}")
+    @GetMapping("/users/accounts/{id}")
     public ResponseEntity<GetAccountsByIdDto> getAccountsById(@PathVariable int id) {
         return ResponseEntity.ok(accountService.getAccountById(id));
     }
 
-    @PostMapping("/user/accountEntity")
-    public ResponseEntity<AccountEntity> createAccount(@Valid @RequestBody AccountEntity accountEntity) {
-        AccountEntity savedAccountEntity = accountService.saveAccount(accountEntity);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedAccountEntity)
-                .toUri();
-        return ResponseEntity.created(location).build();
+    @PostMapping("/users/accounts")
+    public ResponseEntity<CreateAccount> createAccount(@RequestBody AccountDto accountDto) {
+        return ResponseEntity.ok(accountService.saveAccount(accountDto));
     }
 
-    @DeleteMapping("/user/account/{id}")
+    @DeleteMapping("/users/account/{id}")
     public void deleteAccount(@PathVariable int id) {
         accountService.deleteAccount(id);
     }

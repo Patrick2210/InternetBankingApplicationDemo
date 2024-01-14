@@ -1,7 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.PHONE_NUMBER;
-import static com.szaruga.InternetBankingApplicationDemo.util.ValidationUserDtoUtils.*;
+import static com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils.*;
 
 public class FieldCheckPhoneNumberUpdate {
     public static void validate(String phoneNumber) {

@@ -4,7 +4,7 @@ import com.szaruga.InternetBankingApplicationDemo.exception.validation.Validatio
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
-public class ValidationUserDtoUtils {
+public class ValidationDtoUtils {
 
     public static void checkNotNull(String value, String message) {
         if (value == null) {

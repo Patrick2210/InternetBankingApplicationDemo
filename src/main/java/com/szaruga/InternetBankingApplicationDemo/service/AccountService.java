@@ -1,13 +1,16 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
+import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.GetAccountsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.AccountEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.account.AccountNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.AccountMapper;
+import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
 import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils;
 import com.szaruga.InternetBankingApplicationDemo.util.PageableUtils;
+import com.szaruga.InternetBankingApplicationDemo.verification.accountdto.ValidationAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,11 +28,16 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountUtils accountUtils;
+    private final ValidationAccountDto validationAccountDto;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository, AccountUtils accountUtils) {
+    public AccountService(
+            AccountRepository accountRepository,
+            AccountUtils accountUtils,
+            ValidationAccountDto validationAccountDto) {
         this.accountRepository = accountRepository;
         this.accountUtils = accountUtils;
+        this.validationAccountDto = validationAccountDto;
     }
 
     public Page<AccountsPageDto> getAccountsPagination(int pageNumber, int pageSize, String sort) {
@@ -46,10 +54,13 @@ public class AccountService {
         return AccountMapper.mapAccountEntityToGetAccountsByIdDto(account);
     }
 
-    public AccountEntity saveAccount(AccountEntity accountEntity) {
-        accountEntity.setBalance(BigDecimal.ZERO);
-        accountEntity.setReferenceAccountNumber(accountUtils.generateReferenceAccountNumber());
-        return accountRepository.save(accountEntity);
+    public CreateAccount saveAccount(AccountDto accountDto) {
+        //todo ustawic user_id
+        validationAccountDto.validateDto(accountDto);
+        accountDto.setBalance(BigDecimal.ZERO);
+        accountDto.setReferenceAccountNumber(accountUtils.generateReferenceAccountNumber());
+        AccountEntity save = accountRepository.save(AccountMapper.toEntity(accountDto));
+        return new CreateAccount(save.getId());
     }
 
     public void deleteAccount(int id) {

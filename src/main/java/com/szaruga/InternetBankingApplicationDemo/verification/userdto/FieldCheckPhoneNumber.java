@@ -2,7 +2,7 @@ package com.szaruga.InternetBankingApplicationDemo.verification.userdto;
 
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
-import static com.szaruga.InternetBankingApplicationDemo.util.ValidationUserDtoUtils.*;
+import static com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils.*;
 
 public class FieldCheckPhoneNumber {
 

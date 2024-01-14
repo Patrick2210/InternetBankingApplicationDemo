@@ -7,7 +7,7 @@ import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.userdetails.UserDetailsNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserDetailsRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserDetailsMapper;
-import com.szaruga.InternetBankingApplicationDemo.model.CreateUserDetails;
+import com.szaruga.InternetBankingApplicationDemo.model.userdetails.CreateUserDetails;
 import com.szaruga.InternetBankingApplicationDemo.util.PageableUtils;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto.ValidationUserDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,6 +7,7 @@ public enum ApplicationConstants {
     PESEL_NUMBER("pesel number "),
     PHONE_NUMBER("phone number "),
     PASSWORD("password "),
+    ACCOUNT_TYPE("account type "),
     PASSWORD_REPEAT("password repeat "),
     EMAIL("email "),
     MINIMUM_18_YEARS_OLD("must be at least 18 years old"),

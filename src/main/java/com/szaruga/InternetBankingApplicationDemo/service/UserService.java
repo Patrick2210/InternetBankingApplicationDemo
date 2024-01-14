@@ -5,7 +5,7 @@ import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
-import com.szaruga.InternetBankingApplicationDemo.model.CreateUser;
+import com.szaruga.InternetBankingApplicationDemo.model.user.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.util.PageableUtils;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdto.VerificationUserDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userpasswordupdatedto.VerificationUserPasswordUpdateDto;
