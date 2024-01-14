@@ -18,6 +18,7 @@ public enum ApplicationConstants {
     INVALID("invalid"),
     CHARACTERS(" characters "),
     NAMING_ALREADY_EXIST("with this naming already exist, please choose another name for account"),
+    INSUFFICIENT_BALANCE("Insufficient balance for withdrawal"),
     ACCOUNT_DELETE("before close account make sure balance is equal 0"),
     PASSWORD_REQUIREMENTS("password must contains at least one letter, one digital number and one special character"),
     PASSWORD_DO_NOT_MATCH("passwords do not match"),

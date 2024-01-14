@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -58,5 +59,25 @@ public class AccountController {
     @DeleteMapping("/users/account/{id}")
     public void deleteAccount(@PathVariable int id) {
         accountService.deleteAccount(id);
+    }
+
+    @PutMapping("/users/{userId}/accounts/{accountId}/deposit/{amount}")
+    public ResponseEntity<Void> depositMoneyOnAccount(
+            @PathVariable long userId,
+            @PathVariable int accountId,
+            @PathVariable BigDecimal amount
+    ) {
+        accountService.depositMoney(userId, accountId, amount);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/users/{userId}/accounts/{accountId}/withdraw/{amount}")
+    public ResponseEntity<Void> withdrawMoneyOnAccount(
+            @PathVariable long userId,
+            @PathVariable int accountId,
+            @PathVariable BigDecimal amount
+    ) {
+        accountService.withdrawMoney(userId, accountId, amount);
+        return ResponseEntity.ok().build();
     }
 }

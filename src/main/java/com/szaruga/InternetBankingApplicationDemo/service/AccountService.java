@@ -5,6 +5,7 @@ import com.szaruga.InternetBankingApplicationDemo.dto.account.GetAccountsByIdDto
 import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.AccountEntity;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
+import com.szaruga.InternetBankingApplicationDemo.exception.account.InsufficientBalanceException;
 import com.szaruga.InternetBankingApplicationDemo.exception.account.AccountNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
@@ -54,9 +55,9 @@ public class AccountService {
         return new PageImpl<>(accountsPageDtoList, pageable, accountsDtoPage.getTotalElements());
     }
 
-    public GetAccountsByIdDto getAccountById(int id) {
-        AccountEntity account = accountRepository.findById(id)
-                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + id));
+    public GetAccountsByIdDto getAccountById(int accountId) {
+        AccountEntity account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + accountId));
         return AccountMapper.mapAccountEntityToGetAccountsByIdDto(account);
     }
 
@@ -71,9 +72,9 @@ public class AccountService {
         return new CreateAccount(save.getId());
     }
 
-    public void deleteAccount(int id) {
-        AccountEntity account = accountRepository.findById(id)
-                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + id));
+    public void deleteAccount(int accountId) {
+        AccountEntity account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + accountId));
         if (account.getBalance().equals(BigDecimal.ZERO)) {
             accountRepository.delete(account);
         } else {
@@ -81,5 +82,30 @@ public class AccountService {
         }
     }
 
-    //todo zrobic methode na update balanu
+    public void depositMoney(long userId, int accountId, BigDecimal amount) {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + userId));
+        AccountEntity account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + accountId));
+        BigDecimal currentBalance = account.getBalance();
+        BigDecimal newBalance = currentBalance.add(amount);
+        account.setUser(userEntity);
+        account.setBalance(newBalance);
+        accountRepository.save(account);
+    }
+
+    public void withdrawMoney(long userId, int accountId, BigDecimal amount) {
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + userId));
+        AccountEntity account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + accountId));
+        BigDecimal currentBalance = account.getBalance();
+        if (currentBalance.compareTo(amount) <= 0) {
+            throw new InsufficientBalanceException(INSUFFICIENT_BALANCE.getMessage());
+        }
+        BigDecimal newBalance = currentBalance.subtract(amount);
+        account.setUser(userEntity);
+        account.setBalance(newBalance);
+        accountRepository.save(account);
+    }
 }
