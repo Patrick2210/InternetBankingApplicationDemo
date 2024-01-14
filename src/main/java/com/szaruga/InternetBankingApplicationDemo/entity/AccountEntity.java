@@ -3,6 +3,8 @@ package com.szaruga.InternetBankingApplicationDemo.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity(name = "user_account")
 public class AccountEntity {
     @Id
@@ -10,7 +12,7 @@ public class AccountEntity {
     private Integer id;
     private String accountType;
     private int referenceAccountNumber;
-    private float balance;
+    private BigDecimal balance;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -18,13 +20,6 @@ public class AccountEntity {
     private UserEntity user;
 
     public AccountEntity() {
-    }
-
-    public AccountEntity(Integer id, String accountType, int referenceAccountNumber, float balance) {
-        this.id = id;
-        this.accountType = accountType;
-        this.referenceAccountNumber = referenceAccountNumber;
-        this.balance = balance;
     }
 
     public Integer getId() {
@@ -51,11 +46,11 @@ public class AccountEntity {
         this.referenceAccountNumber = referenceAccountNumber;
     }
 
-    public float getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(float balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 

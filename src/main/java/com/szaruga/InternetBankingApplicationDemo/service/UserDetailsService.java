@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.USER_DETAILS_NOT_FOUND_WITH_ID;
 
@@ -56,9 +55,8 @@ public class UserDetailsService {
     }
 
     public void deleteUserDetails(int id) {
-        Optional<UserDetailsEntity> optionalUser = userDetailsRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            userDetailsRepository.deleteById(id);
-        } else throw new UserDetailsNotFoundException(USER_DETAILS_NOT_FOUND_WITH_ID.getMessage() + id);
+        UserDetailsEntity userDetails = userDetailsRepository.findById(id)
+                .orElseThrow(() -> new UserDetailsNotFoundException(USER_DETAILS_NOT_FOUND_WITH_ID.getMessage() + id));
+        userDetailsRepository.delete(userDetails);
     }
 }
