@@ -46,6 +46,7 @@ public class AccountService {
     }
 
     public Page<AccountsPageDto> getAccountsPagination(int pageNumber, int pageSize, String sort) {
+        //todo zrobic sortowanie
         Pageable pageable = PageableUtils.buildPageable(pageNumber, pageSize, sort);
         Page<AccountEntity> accountsDtoPage = accountRepository.findAll(pageable);
         List<AccountsPageDto> accountsPageDtoList = AccountMapper.mapAccountsEntitiesToPageDtoList(accountsDtoPage.getContent());

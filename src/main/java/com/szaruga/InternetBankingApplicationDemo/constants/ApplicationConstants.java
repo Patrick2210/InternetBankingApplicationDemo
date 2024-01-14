@@ -17,6 +17,7 @@ public enum ApplicationConstants {
     MAX_CHAR("can't be longer than "),
     INVALID("invalid"),
     CHARACTERS(" characters "),
+    NAMING_ALREADY_EXIST("with this naming already exist, please choose another name for account"),
     ACCOUNT_DELETE("before close account make sure balance is equal 0"),
     PASSWORD_REQUIREMENTS("password must contains at least one letter, one digital number and one special character"),
     PASSWORD_DO_NOT_MATCH("passwords do not match"),
