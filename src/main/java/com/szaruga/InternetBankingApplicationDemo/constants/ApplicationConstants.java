@@ -17,6 +17,7 @@ public enum ApplicationConstants {
     MAX_CHAR("can't be longer than "),
     INVALID("invalid"),
     CHARACTERS(" characters "),
+    ACCOUNT_DELETE("before close account make sure balance is equal 0"),
     PASSWORD_REQUIREMENTS("password must contains at least one letter, one digital number and one special character"),
     PASSWORD_DO_NOT_MATCH("passwords do not match"),
     PHONE_NUMBER_FORMAT(" should start with '+48' followed by a 9-digit number, or be a standalone 9-digit number "),

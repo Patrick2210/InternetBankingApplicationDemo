@@ -1,6 +1,5 @@
 package com.szaruga.InternetBankingApplicationDemo.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -21,12 +20,10 @@ public class UserEntity {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user",
             cascade = CascadeType.ALL)
-    @JsonManagedReference
     private UserDetailsEntity userDetails;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",
             cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<AccountEntity> accounts;
 
     public UserEntity() {

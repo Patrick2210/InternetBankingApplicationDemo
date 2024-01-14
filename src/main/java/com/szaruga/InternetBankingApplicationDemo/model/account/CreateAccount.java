@@ -8,7 +8,7 @@ public class CreateAccount {
         this.clientAccountId = clientAccountId;
     }
 
-    public long getClientAccountIdId() {
+    public long getClientAccountId() {
         return clientAccountId;
     }
 }

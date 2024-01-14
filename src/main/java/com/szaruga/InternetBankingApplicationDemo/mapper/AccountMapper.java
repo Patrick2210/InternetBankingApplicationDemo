@@ -14,6 +14,7 @@ public class AccountMapper {
         accountEntity.setAccountType(dto.getAccountType());
         accountEntity.setBalance(dto.getBalance());
         accountEntity.setReferenceAccountNumber(dto.getReferenceAccountNumber());
+        accountEntity.setUser(dto.getUser());
         return accountEntity;
     }
 

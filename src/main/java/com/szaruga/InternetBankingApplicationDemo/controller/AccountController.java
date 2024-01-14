@@ -43,13 +43,16 @@ public class AccountController {
     }
 
     @GetMapping("/users/accounts/{id}")
-    public ResponseEntity<GetAccountsByIdDto> getAccountsById(@PathVariable int id) {
+    public ResponseEntity<GetAccountsByIdDto> getAccountsById(
+            @PathVariable int id) {
         return ResponseEntity.ok(accountService.getAccountById(id));
     }
 
-    @PostMapping("/users/accounts")
-    public ResponseEntity<CreateAccount> createAccount(@RequestBody AccountDto accountDto) {
-        return ResponseEntity.ok(accountService.saveAccount(accountDto));
+    @PostMapping("/users/{userId}/accounts")
+    public ResponseEntity<CreateAccount> createAccount(
+            @RequestBody AccountDto accountDto,
+            @PathVariable long userId) {
+        return ResponseEntity.ok(accountService.saveAccount(accountDto, userId));
     }
 
     @DeleteMapping("/users/account/{id}")

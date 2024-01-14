@@ -16,7 +16,6 @@ public class AccountEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private UserEntity user;
 
     public AccountEntity() {

@@ -1,11 +1,14 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.account;
 
+import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
+
 import java.math.BigDecimal;
 
 public class AccountDto {
     private String accountType;
     private int referenceAccountNumber;
     private BigDecimal balance;
+    private UserEntity user;
 
     public String getAccountType() {
         return accountType;
@@ -29,5 +32,13 @@ public class AccountDto {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }
