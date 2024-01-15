@@ -14,6 +14,8 @@ import com.szaruga.InternetBankingApplicationDemo.mapper.AccountMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
 import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils;
 import com.szaruga.InternetBankingApplicationDemo.util.PageableUtils;
+import com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils;
+import com.szaruga.InternetBankingApplicationDemo.util.ValidationSorting;
 import com.szaruga.InternetBankingApplicationDemo.verification.accountdto.ValidationAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,7 +49,7 @@ public class AccountService {
     }
 
     public Page<AccountsPageDto> getAccountsPagination(int pageNumber, int pageSize, String sort) {
-        //todo zrobic sortowanie
+        ValidationSorting.validateSorting(sort);
         Pageable pageable = PageableUtils.buildPageable(pageNumber, pageSize, sort);
         Page<AccountEntity> accountsDtoPage = accountRepository.findAll(pageable);
         List<AccountsPageDto> accountsPageDtoList = AccountMapper.mapAccountsEntitiesToPageDtoList(accountsDtoPage.getContent());

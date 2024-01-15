@@ -1,13 +1,13 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.account;
 
 public class AccountsPageDto {
-    private String referenceAccountNumber;
+    private int referenceAccountNumber;
 
-    public String getReferenceAccountNumber() {
+    public int getReferenceAccountNumber() {
         return referenceAccountNumber;
     }
 
-    public void setReferenceAccountNumber(String referenceAccountNumber) {
+    public void setReferenceAccountNumber(int referenceAccountNumber) {
         this.referenceAccountNumber = referenceAccountNumber;
     }
 }

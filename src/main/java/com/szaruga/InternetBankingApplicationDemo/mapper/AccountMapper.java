@@ -20,7 +20,7 @@ public class AccountMapper {
 
     public static AccountsPageDto mapAccountsEntityToPaginationDto(AccountEntity accountEntity) {
         AccountsPageDto accountsPageDto = new AccountsPageDto();
-        accountsPageDto.setReferenceAccountNumber(accountEntity.getAccountType());
+        accountsPageDto.setReferenceAccountNumber(accountEntity.getReferenceAccountNumber());
         return accountsPageDto;
     }
 
