@@ -93,6 +93,10 @@ public class UserEntity {
         this.password = password;
     }
 
+    public List<AccountEntity> getAccounts() {
+        return accounts;
+    }
+
     @Override
     public String toString() {
         return "User{" +

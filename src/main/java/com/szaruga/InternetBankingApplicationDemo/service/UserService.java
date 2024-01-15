@@ -2,6 +2,7 @@ package com.szaruga.InternetBankingApplicationDemo.service;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.user.*;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
+import com.szaruga.InternetBankingApplicationDemo.exception.user.UserHasAccountsException;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
@@ -16,8 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.USER_NOT_FOUND_WITH_ID;
-
+import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
 @Service
 public class UserService {
@@ -52,8 +52,12 @@ public class UserService {
     public void deleteUser(long id) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
-        userRepository.delete(userEntity);
-        //todo sprawdzic czy user ma jakies konta jezeli sa nie widoczne to git delete
+        if (userEntity.getAccounts().isEmpty()) {
+            userRepository.delete(userEntity);
+        } else {
+            throw new UserHasAccountsException(USER_HAS_ACCOUNT.getMessage());
+        }
+
     }
 
     public CreateUser saveUser(UserDto dto) {

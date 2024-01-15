@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
-import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.NOT_ALLOWED;
 
 public class ValidationSorting {
     private static final List<String> allowedSortingList = Arrays.asList(
