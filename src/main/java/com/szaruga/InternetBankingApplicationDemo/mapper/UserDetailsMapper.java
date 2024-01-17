@@ -23,18 +23,12 @@ public class UserDetailsMapper {
         return userDetails;
     }
 
-    public static UsersDetailsPageDto mapUsersDetailsEntityToPaginationDto(UserDetailsEntity userDetailsEntity) {
+    public static UsersDetailsPageDto mapUsersDetailsEntityToPageDto(UserDetailsEntity userDetailsEntity) {
         UsersDetailsPageDto usersDetailsPageDto = new UsersDetailsPageDto();
         usersDetailsPageDto.setId(userDetailsEntity.getId());
         usersDetailsPageDto.setCity(userDetailsEntity.getCity());
         usersDetailsPageDto.setPostCode(userDetailsEntity.getPostCode());
         return usersDetailsPageDto;
-    }
-
-    public static List<UsersDetailsPageDto> mapUsersDetailsEntitiesToPageDtoList(List<UserDetailsEntity> content) {
-        return content.stream()
-                .map(UserDetailsMapper::mapUsersDetailsEntityToPaginationDto)
-                .collect(Collectors.toList());
     }
 
     public static GetUserDetailsByIdDto mapUserEntityToGetUserById(UserDetailsEntity userDetailsEntity) {

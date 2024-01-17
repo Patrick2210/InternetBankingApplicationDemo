@@ -10,7 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -25,20 +26,30 @@ public class UserDetailsController {
     }
 
     @GetMapping("/users/details/{pageNumber}/{pageSize}")
-    public List<UsersDetailsPageDto> retrievePageOfUserDetailsWithoutSorting(
+    public ResponseEntity<Map<String, Object>> retrievePageOfUserDetailsWithoutSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize) {
-        Page<UsersDetailsPageDto> data = userDetailsService.getUsersDetailsPagination(pageNumber, pageSize, null);
-        return data.getContent();
+        Page<UsersDetailsPageDto> usersDetailsPage = userDetailsService.getAllUsersDetails(pageNumber, pageSize, null);
+        Map<String, Object> response = new HashMap<>();
+        response.put("usersDetails", usersDetailsPage.getContent());
+        response.put("currentPage", usersDetailsPage.getNumber());
+        response.put("totalItems", usersDetailsPage.getTotalElements());
+        response.put("totalPages", usersDetailsPage.getTotalPages());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/users/details/{pageNumber}/{pageSize}/{sort}")
-    public List<UsersDetailsPageDto> retrievePageOfUserDetailsWithSorting(
+    public ResponseEntity<Map<String, Object>> retrievePageOfUserDetailsWithSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize,
             @PathVariable String sort) {
-        Page<UsersDetailsPageDto> data = userDetailsService.getUsersDetailsPagination(pageNumber, pageSize, sort);
-        return data.getContent();
+        Page<UsersDetailsPageDto> usersDetailsPage = userDetailsService.getAllUsersDetails(pageNumber, pageSize, sort);
+        Map<String, Object> response = new HashMap<>();
+        response.put("usersDetails", usersDetailsPage.getContent());
+        response.put("currentPage", usersDetailsPage.getNumber());
+        response.put("totalItems", usersDetailsPage.getTotalElements());
+        response.put("totalPages", usersDetailsPage.getTotalPages());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/users/details/{id}")

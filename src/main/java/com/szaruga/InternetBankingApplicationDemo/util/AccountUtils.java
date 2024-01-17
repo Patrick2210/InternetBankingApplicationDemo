@@ -1,15 +1,10 @@
 package com.szaruga.InternetBankingApplicationDemo.util;
 
-import com.szaruga.InternetBankingApplicationDemo.exception.account.AccountIllegalSortingRequest;
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
-
-import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
 @Component
 public class AccountUtils {

@@ -5,20 +5,19 @@ import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.userdetails.UserDetailsNotFoundException;
+import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSortingRequest;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserDetailsRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserDetailsMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.userdetails.CreateUserDetails;
-import com.szaruga.InternetBankingApplicationDemo.util.PageableUtils;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto.ValidationUserDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.USER_DETAILS_NOT_FOUND_WITH_ID;
+import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
 @Service
 public class UserDetailsService {
@@ -32,13 +31,21 @@ public class UserDetailsService {
         this.validationUserDetailsDto = validationUserDetailsDto;
     }
 
-    public Page<UsersDetailsPageDto> getUsersDetailsPagination(int pageNumber, int pageSize, String sort) {
-        //todo zrobic zawezenie sortowania
-        Pageable pageable = PageableUtils.buildPageable(pageNumber, pageSize, sort);
-        Page<UserDetailsEntity> userDetailsPage = userDetailsRepository.findAll(pageable);
-        List<UsersDetailsPageDto> usersDetailsPageDtoList =
-                UserDetailsMapper.mapUsersDetailsEntitiesToPageDtoList(userDetailsPage.getContent());
-        return new PageImpl<>(usersDetailsPageDtoList, pageable, userDetailsPage.getTotalElements());
+    public Page<UsersDetailsPageDto> getAllUsersDetails(int pageNumber, int pageSize, String sortByInput) {
+        Pageable pageable;
+        if (sortByInput == null) {
+            pageable = PageRequest.of(pageNumber, pageSize);
+            return userDetailsRepository.findAll(pageable).map(UserDetailsMapper::mapUsersDetailsEntityToPageDto);
+        } else {
+            Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
+            pageable = PageRequest.of(pageNumber, pageSize, sort);
+            if (SORTING_ID.getMessage().equals(sortByInput) || SORTING_POSTCODE.getMessage().equals(sortByInput) ||
+                    SORTING_CITY.getMessage().equals(sortByInput)) {
+                return userDetailsRepository.findAll(pageable).map(UserDetailsMapper::mapUsersDetailsEntityToPageDto);
+            } else {
+                throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
+            }
+        }
     }
 
     public GetUserDetailsByIdDto getUserDetailsById(int id) {

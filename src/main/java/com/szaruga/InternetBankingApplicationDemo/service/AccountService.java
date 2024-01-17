@@ -8,23 +8,18 @@ import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.account.InsufficientBalanceException;
 import com.szaruga.InternetBankingApplicationDemo.exception.account.AccountNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
+import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSortingRequest;
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.AccountMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
 import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils;
-import com.szaruga.InternetBankingApplicationDemo.util.PageableUtils;
-import com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils;
-import com.szaruga.InternetBankingApplicationDemo.util.ValidationSorting;
 import com.szaruga.InternetBankingApplicationDemo.verification.accountdto.ValidationAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
@@ -48,13 +43,20 @@ public class AccountService {
         this.userRepository = userRepository;
     }
 
-    public Page<AccountsPageDto> getAccountsPagination(int pageNumber, int pageSize, String sort) {
-        ValidationSorting.validateSorting(sort);
-        Pageable pageable = PageableUtils.buildPageable(pageNumber, pageSize, sort);
-        Page<AccountEntity> accountsDtoPage = accountRepository.findAll(pageable);
-        List<AccountsPageDto> accountsPageDtoList = AccountMapper.mapAccountsEntitiesToPageDtoList(accountsDtoPage.getContent());
-
-        return new PageImpl<>(accountsPageDtoList, pageable, accountsDtoPage.getTotalElements());
+    public Page<AccountsPageDto> getAllAccounts(int pageNumber, int pageSize, String sortByInput) {
+        Pageable pageable;
+        if (sortByInput == null) {
+            pageable = PageRequest.of(pageNumber, pageSize);
+            return accountRepository.findAll(pageable).map(AccountMapper::mapAccountsEntityToPageDto);
+        } else {
+            Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
+            pageable = PageRequest.of(pageNumber, pageSize, sort);
+            if (SORTING_ID.getMessage().equals(sortByInput) || SORTING_REFERENCE_ACCOUNT_NUMBER.getMessage().equals(sortByInput)) {
+                return accountRepository.findAll(pageable).map(AccountMapper::mapAccountsEntityToPageDto);
+            } else {
+                throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
+            }
+        }
     }
 
     public GetAccountsByIdDto getAccountById(int accountId) {

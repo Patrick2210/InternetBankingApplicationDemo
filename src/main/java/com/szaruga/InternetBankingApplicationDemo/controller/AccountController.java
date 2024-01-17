@@ -11,9 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("/api")
@@ -27,20 +28,30 @@ public class AccountController {
     }
 
     @GetMapping("/users/accounts/{pageNumber}/{pageSize}")
-    public List<AccountsPageDto> retrievePageOfAccountsWithoutSorting(
+    public ResponseEntity<Map<String, Object>> retrievePageOfAccountsWithoutSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize) {
-        Page<AccountsPageDto> data = accountService.getAccountsPagination(pageNumber, pageSize, null);
-        return data.getContent();
+        Page<AccountsPageDto> accountsPage = accountService.getAllAccounts(pageNumber, pageSize, null);
+        Map<String, Object> response = new HashMap<>();
+        response.put("accounts", accountsPage.getContent());
+        response.put("currentPage", accountsPage.getNumber());
+        response.put("totalItems", accountsPage.getTotalElements());
+        response.put("totalPages", accountsPage.getTotalPages());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/users/accounts/{pageNumber}/{pageSize}/{sort}")
-    public List<AccountsPageDto> retrievePageOfAccountsWithSorting(
+    public ResponseEntity<Map<String, Object>> retrievePageOfAccountsWithSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize,
             @PathVariable String sort) {
-        Page<AccountsPageDto> data = accountService.getAccountsPagination(pageNumber, pageSize, sort);
-        return data.getContent();
+        Page<AccountsPageDto> accountsPage = accountService.getAllAccounts(pageNumber, pageSize, sort);
+        Map<String, Object> response = new HashMap<>();
+        response.put("accounts", accountsPage.getContent());
+        response.put("currentPage", accountsPage.getNumber());
+        response.put("totalItems", accountsPage.getTotalElements());
+        response.put("totalPages", accountsPage.getTotalPages());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/users/accounts/{id}")

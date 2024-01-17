@@ -1,11 +1,11 @@
 insert into user_profile(id, first_name, last_name, birth_date, number_pesel, email, phone_number, password)
-values (101, 'Patryk', 'Szaruga',CURRENT_DATE,'92102245612','szarug@gmail.com', '564564564','Asd123');
+values (101, 'Patryk', 'Szaruga','1990-01-15','92102245612','szarug@gmail.com', '564564564','Asd123');
 
 insert into user_profile(id, first_name, last_name, birth_date, number_pesel, email, phone_number, password)
-values (102, 'Sebix', 'Klimamaster',CURRENT_DATE,'92120187412', 'sebix@gmail.com', '852852852','Qwe!123');
+values (102, 'Sebix', 'Klimamaster','1985-07-20','92120187412', 'sebix@gmail.com', '852852852','Qwe!123');
 
 insert into user_profile(id, first_name, last_name, birth_date, number_pesel, email, phone_number, password)
-values (103, 'Jessie', 'Godzi',CURRENT_DATE,'92030332564', 'jessie@gmail.com', '753357753','Zxc"321');
+values (103, 'Jessie', 'Godzi','1980-06-15','92030332564', 'jessie@gmail.com', '753357753','Zxc"321');
 
 INSERT INTO user_details (id,address, address_home_number, address_flat_number, correspondence_address,
 correspondence_address_home_number, correspondence_address_flat_number, post_code, city,user_id)

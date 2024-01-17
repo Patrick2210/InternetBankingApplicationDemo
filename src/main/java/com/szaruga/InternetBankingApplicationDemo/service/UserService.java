@@ -4,18 +4,16 @@ import com.szaruga.InternetBankingApplicationDemo.dto.user.*;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserHasAccountsException;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
+import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSortingRequest;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.user.CreateUser;
-import com.szaruga.InternetBankingApplicationDemo.util.PageableUtils;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdto.VerificationUserDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userpasswordupdatedto.VerificationUserPasswordUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto.VerificationUserUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
@@ -35,12 +33,24 @@ public class UserService {
         this.verificationUserUpdateDto = verificationUserUpdateDto;
     }
 
-    public Page<UsersPageDto> getUsersPagination(int pageNumber, int pageSize, String sort) {
-        //todo zawezic sortowanie do: id / firstName/lastName/data uro
-        Pageable pageable = PageableUtils.buildPageable(pageNumber, pageSize, sort);
-        Page<UserEntity> userPage = userRepository.findAll(pageable);
-        List<UsersPageDto> userPageDtoList = UserMapper.mapUsersEntitiesToPageDtoList(userPage.getContent());
-        return new PageImpl<>(userPageDtoList, pageable, userPage.getTotalElements());
+    public Page<UsersPageDto> getAllUsers(int pageNumber, int pageSize, String sortByInput) {
+        Pageable pageable;
+        if (sortByInput == null) {
+            pageable = PageRequest.of(pageNumber, pageSize);
+            return userRepository.findAll(pageable).map(UserMapper::mapUsersEntityToUsersPageDto);
+        } else {
+            Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
+            pageable = PageRequest.of(pageNumber, pageSize, sort);
+            if (//todo question to master with letter in upper case
+                    SORTING_ID.getMessage().equals(sortByInput) ||
+                    SORTING_FIRSTNAME.getMessage().equals(sortByInput) ||
+                    SORTING_LASTNAME.getMessage().equalsIgnoreCase(sortByInput) ||
+                    SORTING_BIRTHDATE.getMessage().equalsIgnoreCase(sortByInput)) {
+                return userRepository.findAll(pageable).map(UserMapper::mapUsersEntityToUsersPageDto);
+            } else {
+                throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
+            }
+        }
     }
 
     public GetUserByIdDto getUserById(long id) {

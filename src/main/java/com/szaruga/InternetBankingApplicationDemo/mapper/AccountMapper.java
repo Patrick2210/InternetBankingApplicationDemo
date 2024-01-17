@@ -5,9 +5,6 @@ import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.GetAccountsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.AccountEntity;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class AccountMapper {
     public static AccountEntity toEntity(AccountDto dto) {
         AccountEntity accountEntity = new AccountEntity();
@@ -18,16 +15,11 @@ public class AccountMapper {
         return accountEntity;
     }
 
-    public static AccountsPageDto mapAccountsEntityToPaginationDto(AccountEntity accountEntity) {
+    public static AccountsPageDto mapAccountsEntityToPageDto(AccountEntity accountEntity) {
         AccountsPageDto accountsPageDto = new AccountsPageDto();
+        accountsPageDto.setId(accountEntity.getId());
         accountsPageDto.setReferenceAccountNumber(accountEntity.getReferenceAccountNumber());
         return accountsPageDto;
-    }
-
-    public static List<AccountsPageDto> mapAccountsEntitiesToPageDtoList(List<AccountEntity> content) {
-        return content.stream()
-                .map(AccountMapper::mapAccountsEntityToPaginationDto)
-                .collect(Collectors.toList());
     }
 
     public static GetAccountsByIdDto mapAccountEntityToGetAccountsByIdDto(AccountEntity accountEntity) {

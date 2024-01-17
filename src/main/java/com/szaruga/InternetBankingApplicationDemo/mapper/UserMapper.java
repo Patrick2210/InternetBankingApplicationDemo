@@ -5,9 +5,6 @@ import com.szaruga.InternetBankingApplicationDemo.dto.user.GetUserByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UsersPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class UserMapper {
 
     public static UserEntity toEntity(UserDto dto) {
@@ -22,19 +19,13 @@ public class UserMapper {
         return user;
     }
 
-    public static UsersPageDto mapUsersEntityToPaginationDto(UserEntity user) {
+    public static UsersPageDto mapUsersEntityToUsersPageDto(UserEntity userEntity) {
         UsersPageDto usersPageDto = new UsersPageDto();
-        usersPageDto.setId(user.getId());
-        usersPageDto.setFirstName(user.getFirstName());
-        usersPageDto.setLastName(user.getLastName());
-        usersPageDto.setBirthDate(user.getBirthDate());
+        usersPageDto.setId(userEntity.getId());
+        usersPageDto.setFirstName(userEntity.getFirstName());
+        usersPageDto.setLastName(userEntity.getLastName());
+        usersPageDto.setBirthDate(userEntity.getBirthDate());
         return usersPageDto;
-    }
-
-    public static List<UsersPageDto> mapUsersEntitiesToPageDtoList(List<UserEntity> content) {
-        return content.stream()
-                .map(UserMapper::mapUsersEntityToPaginationDto)
-                .collect(Collectors.toList());
     }
 
     public static GetUserByIdDto mapUserEntityToGetUserByIdDto(UserEntity user) {
