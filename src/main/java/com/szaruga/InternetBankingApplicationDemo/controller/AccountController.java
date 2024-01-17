@@ -3,6 +3,7 @@ package com.szaruga.InternetBankingApplicationDemo.controller;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.GetAccountsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountsPageDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.user.UsersPageDto;
 import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
 import com.szaruga.InternetBankingApplicationDemo.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +28,21 @@ public class AccountController {
         this.accountService = accountService;
     }
 
+    private Map<String, Object> responsePage(Page<AccountsPageDto> page) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("accounts", page.getContent());
+        response.put("currentPage", page.getNumber());
+        response.put("totalItems", page.getTotalElements());
+        response.put("totalPages", page.getTotalPages());
+        return response;
+    }
+
     @GetMapping("/users/accounts/{pageNumber}/{pageSize}")
     public ResponseEntity<Map<String, Object>> retrievePageOfAccountsWithoutSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize) {
         Page<AccountsPageDto> accountsPage = accountService.getAllAccounts(pageNumber, pageSize, null);
-        Map<String, Object> response = new HashMap<>();
-        response.put("accounts", accountsPage.getContent());
-        response.put("currentPage", accountsPage.getNumber());
-        response.put("totalItems", accountsPage.getTotalElements());
-        response.put("totalPages", accountsPage.getTotalPages());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(responsePage(accountsPage));
     }
 
     @GetMapping("/users/accounts/{pageNumber}/{pageSize}/{sort}")
@@ -46,12 +51,7 @@ public class AccountController {
             @PathVariable Integer pageSize,
             @PathVariable String sort) {
         Page<AccountsPageDto> accountsPage = accountService.getAllAccounts(pageNumber, pageSize, sort);
-        Map<String, Object> response = new HashMap<>();
-        response.put("accounts", accountsPage.getContent());
-        response.put("currentPage", accountsPage.getNumber());
-        response.put("totalItems", accountsPage.getTotalElements());
-        response.put("totalPages", accountsPage.getTotalPages());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(responsePage(accountsPage));
     }
 
     @GetMapping("/users/accounts/{id}")

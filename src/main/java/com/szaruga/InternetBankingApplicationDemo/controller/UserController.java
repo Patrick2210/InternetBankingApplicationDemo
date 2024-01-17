@@ -5,12 +5,10 @@ import com.szaruga.InternetBankingApplicationDemo.model.user.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,17 +22,21 @@ public class UserController {
         this.userService = userService;
     }
 
+    private Map<String, Object> responsePage(Page<UsersPageDto> page) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("users", page.getContent());
+        response.put("currentPage", page.getNumber());
+        response.put("totalItems", page.getTotalElements());
+        response.put("totalPages", page.getTotalPages());
+        return response;
+    }
+
     @GetMapping("/users/{pageNumber}/{pageSize}")
     public ResponseEntity<Map<String, Object>> retrievePageOfUsersWithoutSorting(
             @PathVariable int pageNumber,
             @PathVariable int pageSize) {
-        Page<UsersPageDto> usersPage = userService.getAllUsers(pageNumber, pageSize, null);
-        Map<String, Object> response = new HashMap<>();
-        response.put("users", usersPage.getContent());
-        response.put("currentPage", usersPage.getNumber());
-        response.put("totalItems", usersPage.getTotalElements());
-        response.put("totalPages", usersPage.getTotalPages());
-        return ResponseEntity.ok(response);
+        Page<UsersPageDto> usersDto = userService.getAllUsers(pageNumber, pageSize, null);
+        return ResponseEntity.ok(responsePage(usersDto));
     }
 
     @GetMapping("/users/{pageNumber}/{pageSize}/{sort}")
@@ -42,13 +44,8 @@ public class UserController {
             @PathVariable int pageNumber,
             @PathVariable int pageSize,
             @PathVariable String sort) {
-        Page<UsersPageDto> usersPage = userService.getAllUsers(pageNumber, pageSize, sort);
-        Map<String, Object> response = new HashMap<>();
-        response.put("users", usersPage.getContent());
-        response.put("currentPage", usersPage.getNumber());
-        response.put("totalItems", usersPage.getTotalElements());
-        response.put("totalPages", usersPage.getTotalPages());
-        return ResponseEntity.ok(response);
+        Page<UsersPageDto> usersDto = userService.getAllUsers(pageNumber, pageSize, sort);
+        return ResponseEntity.ok(responsePage(usersDto));
     }
 
     @GetMapping("/users/{id}")
