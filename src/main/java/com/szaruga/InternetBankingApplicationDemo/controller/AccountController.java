@@ -26,7 +26,7 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    private Map<String, Object> responsePage(Page<AccountsPageDto> page) {
+    private Object responsePage(Page<AccountsPageDto> page) {
         Map<String, Object> response = new HashMap<>();
         response.put("accounts", page.getContent());
         response.put("currentPage", page.getNumber());
@@ -36,7 +36,7 @@ public class AccountController {
     }
 
     @GetMapping("/users/accounts/{pageNumber}/{pageSize}")
-    public ResponseEntity<Map<String, Object>> retrievePageOfAccountsWithoutSorting(
+    public ResponseEntity<Object> retrievePageOfAccountsWithoutSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize) {
         Page<AccountsPageDto> accountsPage = accountService.getAllAccounts(pageNumber, pageSize, null);
@@ -44,7 +44,7 @@ public class AccountController {
     }
 
     @GetMapping("/users/accounts/{pageNumber}/{pageSize}/{sort}")
-    public ResponseEntity<Map<String, Object>> retrievePageOfAccountsWithSorting(
+    public ResponseEntity<Object> retrievePageOfAccountsWithSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize,
             @PathVariable String sort) {

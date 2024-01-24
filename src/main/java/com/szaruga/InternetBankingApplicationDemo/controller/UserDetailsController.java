@@ -25,7 +25,7 @@ public class UserDetailsController {
         this.userDetailsService = userDetailsService;
     }
 
-    private Map<String, Object> responsePage(Page<UsersDetailsPageDto> page) {
+    private Object responsePage(Page<UsersDetailsPageDto> page) {
         Map<String, Object> response = new HashMap<>();
         response.put("users", page.getContent());
         response.put("currentPage", page.getNumber());
@@ -35,7 +35,7 @@ public class UserDetailsController {
     }
 
     @GetMapping("/users/details/{pageNumber}/{pageSize}")
-    public ResponseEntity<Map<String, Object>> retrievePageOfUserDetailsWithoutSorting(
+    public ResponseEntity<Object> retrievePageOfUserDetailsWithoutSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize) {
         Page<UsersDetailsPageDto> usersDetailsPage = userDetailsService.getAllUsersDetails(pageNumber, pageSize, null);
@@ -43,7 +43,7 @@ public class UserDetailsController {
     }
 
     @GetMapping("/users/details/{pageNumber}/{pageSize}/{sort}")
-    public ResponseEntity<Map<String, Object>> retrievePageOfUserDetailsWithSorting(
+    public ResponseEntity<Object> retrievePageOfUserDetailsWithSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize,
             @PathVariable String sort) {

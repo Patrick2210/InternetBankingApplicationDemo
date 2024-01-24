@@ -41,7 +41,7 @@ public class UserService {
         } else {
             Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
             pageable = PageRequest.of(pageNumber, pageSize, sort);
-            if (//todo question to master with letter in upper case
+            if (//todo zrobic block chaine z polami do sorta
                     SORTING_ID.getMessage().equals(sortByInput) ||
                     SORTING_FIRSTNAME.getMessage().equals(sortByInput) ||
                     SORTING_LASTNAME.getMessage().equalsIgnoreCase(sortByInput) ||
@@ -79,7 +79,6 @@ public class UserService {
     public void updateUser(long id, UserUpdateDto updateDto) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
-
         verificationUserUpdateDto.userUpdateDto(updateDto);
         userEntity.setFirstName(updateDto.getFirstName());
         userEntity.setLastName(updateDto.getLastName());
