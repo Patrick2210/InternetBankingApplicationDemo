@@ -1,47 +1,33 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
-import com.szaruga.InternetBankingApplicationDemo.entity.AddressEntity;
+import com.szaruga.InternetBankingApplicationDemo.exception.address.AddressCsvFileException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.AddressRepository;
+import com.szaruga.InternetBankingApplicationDemo.util.ParseCsvFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+
+import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
 @Service
 public class AddressService {
 
     private final AddressRepository addressRepository;
+    private final ParseCsvFile parseCsvFile;
 
     @Autowired
-    public AddressService(AddressRepository addressRepository) {
+    public AddressService(AddressRepository addressRepository, ParseCsvFile parseCsvFile) {
         this.addressRepository = addressRepository;
+        this.parseCsvFile = parseCsvFile;
     }
 
-    public void importAddressesFromCsv(MultipartFile file) throws IOException {
-        List<AddressEntity> addresses = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-            boolean isHeader = true;
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (isHeader) {
-                    isHeader = false;
-                    continue;
-                }
-                String[] values = line.split(";");
-                AddressEntity address = new AddressEntity();
-                address.setPostcode(values[0]);
-                address.setAddress(values[1]);
-                address.setCity(values[2]);
-                address.setVoivodeship(values[3]);
-                address.setCounty(values[4]);
-                addresses.add(address);
-            }
-            addressRepository.saveAll(addresses);
+    public void importAddressesFromCsv(MultipartFile file) {
+        try {
+            addressRepository.saveAll(parseCsvFile.csvFileIntoList(file));
+        } catch (IOException e) {
+            throw new AddressCsvFileException(IMPORT_ERROR.getMessage() + CSV_FILE.getMessage());
         }
     }
 }

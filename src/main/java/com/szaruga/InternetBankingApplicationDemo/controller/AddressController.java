@@ -1,6 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
 import com.szaruga.InternetBankingApplicationDemo.service.AddressService;
+import com.szaruga.InternetBankingApplicationDemo.util.ValidationCsvFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,12 +26,8 @@ public class AddressController {
 
     @PostMapping("/addresses/import")
     public ResponseEntity<String> importCsvFile(@RequestParam("file") MultipartFile file) {
-        try {
+            ValidationCsvFile.checkIfCsvFileIsNotNull(file);
             addressService.importAddressesFromCsv(file);
             return ResponseEntity.ok(CSV_FILE.getMessage() + IMPORT_SUCCESS.getMessage());
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(IMPORT_ERROR.getMessage() + CSV_FILE.getMessage());
-        }
     }
 }
