@@ -24,12 +24,13 @@ public class AddressController {
     }
 
     @PostMapping("/addresses/import")
-    public ResponseEntity<String> importAddresses(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> importCsvFile(@RequestParam("file") MultipartFile file) {
         try {
             addressService.importAddressesFromCsv(file);
             return ResponseEntity.ok(CSV_FILE.getMessage() + IMPORT_SUCCESS.getMessage());
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(IMPORT_ERROR.getMessage() + CSV_FILE.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(IMPORT_ERROR.getMessage() + CSV_FILE.getMessage());
         }
     }
 }
