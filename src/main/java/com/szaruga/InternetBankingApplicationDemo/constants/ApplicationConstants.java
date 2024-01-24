@@ -39,7 +39,10 @@ public enum ApplicationConstants {
     ACCOUNT_NOT_FOUND_WITH_ID("ACCOUNT NOT FOUND WITH ID: "),
     USER_DETAILS_NOT_FOUND_WITH_ID("USER DETAILS NOT FOUND WITH ID: "),
     USER_HAS_ACCOUNT("User has open accounts and cannot be deleted"),
-    USER_NOT_FOUND_WITH_ID("USER NOT FOUND WITH ID: ");
+    USER_NOT_FOUND_WITH_ID("USER NOT FOUND WITH ID: "),
+    CSV_FILE("CSV file "),
+    IMPORT_SUCCESS("imported successfully!"),
+    IMPORT_ERROR("Error importing ");
 
     private final String message;
 

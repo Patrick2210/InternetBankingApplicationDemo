@@ -3,7 +3,6 @@ package com.szaruga.InternetBankingApplicationDemo.controller;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.GetAccountsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountsPageDto;
-import com.szaruga.InternetBankingApplicationDemo.dto.user.UsersPageDto;
 import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
 import com.szaruga.InternetBankingApplicationDemo.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 

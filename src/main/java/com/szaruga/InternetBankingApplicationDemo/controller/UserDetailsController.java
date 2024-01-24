@@ -1,6 +1,5 @@
 package com.szaruga.InternetBankingApplicationDemo.controller;
 
-import com.szaruga.InternetBankingApplicationDemo.dto.user.UsersPageDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.GetUserDetailsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
