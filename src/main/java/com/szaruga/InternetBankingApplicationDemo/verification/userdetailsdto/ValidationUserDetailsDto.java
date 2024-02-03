@@ -1,18 +1,39 @@
 package com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ValidationUserDetailsDto {
-    public void validateDto(UserDetailsDto userDetailsDto){
-        FieldCheckAddress.validate(userDetailsDto.getAddress());
-        FieldCheckAddressHomeNumber.validate(userDetailsDto.getAddressHomeNumber());
-        FiledCheckAddressFlatNumber.validate(userDetailsDto.getAddressFlatNumber());
-        FieldCheckCorrespondenceAddress.validate(userDetailsDto.getCorrespondenceAddress());
-        FieldCheckCorrespondenceAddressHomeNumber.validate(userDetailsDto.getCorrespondenceAddressHomeNumber());
-        FieldCheckCorrespondenceAddressFlatNumber.validate(userDetailsDto.getCorrespondenceAddressFlatNumber());
-        FieldCheckPostCode.validate(userDetailsDto.getPostCode());
-        FieldCheckCity.validate(userDetailsDto.getCity());
+    @Autowired
+    protected FieldCheckAddress fieldCheckAddress;
+    @Autowired
+    protected FieldCheckAddressHomeNumber fieldCheckAddressHomeNumber;
+    @Autowired
+    protected FiledCheckAddressFlatNumber filedCheckAddressFlatNumber;
+    @Autowired
+    protected FieldCheckCorrespondenceAddress fieldCheckCorrespondenceAddress;
+    @Autowired
+    protected FieldCheckCorrespondenceAddressHomeNumber fieldCheckCorrespondenceAddressHomeNumber;
+
+    @Autowired
+    protected FieldCheckCorrespondenceAddressFlatNumber fieldCheckCorrespondenceAddressFlatNumber;
+
+    @Autowired
+    protected FieldCheckPostCode fieldCheckPostCode;
+    @Autowired
+    protected FieldCheckCity fieldCheckCity;
+
+
+    public void validateDto(UserDetailsDto userDetailsDto) {
+        fieldCheckAddress.validate(userDetailsDto.getAddress());
+        fieldCheckAddressHomeNumber.validate(userDetailsDto.getAddressHomeNumber());
+        filedCheckAddressFlatNumber.validate(userDetailsDto.getAddressFlatNumber());
+        fieldCheckCorrespondenceAddress.validate(userDetailsDto.getCorrespondenceAddress());
+        fieldCheckCorrespondenceAddressHomeNumber.validate(userDetailsDto.getCorrespondenceAddressHomeNumber());
+        fieldCheckCorrespondenceAddressFlatNumber.validate(userDetailsDto.getCorrespondenceAddressFlatNumber());
+        fieldCheckPostCode.validate(userDetailsDto.getPostCode());
+        fieldCheckCity.validate(userDetailsDto.getCity());
     }
 }

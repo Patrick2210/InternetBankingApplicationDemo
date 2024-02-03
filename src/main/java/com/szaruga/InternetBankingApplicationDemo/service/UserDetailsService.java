@@ -39,8 +39,8 @@ public class UserDetailsService {
         } else {
             Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
             pageable = PageRequest.of(pageNumber, pageSize, sort);
-            if (SORTING_ID.getMessage().equals(sortByInput) || SORTING_POSTCODE.getMessage().equals(sortByInput) ||
-                    SORTING_CITY.getMessage().equals(sortByInput)) {
+            if (SORTING_ID.getMessage().equals(sortByInput) || POSTCODE.getMessage().equals(sortByInput) ||
+                    CITY.getMessage().equals(sortByInput)) {
                 return userDetailsRepository.findAll(pageable).map(UserDetailsMapper::mapUsersDetailsEntityToPageDto);
             } else {
                 throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);

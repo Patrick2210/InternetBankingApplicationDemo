@@ -56,13 +56,13 @@ public class UserDetailsController {
         return ResponseEntity.ok(userDetailsService.getUserDetailsById(id));
     }
 
-    @PostMapping("/user/details")
+    @PostMapping("/users/details")
     public ResponseEntity<CreateUserDetails> createUserDetails(@RequestBody UserDetailsDto userDetailsDto) {
         return ResponseEntity.ok(userDetailsService.saveUserDetails(userDetailsDto));
 
     }
 
-    @DeleteMapping("/user/details/{id}")
+    @DeleteMapping("/users/details/{id}")
     public void deleteUserDetails(@PathVariable int id) {
         userDetailsService.deleteUserDetails(id);
     }

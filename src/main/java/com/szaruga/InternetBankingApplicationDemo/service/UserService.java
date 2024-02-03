@@ -54,7 +54,7 @@ public class UserService {
     }
 
     public GetUserByIdDto getUserById(long id) {
-        final UserEntity userEntity = userRepository.findById(id)
+        UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
         return UserMapper.mapUserEntityToGetUserByIdDto(userEntity);
     }

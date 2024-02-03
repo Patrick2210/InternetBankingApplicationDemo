@@ -36,6 +36,10 @@ public class ValidationDtoUtils {
         if (!value.matches("^[a-zA-Z]+$")) {
             throw new ValidationException(message + SPECIAL_CHARACTERS.getMessage());
         }
+    }public static void checkIfContainsSpecialCharacters(String value, String message) {
+        if (!value.matches("^[a-zA-Z0-9]+$")) {
+            throw new ValidationException(message + LETTERS_AND_NUMBERS_NOT_SPECIAL_CHARACTERS.getMessage());
+        }
     }
 
     public static void checkFormatNumber(String phoneNumber, String message) {

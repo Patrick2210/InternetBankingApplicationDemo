@@ -30,4 +30,24 @@ public class AddressService {
             throw new AddressCsvFileException(IMPORT_ERROR.getMessage() + CSV_FILE.getMessage());
         }
     }
+
+    public boolean existsByAddress(String address) {
+        return addressRepository.existsByAddress(address);
+    }
+
+    public boolean existsByCity(String city) {
+        return addressRepository.existsByCity(city);
+    }
+
+    public boolean existsByPostcode(String postcode) {
+        return addressRepository.existsByPostcode(postcode);
+    }
+
+    public boolean existsByVoivodeship(String voivodeship) {
+        return addressRepository.existsByVoivodeship(voivodeship);
+    }
+
+    public boolean existsByCounty(String county) {
+        return addressRepository.existsByCounty(county);
+    }
 }
