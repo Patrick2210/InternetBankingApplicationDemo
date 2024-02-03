@@ -12,8 +12,10 @@ import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSo
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.AccountMapper;
+import com.szaruga.InternetBankingApplicationDemo.mapper.UserDetailsMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
 import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils;
+import com.szaruga.InternetBankingApplicationDemo.util.SortingStringValues;
 import com.szaruga.InternetBankingApplicationDemo.verification.accountdto.ValidationAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -51,12 +53,14 @@ public class AccountService {
         } else {
             Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
             pageable = PageRequest.of(pageNumber, pageSize, sort);
-            if (SORTING_ID.getMessage().equals(sortByInput) || SORTING_REFERENCE_ACCOUNT_NUMBER.getMessage().equals(sortByInput)) {
-                return accountRepository.findAll(pageable).map(AccountMapper::mapAccountsEntityToPageDto);
-            } else {
-                throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
+            for (String sortMessage : SortingStringValues.sortingMessages) {
+                {
+                    if (sortMessage.equalsIgnoreCase(sortByInput)) {
+                        return accountRepository.findAll(pageable).map(AccountMapper::mapAccountsEntityToPageDto);                    }
+                }
             }
         }
+        throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
     }
 
     public GetAccountsByIdDto getAccountById(int accountId) {

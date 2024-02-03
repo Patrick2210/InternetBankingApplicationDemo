@@ -8,6 +8,7 @@ import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSo
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.user.CreateUser;
+import com.szaruga.InternetBankingApplicationDemo.util.SortingStringValues;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdto.VerificationUserDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userpasswordupdatedto.VerificationUserPasswordUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto.VerificationUserUpdateDto;
@@ -41,16 +42,15 @@ public class UserService {
         } else {
             Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
             pageable = PageRequest.of(pageNumber, pageSize, sort);
-            if (//todo zrobic block chaine z polami do sorta
-                    SORTING_ID.getMessage().equals(sortByInput) ||
-                    SORTING_FIRSTNAME.getMessage().equals(sortByInput) ||
-                    SORTING_LASTNAME.getMessage().equalsIgnoreCase(sortByInput) ||
-                    SORTING_BIRTHDATE.getMessage().equalsIgnoreCase(sortByInput)) {
-                return userRepository.findAll(pageable).map(UserMapper::mapUsersEntityToUsersPageDto);
-            } else {
-                throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
+            for (String sortMessage : SortingStringValues.sortingMessages) {
+                {
+                    if (sortMessage.equalsIgnoreCase(sortByInput)) {
+                        return userRepository.findAll(pageable).map(UserMapper::mapUsersEntityToUsersPageDto);
+                    }
+                }
             }
         }
+        throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
     }
 
     public GetUserByIdDto getUserById(long id) {

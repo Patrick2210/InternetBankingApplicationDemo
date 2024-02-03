@@ -8,7 +8,9 @@ import com.szaruga.InternetBankingApplicationDemo.exception.userdetails.UserDeta
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSortingRequest;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserDetailsRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserDetailsMapper;
+import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.userdetails.CreateUserDetails;
+import com.szaruga.InternetBankingApplicationDemo.util.SortingStringValues;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto.ValidationUserDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,13 +41,15 @@ public class UserDetailsService {
         } else {
             Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
             pageable = PageRequest.of(pageNumber, pageSize, sort);
-            if (SORTING_ID.getMessage().equals(sortByInput) || POSTCODE.getMessage().equals(sortByInput) ||
-                    CITY.getMessage().equals(sortByInput)) {
-                return userDetailsRepository.findAll(pageable).map(UserDetailsMapper::mapUsersDetailsEntityToPageDto);
-            } else {
-                throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
+            for (String sortMessage : SortingStringValues.sortingMessages) {
+                {
+                    if (sortMessage.equalsIgnoreCase(sortByInput)) {
+                        return userDetailsRepository.findAll(pageable).map(UserDetailsMapper::mapUsersDetailsEntityToPageDto);
+                    }
+                }
             }
         }
+        throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
     }
 
     public GetUserDetailsByIdDto getUserDetailsById(int id) {

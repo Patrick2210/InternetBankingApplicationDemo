@@ -8,7 +8,7 @@ import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationCo
 @Component
 public class FieldCheckAddressHomeNumber {
 
-    public void validate(String addressHomeNumber) {
+    public static void validate(String addressHomeNumber) {
         ValidationDtoUtils.checkNotNull(addressHomeNumber, ADDRESS_HOME_NUMBER.getMessage());
         ValidationDtoUtils.checkNotEmpty(addressHomeNumber, ADDRESS_HOME_NUMBER.getMessage());
         ValidationDtoUtils.checkIfContainsSpecialCharacters(addressHomeNumber, ADDRESS_HOME_NUMBER.getMessage());

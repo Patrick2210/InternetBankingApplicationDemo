@@ -8,7 +8,7 @@ import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationCo
 @Component
 public class FiledCheckAddressFlatNumber {
 
-    public void validate(String addressFlatNumber) {
+    public static void validate(String addressFlatNumber) {
         ValidationDtoUtils.checkNotNull(addressFlatNumber, ADDRESS_FLAT_NUMBER.getMessage());
         ValidationDtoUtils.checkNotEmpty(addressFlatNumber, ADDRESS_FLAT_NUMBER.getMessage());
         ValidationDtoUtils.checkIfContainsSpecialCharacters(addressFlatNumber, ADDRESS_FLAT_NUMBER.getMessage());
