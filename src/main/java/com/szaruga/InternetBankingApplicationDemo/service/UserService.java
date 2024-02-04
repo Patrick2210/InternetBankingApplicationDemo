@@ -10,11 +10,14 @@ import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.user.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.util.SortingStringValues;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdto.VerificationUserDto;
+import com.szaruga.InternetBankingApplicationDemo.verification.useremailupdatedto.VerificationEmailUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userpasswordupdatedto.VerificationUserPasswordUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto.VerificationUserUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
@@ -24,14 +27,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final VerificationUserDto verificationUserDto;
     private final VerificationUserUpdateDto verificationUserUpdateDto;
+    private final VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto;
+    private final VerificationEmailUpdateDto verificationEmailUpdateDto;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        VerificationUserDto verificationUserDto,
-                       VerificationUserUpdateDto verificationUserUpdateDto) {
+                       VerificationUserUpdateDto verificationUserUpdateDto, VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto, VerificationEmailUpdateDto verificationEmailUpdateDto) {
         this.userRepository = userRepository;
         this.verificationUserDto = verificationUserDto;
         this.verificationUserUpdateDto = verificationUserUpdateDto;
+        this.verificationUserPasswordUpdateDto = verificationUserPasswordUpdateDto;
+        this.verificationEmailUpdateDto = verificationEmailUpdateDto;
     }
 
     public Page<UsersPageDto> getAllUsers(int pageNumber, int pageSize, String sortByInput) {
@@ -91,8 +98,21 @@ public class UserService {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
 
-        VerificationUserPasswordUpdateDto.userPasswordUpdateDto(updatePasswordDto);
+        verificationUserPasswordUpdateDto.userPasswordUpdateDto(updatePasswordDto);
         userEntity.setPassword(updatePasswordDto.getPassword());
         userRepository.save(userEntity);
+    }
+
+    public void updateUserEmail(long id, UserEmailUpdateDto emailUpdateDto) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
+
+        verificationEmailUpdateDto.verificationEmailUpdateDto(emailUpdateDto);
+        userEntity.setEmail(emailUpdateDto.getEmail());
+        userRepository.save(userEntity);
+    }
+
+    private String generateResetToken() {
+        return UUID.randomUUID().toString();
     }
 }

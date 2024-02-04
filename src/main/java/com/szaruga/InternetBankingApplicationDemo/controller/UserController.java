@@ -80,4 +80,23 @@ public class UserController {
         userService.updateUserPassword(id, updatePasswordDto);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/users/{id}/email-change")
+    public ResponseEntity<Void> updateUser(
+            @PathVariable long id,
+            @RequestBody UserEmailUpdateDto emailUpdate
+    ) {
+        userService.updateUserEmail(id,emailUpdate);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/users/{id}/reset-email")
+    public ResponseEntity<Void> resetUserEmail(
+            @PathVariable long id,
+            @RequestBody UserEmailUpdateDto emailUpdate
+    ) {
+        //todo wyslac tokena aby zrestartowac email
+        userService.updateUserEmail(id, emailUpdate);
+        return ResponseEntity.ok().build();
+    }
 }

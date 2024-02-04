@@ -49,7 +49,7 @@ public class ValidationDtoUtils {
     }
 
     public static void isValidEmail(String email, String message) {
-        if (email.contains("@") || email.contains(".")) {
+        if (!email.contains("@") || !email.contains(".")) {
             throw new ValidationException(message + INVALID.getMessage());
         }
     }

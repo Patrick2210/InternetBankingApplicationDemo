@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VerificationUserPasswordUpdateDto {
 
-    public static void userPasswordUpdateDto(UserPasswordUpdateDto passwordUpdateDto){
+    public void userPasswordUpdateDto(UserPasswordUpdateDto passwordUpdateDto){
         FieldsCheckPasswordUpdate.validate(passwordUpdateDto.getPassword(), passwordUpdateDto.getRepeatPassword());
     }
 }

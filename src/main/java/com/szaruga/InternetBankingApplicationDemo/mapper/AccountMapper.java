@@ -29,4 +29,5 @@ public class AccountMapper {
         accountsByIdDto.setBalance(accountEntity.getBalance());
         return accountsByIdDto;
     }
+    //todo zrobic mapowanie na sortowanie aby nie wyrzucalo 500 wjezeli wpisze sie np. postcode, a w encji jest postCode
 }
