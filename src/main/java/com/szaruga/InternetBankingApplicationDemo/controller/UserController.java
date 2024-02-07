@@ -3,10 +3,14 @@ package com.szaruga.InternetBankingApplicationDemo.controller;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.*;
 import com.szaruga.InternetBankingApplicationDemo.model.user.CreateUser;
 import com.szaruga.InternetBankingApplicationDemo.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +20,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService) {
@@ -53,10 +58,16 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<CreateUser> createUser(@RequestBody UserDto userDto) {
-        return ResponseEntity.ok(userService.saveUser(userDto));
+    @PostMapping("/send-request-to-pesel-verification-app")
+    public void sendRequestToPeselVerificationApplication(@RequestBody PeselNumberDto peselNumber) {
+        userService.sendRequest(peselNumber.getPeselNumber());
     }
+
+//    @PostMapping("/users")
+//    public ResponseEntity<CreateUser> createUser(@RequestBody UserDto userDto) {
+//        sendRequestToPeselVerificationApplication(userDto.getNumberPesel());
+//        return ResponseEntity.ok(userService.saveUser(userDto));
+//    }
 
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable long id) {
@@ -86,7 +97,7 @@ public class UserController {
             @PathVariable long id,
             @RequestBody UserEmailUpdateDto emailUpdate
     ) {
-        userService.updateUserEmail(id,emailUpdate);
+        userService.updateUserEmail(id, emailUpdate);
         return ResponseEntity.ok().build();
     }
 

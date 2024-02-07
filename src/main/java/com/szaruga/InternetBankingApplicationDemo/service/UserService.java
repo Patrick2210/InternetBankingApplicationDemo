@@ -2,6 +2,7 @@ package com.szaruga.InternetBankingApplicationDemo.service;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.user.*;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
+import org.springframework.web.reactive.function.BodyInserters;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserHasAccountsException;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSortingRequest;
@@ -13,9 +14,13 @@ import com.szaruga.InternetBankingApplicationDemo.verification.userdto.Verificat
 import com.szaruga.InternetBankingApplicationDemo.verification.useremailupdatedto.VerificationEmailUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userpasswordupdatedto.VerificationUserPasswordUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto.VerificationUserUpdateDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
@@ -29,6 +34,7 @@ public class UserService {
     private final VerificationUserUpdateDto verificationUserUpdateDto;
     private final VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto;
     private final VerificationEmailUpdateDto verificationEmailUpdateDto;
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     public UserService(UserRepository userRepository,
@@ -40,6 +46,10 @@ public class UserService {
         this.verificationUserPasswordUpdateDto = verificationUserPasswordUpdateDto;
         this.verificationEmailUpdateDto = verificationEmailUpdateDto;
     }
+
+    @Autowired
+    private WebClient.Builder webClientBuilder;
+
 
     public Page<UsersPageDto> getAllUsers(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
@@ -110,6 +120,18 @@ public class UserService {
         verificationEmailUpdateDto.verificationEmailUpdateDto(emailUpdateDto);
         userEntity.setEmail(emailUpdateDto.getEmail());
         userRepository.save(userEntity);
+    }
+
+    public void sendRequest(String peselNumber) {
+        String baseUrl = "http://localhost:8082/api/verify-pesel";
+        webClientBuilder.build()
+                .post()
+                .uri(baseUrl)
+                .body(BodyInserters.fromValue(peselNumber))
+                .retrieve()
+                .bodyToMono(String.class)
+                .subscribe(response -> System.out.println("Response from 2nd app: " + response),
+                        error -> System.err.println("Error occurred: " + error.getMessage()));
     }
 
     private String generateResetToken() {
