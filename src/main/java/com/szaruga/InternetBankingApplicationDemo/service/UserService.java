@@ -2,6 +2,8 @@ package com.szaruga.InternetBankingApplicationDemo.service;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.user.*;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
+import com.szaruga.InternetBankingApplicationDemo.exception.user.PeselValidationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.BodyInserters;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserHasAccountsException;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
@@ -20,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
@@ -89,8 +90,14 @@ public class UserService {
 
     public CreateUser saveUser(UserDto dto) {
         verificationUserDto.userDto(dto);
-        UserEntity save = userRepository.save(UserMapper.toEntity(dto));
-        return new CreateUser(save.getId());
+        ResponseEntity<String> response = sendPeselValidationRequestToExternalApp(dto.getNumberPesel());
+        if (response.getStatusCode().value() == 200) {
+            UserEntity save = userRepository.save(UserMapper.toEntity(dto));
+            return new CreateUser(save.getId());
+        } else {
+            //todo poprawic
+            throw new PeselValidationException("Pesel validation failed");
+        }
     }
 
     public void updateUser(long id, UserUpdateDto updateDto) {
@@ -122,16 +129,16 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public void sendRequest(String peselNumber) {
+    public ResponseEntity<String> sendPeselValidationRequestToExternalApp(String peselNumber) {
         String baseUrl = "http://localhost:8082/api/verify-pesel";
-        webClientBuilder.build()
+        WebClient.ResponseSpec responseSpec = webClientBuilder.build()
                 .post()
                 .uri(baseUrl)
                 .body(BodyInserters.fromValue(peselNumber))
-                .retrieve()
-                .bodyToMono(String.class)
-                .subscribe(response -> System.out.println("Response from 2nd app: " + response),
-                        error -> System.err.println("Error occurred: " + error.getMessage()));
+                .retrieve();
+
+        String responseBody = responseSpec.bodyToMono(String.class).block();
+        return ResponseEntity.ok(responseBody);
     }
 
     private String generateResetToken() {

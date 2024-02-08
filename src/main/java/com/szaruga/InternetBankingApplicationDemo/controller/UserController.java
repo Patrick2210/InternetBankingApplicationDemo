@@ -58,16 +58,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @PostMapping("/send-request-to-pesel-verification-app")
-    public void sendRequestToPeselVerificationApplication(@RequestBody PeselNumberDto peselNumber) {
-        userService.sendRequest(peselNumber.getPeselNumber());
+    @PostMapping("/users")
+    public ResponseEntity<CreateUser> createUser(@RequestBody UserDto userDto) {
+        return ResponseEntity.ok(userService.saveUser(userDto));
     }
-
-//    @PostMapping("/users")
-//    public ResponseEntity<CreateUser> createUser(@RequestBody UserDto userDto) {
-//        sendRequestToPeselVerificationApplication(userDto.getNumberPesel());
-//        return ResponseEntity.ok(userService.saveUser(userDto));
-//    }
 
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable long id) {
