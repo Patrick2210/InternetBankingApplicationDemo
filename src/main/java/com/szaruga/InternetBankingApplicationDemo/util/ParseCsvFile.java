@@ -9,10 +9,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Utility class for parsing CSV files into a list of AddressEntity objects.
+ */
 @Component
 public class ParseCsvFile {
-
+    /**
+     * Parses a CSV file uploaded via MultipartFile into a list of AddressEntity objects.
+     *
+     * @param file The CSV file to parse.
+     * @return A list of AddressEntity objects representing the data in the CSV file.
+     * @throws IOException If an I/O error occurs while reading the file.
+     */
     public List<AddressEntity> csvFileIntoList(MultipartFile file) throws IOException {
         List<AddressEntity> addresses = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {

@@ -1,5 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.constants;
-
+/**
+ * Enumeration of application constants containing error messages.
+ */
 public enum ApplicationConstants {
     ID("id"),
     FIRST_NAME("firstname "),
@@ -55,11 +57,19 @@ public enum ApplicationConstants {
     IMPORT_ERROR("Error importing ");
 
     private final String message;
-
+    /**
+     * Constructs an ApplicationConstants enum with the provided error message.
+     *
+     * @param message The error message associated with the constant.
+     */
     ApplicationConstants(String message) {
         this.message = message;
     }
-
+    /**
+     * Gets the error message associated with the constant.
+     *
+     * @return The error message.
+     */
     public String getMessage() {
         return message;
     }
