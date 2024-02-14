@@ -4,6 +4,9 @@ import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UserDetailsDto
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Utility class for validating UserDetailsDto objects.
+ */
 @Component
 public class ValidationUserDetailsDto {
     @Autowired
@@ -15,6 +18,11 @@ public class ValidationUserDetailsDto {
     @Autowired
     protected FieldCheckCity fieldCheckCity;
 
+    /**
+     * Validates the provided UserDetailsDto object.
+     *
+     * @param userDetailsDto The UserDetailsDto object to validate.
+     */
     //todo dodac do dto powiat i wojewodztwo
     public void validateDto(UserDetailsDto userDetailsDto) {
         fieldCheckAddress.validate(userDetailsDto.getAddress());
