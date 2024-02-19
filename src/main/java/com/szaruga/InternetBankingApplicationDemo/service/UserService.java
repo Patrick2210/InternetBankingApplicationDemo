@@ -119,7 +119,6 @@ public class UserService {
         } else {
             throw new UserHasAccountsException(USER_HAS_ACCOUNT.getMessage());
         }
-
     }
 
     /**
