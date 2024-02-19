@@ -40,13 +40,13 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handles AddressCsvFileException and returns a response with status 404 (NOT_FOUND).
+     * Handles CsvFileException and returns a response with status 404 (NOT_FOUND).
      *
      * @param ex The exception to handle.
      * @return ResponseEntity containing the error message.
      */
-    @ExceptionHandler(AddressCsvFileException.class)
-    public ResponseEntity<Object> handleAddressCsvFileException(AddressCsvFileException ex) {
+    @ExceptionHandler(CsvFileException.class)
+    public ResponseEntity<Object> handleAddressCsvFileException(CsvFileException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
 

@@ -1,6 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
-import com.szaruga.InternetBankingApplicationDemo.exception.address.AddressCsvFileException;
+import com.szaruga.InternetBankingApplicationDemo.exception.address.CsvFileException;
 import com.szaruga.InternetBankingApplicationDemo.jpa.AddressRepository;
 import com.szaruga.InternetBankingApplicationDemo.util.ParseCsvFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +36,13 @@ public class AddressService {
      * Imports addresses from a CSV file and saves them to the repository.
      *
      * @param file The CSV file containing addresses.
-     * @throws AddressCsvFileException If an error occurs while processing the CSV file.
+     * @throws CsvFileException If an error occurs while processing the CSV file.
      */
     public void importAddressesFromCsv(MultipartFile file) {
         try {
             addressRepository.saveAll(parseCsvFile.csvFileIntoList(file));
         } catch (IOException e) {
-            throw new AddressCsvFileException(IMPORT_ERROR.getMessage() + CSV_FILE.getMessage());
+            throw new CsvFileException(IMPORT_ERROR.getMessage() + CSV_FILE.getMessage());
         }
     }
 
