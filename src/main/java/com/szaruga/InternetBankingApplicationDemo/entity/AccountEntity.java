@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
+/**
+ * Entity class representing a user entity.
+ */
 @Entity(name = "user_account")
 public class AccountEntity {
     @Id

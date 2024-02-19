@@ -5,6 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+/**
+ * Entity class representing an address entity.
+ */
 @Entity(name = "address_entity")
 public final class AddressEntity {
     @Id

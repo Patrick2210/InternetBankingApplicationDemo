@@ -3,6 +3,9 @@ package com.szaruga.InternetBankingApplicationDemo.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+/**
+ * Entity class representing a user details account.
+ */
 @Entity(name = "user_details")
 public class UserDetailsEntity {
     @Id

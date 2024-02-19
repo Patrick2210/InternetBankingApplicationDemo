@@ -25,6 +25,9 @@ import java.util.UUID;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
+/**
+ * Service class for managing user-related operations.
+ */
 @Service
 public class UserService {
 
@@ -33,19 +36,42 @@ public class UserService {
     private final VerificationUserUpdateDto verificationUserUpdateDto;
     private final VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto;
     private final VerificationEmailUpdateDto verificationEmailUpdateDto;
+    private final WebClient.Builder webClientBuilder;
 
+    /**
+     * Constructs an instance of the UserService.
+     *
+     * @param userRepository                    The repository for managing user entities.
+     * @param verificationUserDto               Validator for user DTOs.
+     * @param verificationUserUpdateDto         Validator for updating user DTOs.
+     * @param verificationUserPasswordUpdateDto Validator for updating user password DTOs.
+     * @param verificationEmailUpdateDto        Validator for updating user email DTOs.
+     * @param webClientBuilder                  Builder for creating a WebClient instance.
+     */
     @Autowired
     public UserService(UserRepository userRepository,
                        VerificationUserDto verificationUserDto,
-                       VerificationUserUpdateDto verificationUserUpdateDto, VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto, VerificationEmailUpdateDto verificationEmailUpdateDto) {
+                       VerificationUserUpdateDto verificationUserUpdateDto,
+                       VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto,
+                       VerificationEmailUpdateDto verificationEmailUpdateDto,
+                       WebClient.Builder webClientBuilder) {
         this.userRepository = userRepository;
         this.verificationUserDto = verificationUserDto;
         this.verificationUserUpdateDto = verificationUserUpdateDto;
         this.verificationUserPasswordUpdateDto = verificationUserPasswordUpdateDto;
         this.verificationEmailUpdateDto = verificationEmailUpdateDto;
+        this.webClientBuilder = webClientBuilder;
     }
-    @Autowired
-    private WebClient.Builder webClientBuilder;
+
+    /**
+     * Retrieves all users with pagination and optional sorting.
+     *
+     * @param pageNumber  The page number to retrieve.
+     * @param pageSize    The size of each page.
+     * @param sortByInput The field to sort by.
+     * @return A page of user DTOs.
+     * @throws IllegalSortingRequest If an illegal sorting request is made.
+     */
     public Page<UsersPageDto> getAllUsers(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
         if (sortByInput == null) {
@@ -65,12 +91,26 @@ public class UserService {
         throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
     }
 
+    /**
+     * Retrieves a user by their ID.
+     *
+     * @param id The ID of the user to retrieve.
+     * @return The DTO representing the user.
+     * @throws UserNotFoundException If the user with the specified ID is not found.
+     */
     public GetUserByIdDto getUserById(long id) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
         return UserMapper.mapUserEntityToGetUserByIdDto(userEntity);
     }
 
+    /**
+     * Deletes a user by their ID.
+     *
+     * @param id The ID of the user to delete.
+     * @throws UserNotFoundException    If the user with the specified ID is not found.
+     * @throws UserHasAccountsException If the user has associated accounts and cannot be deleted.
+     */
     public void deleteUser(long id) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
@@ -82,6 +122,13 @@ public class UserService {
 
     }
 
+    /**
+     * Saves a new user.
+     *
+     * @param dto The DTO representing the user to be saved.
+     * @return The DTO representing the newly created user.
+     * @throws PeselValidationException If the PESEL validation fails.
+     */
     public CreateUser saveUser(UserDto dto) {
         verificationUserDto.userDto(dto);
         ResponseEntity<String> response = sendPeselValidationRequestToExternalApp(dto.getNumberPesel());
@@ -93,6 +140,13 @@ public class UserService {
         }
     }
 
+    /**
+     * Updates a user's information.
+     *
+     * @param id        The ID of the user to update.
+     * @param updateDto The DTO containing the updated user information.
+     * @throws UserNotFoundException If the user with the specified ID is not found.
+     */
     public void updateUser(long id, UserUpdateDto updateDto) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
@@ -104,6 +158,13 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
+    /**
+     * Updates a user's password.
+     *
+     * @param id                The ID of the user to update.
+     * @param updatePasswordDto The DTO containing the updated password information.
+     * @throws UserNotFoundException If the user with the specified ID is not found.
+     */
     public void updateUserPassword(long id, UserPasswordUpdateDto updatePasswordDto) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
@@ -113,6 +174,13 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
+    /**
+     * Updates a user's email.
+     *
+     * @param id             The ID of the user to update.
+     * @param emailUpdateDto The DTO containing the updated email information.
+     * @throws UserNotFoundException If the user with the specified ID is not found.
+     */
     public void updateUserEmail(long id, UserEmailUpdateDto emailUpdateDto) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + id));
@@ -122,6 +190,12 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
+    /**
+     * Sends a PESEL validation request to an external application.
+     *
+     * @param peselNumber The PESEL number to validate.
+     * @return The response from the external application.
+     */
     public ResponseEntity<String> sendPeselValidationRequestToExternalApp(String peselNumber) {
         String baseUrl = "http://localhost:8082/api/verify-pesel";
         WebClient.ResponseSpec responseSpec = webClientBuilder.build()

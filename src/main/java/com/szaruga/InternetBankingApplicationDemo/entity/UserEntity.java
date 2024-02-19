@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Entity class representing a user entity account.
+ */
 @Entity(name = "user_profile")
 public class UserEntity {
     @Id

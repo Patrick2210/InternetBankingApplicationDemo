@@ -24,15 +24,31 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
-
+/**
+ * Service class for managing accounts.
+ */
 @Service
 public class AccountService {
-
+    /**
+     * Constructor for AccountService.
+     *
+     * @param accountRepository    The repository for AccountEntity.
+     * @param accountUtils         Utility class for account-related operations.
+     * @param validationAccountDto Utility class for validating AccountDto objects.
+     * @param userRepository       The repository for UserEntity.
+     */
     private final AccountRepository accountRepository;
     private final AccountUtils accountUtils;
     private final ValidationAccountDto validationAccountDto;
     private final UserRepository userRepository;
-
+    /**
+     * Constructor for AccountService.
+     *
+     * @param accountRepository    The repository for AccountEntity.
+     * @param accountUtils         Utility class for account-related operations.
+     * @param validationAccountDto Utility class for validating AccountDto objects.
+     * @param userRepository       The repository for UserEntity.
+     */
     @Autowired
     public AccountService(
             AccountRepository accountRepository,
@@ -44,7 +60,15 @@ public class AccountService {
         this.validationAccountDto = validationAccountDto;
         this.userRepository = userRepository;
     }
-
+    /**
+     * Retrieves a page of accounts.
+     *
+     * @param pageNumber  The page number to retrieve.
+     * @param pageSize    The size of each page.
+     * @param sortByInput The field to sort by.
+     * @return A page of accounts.
+     * @throws IllegalSortingRequest If the sorting request is invalid.
+     */
     public Page<AccountsPageDto> getAllAccounts(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
         if (sortByInput == null) {
@@ -62,13 +86,27 @@ public class AccountService {
         }
         throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
     }
-
+    /**
+     * Retrieves an account by its ID.
+     *
+     * @param accountId The ID of the account to retrieve.
+     * @return The account with the specified ID.
+     * @throws AccountNotFoundException If no account with the specified ID is found.
+     */
     public GetAccountsByIdDto getAccountById(int accountId) {
         AccountEntity account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + accountId));
         return AccountMapper.mapAccountEntityToGetAccountsByIdDto(account);
     }
-
+    /**
+     * Saves an account.
+     *
+     * @param accountDto The account to save.
+     * @param userId     The ID of the user associated with the account.
+     * @return Information about the created account.
+     * @throws UserNotFoundException    If no user with the specified ID is found.
+     * @throws InsufficientBalanceException If the account balance is insufficient.
+     */
     public CreateAccount saveAccount(AccountDto accountDto, long userId) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + userId));
@@ -79,7 +117,12 @@ public class AccountService {
         AccountEntity save = accountRepository.save(AccountMapper.toEntity(accountDto));
         return new CreateAccount(save.getId());
     }
-
+    /**
+     * Deletes an account by its ID.
+     *
+     * @param accountId The ID of the account to delete.
+     * @throws AccountNotFoundException If no account with the specified ID is found.
+     */
     public void deleteAccount(int accountId) {
         AccountEntity account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + accountId));
@@ -89,7 +132,15 @@ public class AccountService {
             throw new AccountNotFoundException(ACCOUNT_DELETE.getMessage());
         }
     }
-
+    /**
+     * Deposits money into an account.
+     *
+     * @param userId    The ID of the user associated with the account.
+     * @param accountId The ID of the account to deposit money into.
+     * @param amount    The amount of money to deposit.
+     * @throws UserNotFoundException    If no user with the specified ID is found.
+     * @throws AccountNotFoundException If no account with the specified ID is found.
+     */
     public void depositMoney(long userId, int accountId, BigDecimal amount) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + userId));
@@ -101,7 +152,16 @@ public class AccountService {
         account.setBalance(newBalance);
         accountRepository.save(account);
     }
-
+    /**
+     * Withdraws money from an account.
+     *
+     * @param userId    The ID of the user associated with the account.
+     * @param accountId The ID of the account to withdraw money from.
+     * @param amount    The amount of money to withdraw.
+     * @throws UserNotFoundException       If no user with the specified ID is found.
+     * @throws AccountNotFoundException    If no account with the specified ID is found.
+     * @throws InsufficientBalanceException If the account balance is insufficient for the withdrawal.
+     */
     public void withdrawMoney(long userId, int accountId, BigDecimal amount) {
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_WITH_ID.getMessage() + userId));

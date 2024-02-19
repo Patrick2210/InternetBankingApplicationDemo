@@ -5,8 +5,16 @@ import com.szaruga.InternetBankingApplicationDemo.dto.user.GetUserByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UsersPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 
+/**
+ * Mapper class responsible for mapping between User DTOs and entities.
+ */
 public class UserMapper {
-
+    /**
+     * Converts a UserDto object to a UserEntity object.
+     *
+     * @param dto The UserDto object to convert.
+     * @return The converted UserEntity object.
+     */
     public static UserEntity toEntity(UserDto dto) {
         UserEntity user = new UserEntity();
         user.setFirstName(dto.getFirstName());
@@ -20,6 +28,12 @@ public class UserMapper {
         return user;
     }
 
+    /**
+     * Maps a UserEntity object to a UsersPageDto object.
+     *
+     * @param userEntity The UserEntity object to map.
+     * @return The mapped UsersPageDto object.
+     */
     public static UsersPageDto mapUsersEntityToUsersPageDto(UserEntity userEntity) {
         UsersPageDto usersPageDto = new UsersPageDto();
         usersPageDto.setId(userEntity.getId());
@@ -29,6 +43,12 @@ public class UserMapper {
         return usersPageDto;
     }
 
+    /**
+     * Maps a UserEntity object to a GetUserByIdDto object.
+     *
+     * @param user The UserEntity object to map.
+     * @return The mapped GetUserByIdDto object.
+     */
     public static GetUserByIdDto mapUserEntityToGetUserByIdDto(UserEntity user) {
         GetUserByIdDto userPageDto = new GetUserByIdDto();
         userPageDto.setFirstName(user.getFirstName());

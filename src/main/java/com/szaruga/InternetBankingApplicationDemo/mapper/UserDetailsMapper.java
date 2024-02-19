@@ -8,7 +8,16 @@ import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Mapper class responsible for mapping between UserDetails DTOs and entities.
+ */
 public class UserDetailsMapper {
+    /**
+     * Converts a UserDetailsDto object to a UserDetailsEntity object.
+     *
+     * @param dto The UserDetailsDto object to convert.
+     * @return The converted UserDetailsEntity object.
+     */
     public static UserDetailsEntity toEntity(UserDetailsDto dto) {
         UserDetailsEntity userDetails = new UserDetailsEntity();
         userDetails.setAddress(dto.getAddress());
@@ -23,6 +32,12 @@ public class UserDetailsMapper {
         return userDetails;
     }
 
+    /**
+     * Maps a UserDetailsEntity object to a UsersDetailsPageDto object.
+     *
+     * @param userDetailsEntity The UserDetailsEntity object to map.
+     * @return The mapped UsersDetailsPageDto object.
+     */
     public static UsersDetailsPageDto mapUsersDetailsEntityToPageDto(UserDetailsEntity userDetailsEntity) {
         UsersDetailsPageDto usersDetailsPageDto = new UsersDetailsPageDto();
         usersDetailsPageDto.setId(userDetailsEntity.getId());
@@ -31,6 +46,12 @@ public class UserDetailsMapper {
         return usersDetailsPageDto;
     }
 
+    /**
+     * Maps a UserDetailsEntity object to a GetUserDetailsByIdDto object.
+     *
+     * @param userDetailsEntity The UserDetailsEntity object to map.
+     * @return The mapped GetUserDetailsByIdDto object.
+     */
     public static GetUserDetailsByIdDto mapUserEntityToGetUserById(UserDetailsEntity userDetailsEntity) {
         GetUserDetailsByIdDto userDetailsByIdDto = new GetUserDetailsByIdDto();
         userDetailsByIdDto.setAddress(userDetailsEntity.getAddress());
