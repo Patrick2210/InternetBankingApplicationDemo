@@ -1,7 +1,9 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.account;
 
 import java.math.BigDecimal;
-
+/**
+ * Data Transfer Object (DTO) for representing account details by ID.
+ */
 public class GetAccountsByIdDto {
 
     private String accountType;

@@ -1,7 +1,9 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.user;
 
 import java.time.LocalDate;
-
+/**
+ * Data Transfer Object (DTO) for representing a page of users.
+ */
 public class UsersPageDto {
     private long id;
     private String firstName;

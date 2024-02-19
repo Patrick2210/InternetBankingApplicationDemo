@@ -1,5 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.user;
-
+/**
+ * Data Transfer Object (DTO) for representing a user password uptade.
+ */
 public class UserPasswordUpdateDto {
 
     private String password;

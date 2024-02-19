@@ -1,5 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.user;
-
+/**
+ * Data Transfer Object (DTO) for representing a PESEL number.
+ */
 public class PeselNumberDto {
     private String peselNumber;
 

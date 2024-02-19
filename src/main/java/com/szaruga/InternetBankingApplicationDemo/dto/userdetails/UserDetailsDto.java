@@ -1,5 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.userdetails;
-
+/**
+ * Data Transfer Object (DTO) for representing user details.
+ */
 public class UserDetailsDto {
     private String address;
     private String addressHomeNumber;

@@ -1,5 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.userdetails;
-
+/**
+ * Data Transfer Object (DTO) representing a page of user details.
+ */
 public class UsersDetailsPageDto {
     private int id;
     private String postCode;

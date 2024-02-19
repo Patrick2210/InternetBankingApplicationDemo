@@ -1,5 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.user;
-
+/**
+ * Data Transfer Object (DTO) for representing a user update.
+ */
 public class UserUpdateDto {
     private String firstName;
     private String lastName;

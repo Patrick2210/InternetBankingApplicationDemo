@@ -1,5 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.user;
-
+/**
+ * Data Transfer Object (DTO) for representing user details by ID.
+ */
 public class GetUserByIdDto {
     private String firstName;
     private String lastName;

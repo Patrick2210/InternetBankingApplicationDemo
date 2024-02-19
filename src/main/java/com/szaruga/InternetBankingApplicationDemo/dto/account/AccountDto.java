@@ -4,6 +4,9 @@ import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 
 import java.math.BigDecimal;
 
+/**
+ * Data Transfer Object (DTO) for representing account information.
+ */
 public class AccountDto {
     private String accountType;
     private int referenceAccountNumber;

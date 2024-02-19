@@ -1,5 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.account;
-
+/**
+ * Data Transfer Object (DTO) for representing a page of accounts.
+ */
 public class AccountsPageDto {
     private int id;
     private int referenceAccountNumber;
