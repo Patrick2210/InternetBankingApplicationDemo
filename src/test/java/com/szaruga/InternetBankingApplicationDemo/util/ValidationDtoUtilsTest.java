@@ -5,11 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * Test class for {@link ValidationDtoUtils}.
  */
 public class ValidationDtoUtilsTest {
     private final String testMessage = "testMessage";
+
     /**
      * Test case for {@link ValidationDtoUtils #checkNotNull(Object, String)} when value is not null.
      */
@@ -18,6 +20,7 @@ public class ValidationDtoUtilsTest {
         String testValue = "testValue";
         assertDoesNotThrow(() -> checkNotNull(testValue, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils #checkNotNull(Object, String)} when value is null.
      */
@@ -25,6 +28,7 @@ public class ValidationDtoUtilsTest {
     public void testCheckNotNull_ValueIsNull() {
         assertThrows(ValidationException.class, () -> checkNotNull(null, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils #checkNotEmpty(String, String)} when value is not empty.
      */
@@ -33,6 +37,7 @@ public class ValidationDtoUtilsTest {
         String testValue = "testValue";
         assertDoesNotThrow(() -> checkNotEmpty(testValue, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils #checkNotEmpty(String, String)} when value is empty.
      */
@@ -40,6 +45,7 @@ public class ValidationDtoUtilsTest {
     public void testCheckNotEmpty_ValueIsEmpty() {
         assertThrows(ValidationException.class, () -> checkNotEmpty("", testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#checkMinSize(String, String)} when value length is less than minimum.
      */
@@ -48,6 +54,7 @@ public class ValidationDtoUtilsTest {
         String valueOneCharacterLength = "a";
         assertThrows(ValidationException.class, () -> checkMinSize(valueOneCharacterLength, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#checkMinSize(String, String)} when minimum value length is correct.
      */
@@ -56,6 +63,7 @@ public class ValidationDtoUtilsTest {
         String valueThreeCharLength = "abc";
         assertDoesNotThrow(() -> checkMinSize(valueThreeCharLength, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#checkMaxSize(String, String)} when value length is greater than maximum.
      */
@@ -64,6 +72,7 @@ public class ValidationDtoUtilsTest {
         String valueThirtyFiveCharacterLength = "abcabcabcabcabcabcabcabcabcabcabcabc";
         assertThrows(ValidationException.class, () -> checkMaxSize(valueThirtyFiveCharacterLength, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#checkMaxSize(String, String)} when maximum value length is correct.
      */
@@ -72,6 +81,7 @@ public class ValidationDtoUtilsTest {
         String twentyCharacterLength = "abcabcabcabcabcabcab";
         assertDoesNotThrow(() -> checkMaxSize(twentyCharacterLength, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#checkSpecialCharacters(String, String)} when value contains no special characters.
      */
@@ -80,6 +90,7 @@ public class ValidationDtoUtilsTest {
         String valueWithoutSpecialCharacters = "valueTest";
         assertDoesNotThrow(() -> checkSpecialCharacters(valueWithoutSpecialCharacters, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#checkSpecialCharacters(String, String)} when value contains special characters.
      */
@@ -88,6 +99,7 @@ public class ValidationDtoUtilsTest {
         String valueWithSpecialCharacters = "Test123";
         assertThrows(ValidationException.class, () -> checkSpecialCharacters(valueWithSpecialCharacters, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#checkIfContainsSpecialCharacters(String, String)} when value contains special characters.
      */
@@ -96,6 +108,7 @@ public class ValidationDtoUtilsTest {
         String valueContainingSpecialCharacters = "Test@123";
         assertThrows(ValidationException.class, () -> checkIfContainsSpecialCharacters(valueContainingSpecialCharacters, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#checkIfContainsSpecialCharacters(String, String)} when value contains only letters and numbers.
      */
@@ -104,6 +117,7 @@ public class ValidationDtoUtilsTest {
         String valueContainingOnlyLettersAndNumbers = "Test123";
         assertDoesNotThrow(() -> checkIfContainsSpecialCharacters(valueContainingOnlyLettersAndNumbers, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#checkFormatNumber(String, String)} when value has invalid format.
      */
@@ -112,6 +126,7 @@ public class ValidationDtoUtilsTest {
         String invalidPhoneNumber = "12345";
         assertThrows(ValidationException.class, () -> checkFormatNumber(invalidPhoneNumber, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#checkFormatNumber(String, String)} when value has valid format.
      */
@@ -123,6 +138,7 @@ public class ValidationDtoUtilsTest {
         String validPhoneNumberWithoutCountryCode = "123456789";
         assertDoesNotThrow(() -> checkFormatNumber(validPhoneNumberWithoutCountryCode, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#isValidEmail(String, String)} when email format is invalid.
      */
@@ -134,6 +150,7 @@ public class ValidationDtoUtilsTest {
         String emailWithoutDotSymbol = "test@examplecom";
         assertThrows(ValidationException.class, () -> isValidEmail(emailWithoutDotSymbol, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#isValidEmail(String, String)} when email format is valid.
      */
@@ -142,6 +159,7 @@ public class ValidationDtoUtilsTest {
         String validEmail = "test@example.com";
         assertDoesNotThrow(() -> isValidEmail(validEmail, testMessage));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#isPasswordComplex(String, String)} when password is not complex.
      */
@@ -151,6 +169,7 @@ public class ValidationDtoUtilsTest {
         String repeatPasswordWithoutSpecialCharacters = "Password1123";
         assertThrows(ValidationException.class, () -> isPasswordComplex(passwordWithoutSpecialCharacters, repeatPasswordWithoutSpecialCharacters));
     }
+
     /**
      * Test case for {@link ValidationDtoUtils#isPasswordComplex(String, String)} when password is complex.
      */
