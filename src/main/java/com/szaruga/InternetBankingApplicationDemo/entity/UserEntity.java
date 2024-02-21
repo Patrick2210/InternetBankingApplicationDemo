@@ -113,4 +113,64 @@ public class UserEntity {
                 ", password='" + password + '\'' +
                 '}';
     }
+
+    public static class Builder {
+        private String firstName;
+        private String lastName;
+        private LocalDate birthDate;
+        private String numberPesel;
+        private String email;
+        private String phoneNumber;
+        private String password;
+
+        public Builder() {
+        }
+
+        public Builder firstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder lastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder birthDate(LocalDate birthDate) {
+            this.birthDate = birthDate;
+            return this;
+        }
+
+        public Builder numberPesel(String numberPesel) {
+            this.numberPesel = numberPesel;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder phoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserEntity build() {
+            UserEntity user = new UserEntity();
+            user.setFirstName(this.firstName);
+            user.setLastName(this.lastName);
+            user.setBirthDate(this.birthDate);
+            user.setNumberPesel(this.numberPesel);
+            user.setEmail(this.email);
+            user.setPhoneNumber(this.phoneNumber);
+            user.setPassword(this.password);
+            return user;
+        }
+    }
 }
