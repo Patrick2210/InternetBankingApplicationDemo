@@ -12,7 +12,6 @@ import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSo
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.AccountMapper;
-import com.szaruga.InternetBankingApplicationDemo.mapper.UserDetailsMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
 import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils;
 import com.szaruga.InternetBankingApplicationDemo.util.SortingStringValues;
