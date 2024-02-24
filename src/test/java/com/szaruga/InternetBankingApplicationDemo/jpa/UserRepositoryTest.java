@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -77,5 +78,22 @@ public class UserRepositoryTest {
         // There are three places in the application where data is saved into the userRepository,
         // hence the total number of users should be 2 (testUserOne and testUserTwo)
         assertThat(usersList.size()).isEqualTo(5);
+    }
+
+    /**
+     * Test case for {@link UserRepository#findById(Object)} to verify that the correct user is retrieved by ID.
+     * This test checks if the repository returns the correct user by ID.
+     */
+    @Test
+    public void userRepository_FindById_ReturnMoreThenOneUser() {
+        // Saving a test user into the repository
+        UserEntity savedUser = userRepository.save(testUserOne);
+
+        // Retrieving the saved user by ID
+        Optional<UserEntity> userReturn = userRepository.findById(testUserOne.getId());
+
+        // Assertions
+        assertThat(userReturn).isPresent();
+        assertThat(userReturn.get()).isEqualTo(savedUser);
     }
 }
