@@ -2,12 +2,10 @@ package com.szaruga.InternetBankingApplicationDemo.jpa;
 
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -95,6 +93,7 @@ public class UserRepositoryTest {
         assertThat(userReturn).isPresent();
         assertThat(userReturn.get()).isEqualTo(savedUser);
     }
+
     /**
      * Test case for {@link UserRepository#delete(Object)} to verify that a user is successfully deleted from the repository.
      * This test checks if the repository correctly deletes a user and returns an empty repository.
