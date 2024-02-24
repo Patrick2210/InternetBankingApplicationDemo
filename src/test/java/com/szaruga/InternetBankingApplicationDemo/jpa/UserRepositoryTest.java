@@ -2,10 +2,12 @@ package com.szaruga.InternetBankingApplicationDemo.jpa;
 
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,10 +15,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Test class for {@link UserRepository} to verify its functionality.
- * This test class is annotated with {@link DataJpaTest} and {@link AutoConfigureTestDatabase}.
- */
+
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class UserRepositoryTest {
@@ -85,7 +84,7 @@ public class UserRepositoryTest {
      * This test checks if the repository returns the correct user by ID.
      */
     @Test
-    public void userRepository_FindById_ReturnMoreThenOneUser() {
+    public void userRepository_FindById_ReturnUser() {
         // Saving a test user into the repository
         UserEntity savedUser = userRepository.save(testUserOne);
 
@@ -96,4 +95,27 @@ public class UserRepositoryTest {
         assertThat(userReturn).isPresent();
         assertThat(userReturn.get()).isEqualTo(savedUser);
     }
+    /**
+     * Test case for {@link UserRepository#delete(Object)} to verify that a user is successfully deleted from the repository.
+     * This test checks if the repository correctly deletes a user and returns an empty repository.
+     */
+    @Test
+    public void userRepository_Delete_ReturnEmptyRepository() {
+        // Saving a test user into the repository
+        userRepository.save(testUserOne);
+
+        // Retrieving the saved user by ID
+        Optional<UserEntity> userOptional = userRepository.findById(testUserOne.getId());
+        assertThat(userOptional.isPresent());
+
+        // Deleting user
+        userRepository.delete(testUserOne);
+
+        // Retrieving the user again after deletion
+        Optional<UserEntity> userOptionalAfterDeletion = userRepository.findById(testUserOne.getId());
+
+        // Assertions
+        assertThat(userOptionalAfterDeletion).isEmpty();
+    }
 }
+
