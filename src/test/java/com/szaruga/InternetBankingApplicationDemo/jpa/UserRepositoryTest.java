@@ -1,13 +1,12 @@
 package com.szaruga.InternetBankingApplicationDemo.jpa;
 
+import com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,31 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @DataJpaTest
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    //test users
-    private final UserEntity testUserOne = new UserEntity.Builder()
-            .firstName("John")
-            .lastName("Doe")
-            .birthDate(LocalDate.now().minusYears(25))
-            .numberPesel("1234567890")
-            .email("john.doe@example.com")
-            .phoneNumber("123-456-7890")
-            .password("password123")
-            .build();
-
-    private final UserEntity testUserTwo = new UserEntity.Builder()
-            .firstName("Patryk")
-            .lastName("Smith")
-            .birthDate(LocalDate.now().minusYears(25))
-            .numberPesel("0987654321")
-            .email("smith@example.com")
-            .phoneNumber("7890-456-123")
-            .password("password321")
-            .build();
+    private final UserEntity testUserOne = UserBuilder.createTestUserOne();
+    private final UserEntity testUserTwo = UserBuilder.createTestUserTwo();
 
     /**
      * Test case for {@link UserRepository#save(Object)} to verify that a user is saved successfully.
@@ -72,9 +53,7 @@ public class UserRepositoryTest {
         // Assertions
         assertThat(usersList).isNotNull();
 
-        // There are three places in the application where data is saved into the userRepository,
-        // hence the total number of users should be 2 (testUserOne and testUserTwo)
-        assertThat(usersList.size()).isEqualTo(5);
+        assertThat(usersList.size()).isEqualTo(2);
     }
 
     /**

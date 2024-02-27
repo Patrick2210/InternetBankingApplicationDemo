@@ -77,4 +77,62 @@ public class UserDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    // Static method to obtain builder instance
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    // Builder class
+    public static class Builder {
+        private UserDto userDto;
+
+        public Builder() {
+            userDto = new UserDto();
+        }
+
+        public Builder firstName(String firstName) {
+            userDto.firstName = firstName;
+            return this;
+        }
+
+        public Builder lastName(String lastName) {
+            userDto.lastName = lastName;
+            return this;
+        }
+
+        public Builder birthDate(LocalDate birthDate) {
+            userDto.birthDate = birthDate;
+            return this;
+        }
+
+        public Builder phoneNumber(String phoneNumber) {
+            userDto.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder numberPesel(String numberPesel) {
+            userDto.numberPesel = numberPesel;
+            return this;
+        }
+
+        public Builder password(String password) {
+            userDto.password = password;
+            return this;
+        }
+
+        public Builder repeatPassword(String repeatPassword) {
+            userDto.repeatPassword = repeatPassword;
+            return this;
+        }
+
+        public Builder email(String email) {
+            userDto.email = email;
+            return this;
+        }
+
+        public UserDto build() {
+            return userDto;
+        }
+    }
 }

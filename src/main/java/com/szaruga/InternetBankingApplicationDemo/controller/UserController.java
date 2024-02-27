@@ -36,7 +36,7 @@ public class UserController {
      * @param page The page object containing user data.
      * @return A response object containing paginated user data.
      */
-    private Object responsePage(Page<UsersPageDto> page) {
+    private Map<String, Object> responsePage(Page<UsersPageDto> page) {
         Map<String, Object> response = new HashMap<>();
         response.put("users", page.getContent());
         response.put("currentPage", page.getNumber());
@@ -53,11 +53,11 @@ public class UserController {
      * @return ResponseEntity containing paginated user data.
      */
     @GetMapping("/users/{pageNumber}/{pageSize}")
-    public ResponseEntity<Object> retrievePageOfUsersWithoutSorting(
+    public ResponseEntity<Page<UsersPageDto>> retrievePageOfUsersWithoutSorting(
             @PathVariable int pageNumber,
             @PathVariable int pageSize) {
         Page<UsersPageDto> usersDto = userService.getAllUsers(pageNumber, pageSize, null);
-        return ResponseEntity.ok(responsePage(usersDto));
+        return ResponseEntity.ok(usersDto);
     }
 
     /**

@@ -36,7 +36,7 @@ public class UserService {
     private final VerificationUserUpdateDto verificationUserUpdateDto;
     private final VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto;
     private final VerificationEmailUpdateDto verificationEmailUpdateDto;
-    private final WebClient.Builder webClientBuilder;
+    private final WebClient webClient;
 
     /**
      * Constructs an instance of the UserService.
@@ -46,7 +46,7 @@ public class UserService {
      * @param verificationUserUpdateDto         Validator for updating user DTOs.
      * @param verificationUserPasswordUpdateDto Validator for updating user password DTOs.
      * @param verificationEmailUpdateDto        Validator for updating user email DTOs.
-     * @param webClientBuilder                  Builder for creating a WebClient instance.
+     * @param webClient                         Builder for creating a WebClient instance.
      */
     @Autowired
     public UserService(UserRepository userRepository,
@@ -54,13 +54,13 @@ public class UserService {
                        VerificationUserUpdateDto verificationUserUpdateDto,
                        VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto,
                        VerificationEmailUpdateDto verificationEmailUpdateDto,
-                       WebClient.Builder webClientBuilder) {
+                       WebClient webClient) {
         this.userRepository = userRepository;
         this.verificationUserDto = verificationUserDto;
         this.verificationUserUpdateDto = verificationUserUpdateDto;
         this.verificationUserPasswordUpdateDto = verificationUserPasswordUpdateDto;
         this.verificationEmailUpdateDto = verificationEmailUpdateDto;
-        this.webClientBuilder = webClientBuilder;
+        this.webClient = webClient;
     }
 
     /**
@@ -75,6 +75,7 @@ public class UserService {
     public Page<UsersPageDto> getAllUsers(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
         if (sortByInput == null) {
+            //todo validacja aby ujemnego inta
             pageable = PageRequest.of(pageNumber, pageSize);
             return userRepository.findAll(pageable).map(UserMapper::mapUsersEntityToUsersPageDto);
         } else {
@@ -197,7 +198,7 @@ public class UserService {
      */
     public ResponseEntity<String> sendPeselValidationRequestToExternalApp(String peselNumber) {
         String baseUrl = "http://localhost:8082/api/verify-pesel";
-        WebClient.ResponseSpec responseSpec = webClientBuilder.build()
+        WebClient.ResponseSpec responseSpec = webClient
                 .post()
                 .uri(baseUrl)
                 .body(BodyInserters.fromValue(peselNumber))

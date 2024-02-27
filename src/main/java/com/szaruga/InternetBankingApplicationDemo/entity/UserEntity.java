@@ -115,6 +115,7 @@ public class UserEntity {
     }
 
     public static class Builder {
+        private Long id;
         private String firstName;
         private String lastName;
         private LocalDate birthDate;
@@ -124,6 +125,11 @@ public class UserEntity {
         private String password;
 
         public Builder() {
+        }
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
         }
 
         public Builder firstName(String firstName) {
@@ -163,6 +169,7 @@ public class UserEntity {
 
         public UserEntity build() {
             UserEntity user = new UserEntity();
+            user.setId(this.id);
             user.setFirstName(this.firstName);
             user.setLastName(this.lastName);
             user.setBirthDate(this.birthDate);
