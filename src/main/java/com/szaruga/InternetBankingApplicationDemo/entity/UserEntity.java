@@ -123,6 +123,7 @@ public class UserEntity {
         private String email;
         private String phoneNumber;
         private String password;
+        private List<AccountEntity> accounts;
 
         public Builder() {
         }

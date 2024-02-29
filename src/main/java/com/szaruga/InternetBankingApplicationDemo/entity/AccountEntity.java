@@ -72,4 +72,41 @@ public class AccountEntity {
                 ", balance=" + balance +
                 '}';
     }
+
+    public static class Builder {
+        private String accountType;
+        private int referenceAccountNumber;
+        private BigDecimal balance;
+        private UserEntity user;
+
+        public Builder accountType(String accountType) {
+            this.accountType = accountType;
+            return this;
+        }
+
+        public Builder referenceAccountNumber(int referenceAccountNumber) {
+            this.referenceAccountNumber = referenceAccountNumber;
+            return this;
+        }
+
+        public Builder balance(BigDecimal balance) {
+            this.balance = balance;
+            return this;
+        }
+
+        public Builder user(UserEntity user) {
+            this.user = user;
+            return this;
+        }
+
+        public AccountEntity build() {
+            AccountEntity account = new AccountEntity();
+            account.accountType = this.accountType;
+            account.referenceAccountNumber = this.referenceAccountNumber;
+            account.balance = this.balance;
+            account.user = this.user;
+            return account;
+        }
+    }
+
 }

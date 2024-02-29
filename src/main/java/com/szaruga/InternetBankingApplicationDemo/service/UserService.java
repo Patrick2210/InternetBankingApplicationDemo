@@ -75,7 +75,7 @@ public class UserService {
     public Page<UsersPageDto> getAllUsers(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
         if (sortByInput == null) {
-            //todo validacja aby ujemnego inta
+            //todo validacja ujemnego inta
             pageable = PageRequest.of(pageNumber, pageSize);
             return userRepository.findAll(pageable).map(UserMapper::mapUsersEntityToUsersPageDto);
         } else {
@@ -197,6 +197,7 @@ public class UserService {
      * @return The response from the external application.
      */
     public ResponseEntity<String> sendPeselValidationRequestToExternalApp(String peselNumber) {
+        //todo ogarnac to jako class
         String baseUrl = "http://localhost:8082/api/verify-pesel";
         WebClient.ResponseSpec responseSpec = webClient
                 .post()

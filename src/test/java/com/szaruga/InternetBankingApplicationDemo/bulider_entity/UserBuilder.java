@@ -21,6 +21,7 @@ public class UserBuilder {
 
     public static UserEntity createTestUserTwo() {
         return new UserEntity.Builder()
+                .id(2L)
                 .firstName("Patryk")
                 .lastName("Smith")
                 .birthDate(LocalDate.now().minusYears(25))
