@@ -23,14 +23,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.AccountBuilder.*;
-
 import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder.*;
 import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder.createTestUserOne;
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,6 +60,7 @@ public class UserServiceTest {
                 new VerificationUserUpdateDto(),
                 new VerificationUserPasswordUpdateDto(),
                 new VerificationEmailUpdateDto(), webClient);
+
         // Create a spy of the UserService instance for potential verification and stubbing
         userService = Mockito.spy(userService);
     }

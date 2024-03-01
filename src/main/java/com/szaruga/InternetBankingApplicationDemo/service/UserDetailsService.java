@@ -54,6 +54,7 @@ public class UserDetailsService {
     public Page<UsersDetailsPageDto> getAllUsersDetails(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
         if (sortByInput == null) {
+            //todo validacja ujemnego inta
             pageable = PageRequest.of(pageNumber, pageSize);
             return userDetailsRepository.findAll(pageable).map(UserDetailsMapper::mapUsersDetailsEntityToPageDto);
         } else {

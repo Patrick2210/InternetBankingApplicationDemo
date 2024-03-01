@@ -113,4 +113,59 @@ public class UserDetailsEntity {
                 ", city='" + city + '\'' +
                 '}';
     }
+
+    public static class Builder {
+        private UserDetailsEntity userDetailsEntity;
+
+        public Builder() {
+            userDetailsEntity = new UserDetailsEntity();
+        }
+        public Builder id(Integer id) {
+            userDetailsEntity.setId(id);
+            return this;
+        }
+        public Builder address(String address) {
+            userDetailsEntity.setAddress(address);
+            return this;
+        }
+
+        public Builder addressHomeNumber(String addressHomeNumber) {
+            userDetailsEntity.setAddressHomeNumber(addressHomeNumber);
+            return this;
+        }
+
+        public Builder addressFlatNumber(String addressFlatNumber) {
+            userDetailsEntity.setAddressFlatNumber(addressFlatNumber);
+            return this;
+        }
+
+        public Builder correspondenceAddress(String correspondenceAddress) {
+            userDetailsEntity.setCorrespondenceAddress(correspondenceAddress);
+            return this;
+        }
+
+        public Builder correspondenceAddressHomeNumber(String correspondenceAddressHomeNumber) {
+            userDetailsEntity.setCorrespondenceAddressHomeNumber(correspondenceAddressHomeNumber);
+            return this;
+        }
+
+        public Builder correspondenceAddressFlatNumber(String correspondenceAddressFlatNumber) {
+            userDetailsEntity.setCorrespondenceAddressFlatNumber(correspondenceAddressFlatNumber);
+            return this;
+        }
+
+        public Builder postCode(String postCode) {
+            userDetailsEntity.setPostCode(postCode);
+            return this;
+        }
+
+        public Builder city(String city) {
+            userDetailsEntity.setCity(city);
+            return this;
+        }
+
+        public UserDetailsEntity build() {
+            return userDetailsEntity;
+        }
+    }
 }
