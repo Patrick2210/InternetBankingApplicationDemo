@@ -1,6 +1,5 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
-import com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UserDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.AccountEntity;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
@@ -13,7 +12,6 @@ import com.szaruga.InternetBankingApplicationDemo.verification.userdto.Verificat
 import com.szaruga.InternetBankingApplicationDemo.verification.useremailupdatedto.VerificationEmailUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userpasswordupdatedto.VerificationUserPasswordUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto.VerificationUserUpdateDto;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,15 +23,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.AccountBuilder.createTestAccountOne;
-import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.AccountBuilder.createTestAccountTwo;
-import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder.createTestUserOne;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.AccountBuilder.*;
+
+import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -78,10 +74,14 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testDeleteUser_WhenAccountExist() {
+    public void testDeleteUser_WhenUserHasAccounts() {
         UserEntity testUser = createTestUserOne();
         AccountEntity testAccountOne = createTestAccountOne(testUser);
         AccountEntity testAccountTwo = createTestAccountTwo(testUser);
+        List<AccountEntity> accountEntities = new ArrayList<>();
+        accountEntities.add(testAccountOne);
+        accountEntities.add(testAccountTwo);
+        testUser.setAccounts(accountEntities);
         doReturn(Optional.of(testUser)).when(userRepository).findById(1L);
         assertThrows(UserHasAccountsException.class, () -> userService.deleteUser(testUser.getId()));
     }
@@ -89,12 +89,13 @@ public class UserServiceTest {
 
     @Test
     public void testDeleteUser_WhenUserHasNoAccounts() {
+        long userId = 1L;
         UserEntity testUser = createTestUserOne();
-        doReturn(Optional.of(testUser)).when(userRepository).findById(1L);
-        //todo musze dodac do Listy<Accounts> aby nie byl null
-        when(testUser.getAccounts().isEmpty()).thenReturn(true);
-        userService.deleteUser(testUser.getId());
-        verify(userRepository, times(1)).delete(testUser);
+        testUser.setAccounts(new ArrayList<>());
+        when(userRepository.findById(userId)).thenReturn(java.util.Optional.of(testUser));
+        userService.deleteUser(userId);
+        verify(userRepository).findById(userId);
+        verify(userRepository).delete(testUser);
     }
 
     @Test

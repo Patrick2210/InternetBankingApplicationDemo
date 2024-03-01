@@ -96,6 +96,10 @@ public class UserEntity {
         this.password = password;
     }
 
+    public void setAccounts(List<AccountEntity> accounts) {
+        this.accounts = accounts;
+    }
+
     public List<AccountEntity> getAccounts() {
         return accounts;
     }
