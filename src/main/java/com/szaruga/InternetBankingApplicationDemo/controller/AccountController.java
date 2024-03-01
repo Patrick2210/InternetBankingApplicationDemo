@@ -4,7 +4,7 @@ import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.GetAccountsByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
-import com.szaruga.InternetBankingApplicationDemo.service.AccountService;
+import com.szaruga.InternetBankingApplicationDemo.service.AccountsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +21,16 @@ import java.util.Map;
 @RequestMapping("/api")
 public class AccountController {
 
-    private final AccountService accountService;
+    private final AccountsService accountsService;
 
     /**
      * Constructs an instance of the AccountController.
      *
-     * @param accountService The service for managing account operations.
+     * @param accountsService The service for managing account operations.
      */
     @Autowired
-    public AccountController(AccountService accountService) {
-        this.accountService = accountService;
+    public AccountController(AccountsService accountsService) {
+        this.accountsService = accountsService;
     }
 
     /**
@@ -59,7 +59,7 @@ public class AccountController {
     public ResponseEntity<Object> retrievePageOfAccountsWithoutSorting(
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize) {
-        Page<AccountsPageDto> accountsPage = accountService.getAllAccounts(pageNumber, pageSize, null);
+        Page<AccountsPageDto> accountsPage = accountsService.getAllAccounts(pageNumber, pageSize, null);
         return ResponseEntity.ok(responsePage(accountsPage));
     }
 
@@ -76,7 +76,7 @@ public class AccountController {
             @PathVariable Integer pageNumber,
             @PathVariable Integer pageSize,
             @PathVariable String sort) {
-        Page<AccountsPageDto> accountsPage = accountService.getAllAccounts(pageNumber, pageSize, sort);
+        Page<AccountsPageDto> accountsPage = accountsService.getAllAccounts(pageNumber, pageSize, sort);
         return ResponseEntity.ok(responsePage(accountsPage));
     }
 
@@ -89,7 +89,7 @@ public class AccountController {
     @GetMapping("/users/accounts/{id}")
     public ResponseEntity<GetAccountsByIdDto> getAccountsById(
             @PathVariable int id) {
-        return ResponseEntity.ok(accountService.getAccountById(id));
+        return ResponseEntity.ok(accountsService.getAccountById(id));
     }
 
     /**
@@ -103,7 +103,7 @@ public class AccountController {
     public ResponseEntity<CreateAccount> createAccount(
             @RequestBody AccountDto accountDto,
             @PathVariable long userId) {
-        return ResponseEntity.ok(accountService.saveAccount(accountDto, userId));
+        return ResponseEntity.ok(accountsService.saveAccount(accountDto, userId));
     }
 
     /**
@@ -113,7 +113,7 @@ public class AccountController {
      */
     @DeleteMapping("/users/account/{id}")
     public void deleteAccount(@PathVariable int id) {
-        accountService.deleteAccount(id);
+        accountsService.deleteAccount(id);
     }
 
     /**
@@ -130,7 +130,7 @@ public class AccountController {
             @PathVariable int accountId,
             @PathVariable BigDecimal amount
     ) {
-        accountService.depositMoney(userId, accountId, amount);
+        accountsService.depositMoney(userId, accountId, amount);
         return ResponseEntity.ok().build();
     }
 
@@ -148,7 +148,7 @@ public class AccountController {
             @PathVariable int accountId,
             @PathVariable BigDecimal amount
     ) {
-        accountService.withdrawMoney(userId, accountId, amount);
+        accountsService.withdrawMoney(userId, accountId, amount);
         return ResponseEntity.ok().build();
     }
 }

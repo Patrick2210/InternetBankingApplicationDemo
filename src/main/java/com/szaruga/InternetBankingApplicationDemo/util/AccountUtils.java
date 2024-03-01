@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
+
 /**
  * Utility class for managing account-related operations.
  */
@@ -12,6 +13,7 @@ import java.util.Random;
 public class AccountUtils {
 
     private final AccountRepository accountRepository;
+
     /**
      * Constructor for AccountUtils.
      *
@@ -30,6 +32,7 @@ public class AccountUtils {
     private boolean isAccountReferenceAccountExists(int referenceAccountNumber) {
         return accountRepository.existsByReferenceAccountNumber(referenceAccountNumber);
     }
+
     /**
      * Generates a random number within a specific range.
      *
@@ -40,6 +43,7 @@ public class AccountUtils {
         int max = 999999;
         return min + new Random().nextInt(max - min + 1);
     }
+
     /**
      * Generates a unique reference account number.
      *

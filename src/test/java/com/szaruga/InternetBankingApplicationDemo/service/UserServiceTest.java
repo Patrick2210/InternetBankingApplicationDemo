@@ -28,6 +28,7 @@ import java.util.*;
 import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.AccountBuilder.*;
 import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder.*;
 import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder.createTestUserOne;
+import static com.szaruga.InternetBankingApplicationDemo.constant.TestApplicationConstants.INVALID_SORT;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -261,9 +262,8 @@ public class UserServiceTest {
         // Define test parameters
         int pageNumber = 0;
         int pageSize = 10;
-        String invalidSortByInput = "invalidSortField";
 
         // Verify that calling the service method with invalid sorting input throws IllegalSortingRequest
-        assertThrows(IllegalSortingRequest.class, () -> userService.getAllUsers(pageNumber, pageSize, invalidSortByInput));
+        assertThrows(IllegalSortingRequest.class, () -> userService.getAllUsers(pageNumber, pageSize, INVALID_SORT.getMessage()));
     }
 }

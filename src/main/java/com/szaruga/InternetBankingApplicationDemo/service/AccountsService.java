@@ -23,25 +23,19 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
+
 /**
  * Service class for managing accounts.
  */
 @Service
-public class AccountService {
-    /**
-     * Constructor for AccountService.
-     *
-     * @param accountRepository    The repository for AccountEntity.
-     * @param accountUtils         Utility class for account-related operations.
-     * @param validationAccountDto Utility class for validating AccountDto objects.
-     * @param userRepository       The repository for UserEntity.
-     */
+public class AccountsService {
     private final AccountRepository accountRepository;
     private final AccountUtils accountUtils;
     private final ValidationAccountDto validationAccountDto;
     private final UserRepository userRepository;
+
     /**
-     * Constructor for AccountService.
+     * Constructor for AccountsService.
      *
      * @param accountRepository    The repository for AccountEntity.
      * @param accountUtils         Utility class for account-related operations.
@@ -49,7 +43,7 @@ public class AccountService {
      * @param userRepository       The repository for UserEntity.
      */
     @Autowired
-    public AccountService(
+    public AccountsService(
             AccountRepository accountRepository,
             AccountUtils accountUtils,
             ValidationAccountDto validationAccountDto,
@@ -59,6 +53,7 @@ public class AccountService {
         this.validationAccountDto = validationAccountDto;
         this.userRepository = userRepository;
     }
+
     /**
      * Retrieves a page of accounts.
      *
@@ -79,12 +74,14 @@ public class AccountService {
             for (String sortMessage : SortingStringValues.sortingMessages) {
                 {
                     if (sortMessage.equalsIgnoreCase(sortByInput)) {
-                        return accountRepository.findAll(pageable).map(AccountMapper::mapAccountsEntityToPageDto);                    }
+                        return accountRepository.findAll(pageable).map(AccountMapper::mapAccountsEntityToPageDto);
+                    }
                 }
             }
         }
         throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
     }
+
     /**
      * Retrieves an account by its ID.
      *
@@ -97,13 +94,14 @@ public class AccountService {
                 .orElseThrow(() -> new AccountNotFoundException(ACCOUNT_NOT_FOUND_WITH_ID.getMessage() + accountId));
         return AccountMapper.mapAccountEntityToGetAccountsByIdDto(account);
     }
+
     /**
      * Saves an account.
      *
      * @param accountDto The account to save.
      * @param userId     The ID of the user associated with the account.
      * @return Information about the created account.
-     * @throws UserNotFoundException    If no user with the specified ID is found.
+     * @throws UserNotFoundException        If no user with the specified ID is found.
      * @throws InsufficientBalanceException If the account balance is insufficient.
      */
     public CreateAccount saveAccount(AccountDto accountDto, long userId) {
@@ -116,6 +114,7 @@ public class AccountService {
         AccountEntity save = accountRepository.save(AccountMapper.toEntity(accountDto));
         return new CreateAccount(save.getId());
     }
+
     /**
      * Deletes an account by its ID.
      *
@@ -131,6 +130,7 @@ public class AccountService {
             throw new AccountNotFoundException(ACCOUNT_DELETE.getMessage());
         }
     }
+
     /**
      * Deposits money into an account.
      *
@@ -151,14 +151,15 @@ public class AccountService {
         account.setBalance(newBalance);
         accountRepository.save(account);
     }
+
     /**
      * Withdraws money from an account.
      *
      * @param userId    The ID of the user associated with the account.
      * @param accountId The ID of the account to withdraw money from.
      * @param amount    The amount of money to withdraw.
-     * @throws UserNotFoundException       If no user with the specified ID is found.
-     * @throws AccountNotFoundException    If no account with the specified ID is found.
+     * @throws UserNotFoundException        If no user with the specified ID is found.
+     * @throws AccountNotFoundException     If no account with the specified ID is found.
      * @throws InsufficientBalanceException If the account balance is insufficient for the withdrawal.
      */
     public void withdrawMoney(long userId, int accountId, BigDecimal amount) {

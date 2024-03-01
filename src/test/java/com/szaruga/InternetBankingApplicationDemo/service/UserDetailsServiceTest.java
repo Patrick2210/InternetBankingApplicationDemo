@@ -15,6 +15,7 @@ import org.springframework.data.domain.*;
 import java.util.*;
 
 import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserDetailsBuilder.*;
+import static com.szaruga.InternetBankingApplicationDemo.constant.TestApplicationConstants.INVALID_SORT;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -126,9 +127,8 @@ public class UserDetailsServiceTest {
         // Define test parameters
         int pageNumber = 0;
         int pageSize = 10;
-        String invalidSortByInput = "invalidSortField";
 
         // Verify that calling the service method with invalid sorting input throws IllegalSortingRequest
-        assertThrows(IllegalSortingRequest.class, () -> userDetailsService.getAllUsersDetails(pageNumber, pageSize, invalidSortByInput));
+        assertThrows(IllegalSortingRequest.class, () -> userDetailsService.getAllUsersDetails(pageNumber, pageSize, INVALID_SORT.getMessage()));
     }
 }
