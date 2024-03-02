@@ -1,9 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
 import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountsPageDto;
-import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.AccountEntity;
-import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSortingRequest;
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
@@ -36,7 +34,9 @@ public class AccountsServiceTest {
     private UserRepository userRepository;
     // Instance of AccountsService to be tested
     private AccountsService accountsService;
-
+    /**
+     * Set up method to initialize the AccountsService instance before each test.
+     */
     @BeforeEach
     public void setUp() {
         accountsService = new AccountsService(
