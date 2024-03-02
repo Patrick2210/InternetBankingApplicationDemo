@@ -74,11 +74,15 @@ public class AccountEntity {
     }
 
     public static class Builder {
+        private Integer id;
         private String accountType;
         private int referenceAccountNumber;
         private BigDecimal balance;
         private UserEntity user;
-
+        public Builder id(int id) {
+            this.id = id;
+            return this;
+        }
         public Builder accountType(String accountType) {
             this.accountType = accountType;
             return this;
@@ -101,6 +105,7 @@ public class AccountEntity {
 
         public AccountEntity build() {
             AccountEntity account = new AccountEntity();
+            account.id=this.id;
             account.accountType = this.accountType;
             account.referenceAccountNumber = this.referenceAccountNumber;
             account.balance = this.balance;

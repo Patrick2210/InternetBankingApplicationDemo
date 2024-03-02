@@ -1,5 +1,9 @@
 package com.szaruga.InternetBankingApplicationDemo.service;
 
+import com.szaruga.InternetBankingApplicationDemo.dto.account.AccountsPageDto;
+import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPageDto;
+import com.szaruga.InternetBankingApplicationDemo.entity.AccountEntity;
+import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSortingRequest;
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
@@ -7,14 +11,26 @@ import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils;
 import com.szaruga.InternetBankingApplicationDemo.verification.accountdto.ValidationAccountDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.util.*;
+
+import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.AccountBuilder.*;
+import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder.createTestUserOne;
 import static com.szaruga.InternetBankingApplicationDemo.constant.TestApplicationConstants.INVALID_SORT;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Test class for {@link AccountsService} to verify its behavior.
  */
+@ExtendWith(MockitoExtension.class)
 public class AccountsServiceTest {
     // Mocks for dependencies
     @Mock
@@ -35,6 +51,33 @@ public class AccountsServiceTest {
 
     @Test
     public void getAllAccounts_WhenSortByInputIsNull() {
+        // Define test parameters
+        int pageNumber = 0;
+        int pageSize = 10;
+
+        // Create pageable object without sorting
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        // Create a list and add test user accounts
+        List<AccountEntity> accountsList = new ArrayList<>();
+        accountsList.add(createTestAccountOne(createTestUserOne()));
+        accountsList.add(createTestAccountTwo(createTestUserOne()));
+
+        // Create a page of accounts
+        Page<AccountEntity> accountsPage = new PageImpl<>(accountsList, pageable, accountsList.size());
+
+        // Mock the repository method call
+        when(accountRepository.findAll(pageable)).thenReturn(accountsPage);
+
+        // Call the service method with null sorting input
+        Page<AccountsPageDto> resultPage = accountsService.getAllAccounts(pageNumber, pageSize, null);
+
+        // Verify that the repository method was called with the correct pageable object
+        verify(accountRepository).findAll(pageable);
+
+        // Assertions
+        // Verify that the result page is not null
+        assertNotNull(resultPage);
     }
 
     @Test
