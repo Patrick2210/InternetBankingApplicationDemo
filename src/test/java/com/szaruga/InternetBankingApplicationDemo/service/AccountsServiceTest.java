@@ -14,10 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 
 import java.util.*;
 
@@ -48,7 +45,10 @@ public class AccountsServiceTest {
                 new ValidationAccountDto(),
                 userRepository);
     }
-
+    /**
+     * Test case for {@link AccountsService#getAllAccounts(int, int, String)} to verify the retrieval of all
+     * users details when sorting input is null.
+     */
     @Test
     public void getAllAccounts_WhenSortByInputIsNull() {
         // Define test parameters
@@ -79,11 +79,50 @@ public class AccountsServiceTest {
         // Verify that the result page is not null
         assertNotNull(resultPage);
     }
-
+    /**
+     * Test case for {@link AccountsService#getAllAccounts(int, int, String)} to verify the retrieval of all
+     * users details when sorting by a valid input.
+     */
     @Test
     public void getAllAccounts_WhenSortByInputIsValid() {
-    }
+        // Define test parameters
+        int pageNumber = 0;
+        int pageSize = 10;
 
+        // Possible values include: id, referenceAccountNumber, postcode, city, firstName, lastName, birthday
+        String sortByInput = "postcode";
+
+        // Create sort object based on input
+        Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
+
+        // Create pageable object
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+
+        // Create a list and add test user accounts
+        List<AccountEntity> accountsList = new ArrayList<>();
+        accountsList.add(createTestAccountOne(createTestUserOne()));
+        accountsList.add(createTestAccountTwo(createTestUserOne()));
+
+        // Create a page of accounts
+        Page<AccountEntity> accountsPage = new PageImpl<>(accountsList, pageable, accountsList.size());
+
+        // Mock the repository method call
+        when(accountRepository.findAll(pageable)).thenReturn(accountsPage);
+
+        // Call the service method
+        Page<AccountsPageDto> resultPage = accountsService.getAllAccounts(pageNumber, pageSize, sortByInput);
+
+        // Verify that the repository method was called with the correct pageable object
+        verify(accountRepository).findAll(pageable);
+
+        // Assertions
+        // Verify that the result page is not null
+        assertNotNull(resultPage);
+    }
+    /**
+     * Test case for {@link AccountsService#getAllAccounts(int, int, String)} to verify behavior when
+     * sorting input is invalid.
+     */
     @Test
     public void getAllAccounts_WhenSortByInputIsInvalid() {
         // Define test parameters
