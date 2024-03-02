@@ -34,6 +34,7 @@ public class AccountsServiceTest {
     private UserRepository userRepository;
     // Instance of AccountsService to be tested
     private AccountsService accountsService;
+
     /**
      * Set up method to initialize the AccountsService instance before each test.
      */
@@ -45,6 +46,7 @@ public class AccountsServiceTest {
                 new ValidationAccountDto(),
                 userRepository);
     }
+
     /**
      * Test case for {@link AccountsService#getAllAccounts(int, int, String)} to verify the retrieval of all
      * users details when sorting input is null.
@@ -79,6 +81,7 @@ public class AccountsServiceTest {
         // Verify that the result page is not null
         assertNotNull(resultPage);
     }
+
     /**
      * Test case for {@link AccountsService#getAllAccounts(int, int, String)} to verify the retrieval of all
      * users details when sorting by a valid input.
@@ -119,6 +122,7 @@ public class AccountsServiceTest {
         // Verify that the result page is not null
         assertNotNull(resultPage);
     }
+
     /**
      * Test case for {@link AccountsService#getAllAccounts(int, int, String)} to verify behavior when
      * sorting input is invalid.
