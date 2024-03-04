@@ -27,6 +27,8 @@ public enum ApplicationConstants {
     POSTCODE("postcode"),
     CITY("city"),
     PASSWORD_REPEAT("password repeat "),
+    VOIVODESHIP("voivodeship"),
+    COUNTY("county"),
     EMAIL("email "),
     MINIMUM_18_YEARS_OLD("must be at least 18 years old"),
     MUST_BE_NOT_NULL("must be not null"),

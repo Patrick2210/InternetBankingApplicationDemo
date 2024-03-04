@@ -23,7 +23,6 @@ public class ValidationUserDetailsDto {
      *
      * @param userDetailsDto The UserDetailsDto object to validate.
      */
-    //todo dodac do dto powiat i wojewodztwo
     public void validateDto(UserDetailsDto userDetailsDto) {
         fieldCheckAddress.validate(userDetailsDto.getAddress());
         FieldCheckAddressHomeNumber.validate(userDetailsDto.getAddressHomeNumber());
@@ -33,5 +32,7 @@ public class ValidationUserDetailsDto {
         FieldCheckCorrespondenceAddressFlatNumber.validate(userDetailsDto.getCorrespondenceAddressFlatNumber());
         fieldCheckPostCode.validate(userDetailsDto.getPostCode());
         fieldCheckCity.validate(userDetailsDto.getCity());
+        FiledCheckVoivodeship.validate(userDetailsDto.getVoivodeship());
+        FiledCheckCount.validate(userDetailsDto.getCounty());
     }
 }

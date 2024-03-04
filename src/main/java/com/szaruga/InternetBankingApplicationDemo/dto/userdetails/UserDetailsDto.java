@@ -1,4 +1,5 @@
 package com.szaruga.InternetBankingApplicationDemo.dto.userdetails;
+
 /**
  * Data Transfer Object (DTO) for representing user details.
  */
@@ -11,6 +12,8 @@ public class UserDetailsDto {
     private String correspondenceAddressFlatNumber;
     private String postCode;
     private String city;
+    private String voivodeship;
+    private String county;
 
     public String getAddress() {
         return address;
@@ -74,5 +77,21 @@ public class UserDetailsDto {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getVoivodeship() {
+        return voivodeship;
+    }
+
+    public void setVoivodeship(String voivodeship) {
+        this.voivodeship = voivodeship;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
     }
 }
