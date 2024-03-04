@@ -10,6 +10,8 @@ import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundExc
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSortingRequest;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.model.user.CreateUser;
+import com.szaruga.InternetBankingApplicationDemo.util.PeselValidationRequestSender;
+import com.szaruga.InternetBankingApplicationDemo.util.ValidationPageableInput;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdto.VerificationUserDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.useremailupdatedto.VerificationEmailUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userpasswordupdatedto.VerificationUserPasswordUpdateDto;
@@ -23,6 +25,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import java.util.*;
 
 import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.AccountBuilder.*;
@@ -46,6 +49,10 @@ public class UserServiceTest {
     private WebClient webClient;
     @Mock
     private VerificationUserDto verificationUserDto;
+    @Mock
+    private PeselValidationRequestSender peselValidationRequestSender;
+    @Mock
+    private ValidationPageableInput validationPageableInput;
     // Instance of UserService to be tested
     private UserService userService;
 
@@ -60,10 +67,12 @@ public class UserServiceTest {
                 verificationUserDto,
                 new VerificationUserUpdateDto(),
                 new VerificationUserPasswordUpdateDto(),
-                new VerificationEmailUpdateDto(), webClient);
+                new VerificationEmailUpdateDto(),
+                new PeselValidationRequestSender(webClient),
+                new ValidationPageableInput());
 
         // Create a spy of the UserService instance for potential verification and stubbing
-        userService = Mockito.spy(userService);
+        //userService = Mockito.spy(userService);
     }
 
     /**
@@ -74,9 +83,9 @@ public class UserServiceTest {
     public void testSaveNewUsers_PeselValidationFailSuccess() {
         // Create a test user DTO without providing PESEL
         UserDto testUserDto = new UserDto.Builder().build();
-
+        //todo poprawic test
         // Mock the userService to return an OK response when sending a PESEL validation request
-        doReturn(ResponseEntity.ok("OK")).when(userService).sendPeselValidationRequestToExternalApp(any());
+        doReturn(ResponseEntity.ok("OK")).when(peselValidationRequestSender).sendPeselValidationRequest(any());
 
         // Mock the userRepository to return a test user entity when saving the user
         when(userRepository.save(any())).thenReturn(createTestUserOne());
@@ -96,9 +105,9 @@ public class UserServiceTest {
     public void testSaveNewUsers_PeselValidationFail() {
         // Create a test user DTO without providing PESEL
         UserDto testUserDto = new UserDto.Builder().build();
-
+        //todo poprawic test
         // Mock the userService to return a bad request response when sending a PESEL validation request
-        doReturn(ResponseEntity.badRequest().build()).when(userService).sendPeselValidationRequestToExternalApp(any());
+        doReturn(ResponseEntity.ok("OK")).when(peselValidationRequestSender).sendPeselValidationRequest(any());
 
         // Verify that a PeselValidationException is thrown when attempting to save the user
         assertThrows(PeselValidationException.class, () -> userService.saveUser(testUserDto));
@@ -186,8 +195,8 @@ public class UserServiceTest {
         // Define test parameters
         int pageNumber = 0;
         int pageSize = 10;
-
-        // Create pageable object without sorting
+        //todo poprawic test z validate pagerequest
+        // Create a pageable object without sorting
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         // Create a list and add test users

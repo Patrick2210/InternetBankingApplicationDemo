@@ -15,6 +15,7 @@ import com.szaruga.InternetBankingApplicationDemo.mapper.AccountMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
 import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils;
 import com.szaruga.InternetBankingApplicationDemo.util.SortingStringValues;
+import com.szaruga.InternetBankingApplicationDemo.util.ValidationPageableInput;
 import com.szaruga.InternetBankingApplicationDemo.verification.accountdto.ValidationAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -33,6 +34,7 @@ public class AccountsService {
     private final AccountUtils accountUtils;
     private final ValidationAccountDto validationAccountDto;
     private final UserRepository userRepository;
+    private final ValidationPageableInput validationPageableInput;
 
     /**
      * Constructor for AccountsService.
@@ -41,17 +43,19 @@ public class AccountsService {
      * @param accountUtils         Utility class for account-related operations.
      * @param validationAccountDto Utility class for validating AccountDto objects.
      * @param userRepository       The repository for UserEntity.
+     * @param validationPageableInput           Validator for validating pageable input.
      */
     @Autowired
     public AccountsService(
             AccountRepository accountRepository,
             AccountUtils accountUtils,
             ValidationAccountDto validationAccountDto,
-            UserRepository userRepository) {
+            UserRepository userRepository, ValidationPageableInput validationPageableInput) {
         this.accountRepository = accountRepository;
         this.accountUtils = accountUtils;
         this.validationAccountDto = validationAccountDto;
         this.userRepository = userRepository;
+        this.validationPageableInput = validationPageableInput;
     }
 
     /**
@@ -66,6 +70,7 @@ public class AccountsService {
     public Page<AccountsPageDto> getAllAccounts(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
         if (sortByInput == null) {
+            validationPageableInput.validate(pageNumber, pageSize);
             pageable = PageRequest.of(pageNumber, pageSize);
             return accountRepository.findAll(pageable).map(AccountMapper::mapAccountsEntityToPageDto);
         } else {

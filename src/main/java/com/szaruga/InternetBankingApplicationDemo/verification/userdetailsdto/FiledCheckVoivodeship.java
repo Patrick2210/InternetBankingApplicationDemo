@@ -1,15 +1,16 @@
 package com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto;
 
-import com.szaruga.InternetBankingApplicationDemo.exception.address.InvalidCountyException;
 import com.szaruga.InternetBankingApplicationDemo.exception.address.InvalidVoivodeshipException;
 import com.szaruga.InternetBankingApplicationDemo.service.AddressService;
 import com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils;
+import org.springframework.stereotype.Component;
 
 import static com.szaruga.InternetBankingApplicationDemo.constants.ApplicationConstants.*;
 
 /**
  * Utility class for verifying and validating user voivodeship.
  */
+@Component
 public class FiledCheckVoivodeship {
 
     private final AddressService addressService;

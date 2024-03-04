@@ -11,6 +11,7 @@ import com.szaruga.InternetBankingApplicationDemo.mapper.UserDetailsMapper;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.userdetails.CreateUserDetails;
 import com.szaruga.InternetBankingApplicationDemo.util.SortingStringValues;
+import com.szaruga.InternetBankingApplicationDemo.util.ValidationPageableInput;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto.ValidationUserDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,17 +30,20 @@ public class UserDetailsService {
 
     private final UserDetailsRepository userDetailsRepository;
     private final ValidationUserDetailsDto validationUserDetailsDto;
+    private final ValidationPageableInput validationPageableInput;
 
     /**
      * Constructs an instance of the UserDetailsService.
      *
      * @param userDetailsRepository    The repository for managing user details entities.
      * @param validationUserDetailsDto Validator for user details DTOs.
+     * @param validationPageableInput           Validator for validating pageable input.
      */
     @Autowired
-    public UserDetailsService(UserDetailsRepository userDetailsRepository, ValidationUserDetailsDto validationUserDetailsDto) {
+    public UserDetailsService(UserDetailsRepository userDetailsRepository, ValidationUserDetailsDto validationUserDetailsDto, ValidationPageableInput validationPageableInput) {
         this.userDetailsRepository = userDetailsRepository;
         this.validationUserDetailsDto = validationUserDetailsDto;
+        this.validationPageableInput = validationPageableInput;
     }
 
     /**
@@ -54,7 +58,7 @@ public class UserDetailsService {
     public Page<UsersDetailsPageDto> getAllUsersDetails(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
         if (sortByInput == null) {
-            //todo validacja ujemnego inta
+            validationPageableInput.validate(pageNumber, pageSize);
             pageable = PageRequest.of(pageNumber, pageSize);
             return userDetailsRepository.findAll(pageable).map(UserDetailsMapper::mapUsersDetailsEntityToPageDto);
         } else {

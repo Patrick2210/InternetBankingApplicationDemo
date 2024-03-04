@@ -4,6 +4,7 @@ import com.szaruga.InternetBankingApplicationDemo.dto.userdetails.UsersDetailsPa
 import com.szaruga.InternetBankingApplicationDemo.entity.UserDetailsEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSortingRequest;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserDetailsRepository;
+import com.szaruga.InternetBankingApplicationDemo.util.ValidationPageableInput;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto.ValidationUserDetailsDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,8 @@ public class UserDetailsServiceTest {
     public void setUp() {
         userDetailsService = new UserDetailsService(
                 userDetailsRepository,
-                new ValidationUserDetailsDto());
+                new ValidationUserDetailsDto(),
+                new ValidationPageableInput());
     }
 
     /**

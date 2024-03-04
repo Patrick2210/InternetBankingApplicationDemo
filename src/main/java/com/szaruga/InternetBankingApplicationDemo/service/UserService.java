@@ -3,6 +3,8 @@ package com.szaruga.InternetBankingApplicationDemo.service;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.*;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.PeselValidationException;
+import com.szaruga.InternetBankingApplicationDemo.util.PeselValidationRequestSender;
+import com.szaruga.InternetBankingApplicationDemo.util.ValidationPageableInput;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.BodyInserters;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserHasAccountsException;
@@ -36,7 +38,8 @@ public class UserService {
     private final VerificationUserUpdateDto verificationUserUpdateDto;
     private final VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto;
     private final VerificationEmailUpdateDto verificationEmailUpdateDto;
-    private final WebClient webClient;
+    private final PeselValidationRequestSender peselValidationRequestSender;
+    private final ValidationPageableInput validationPageableInput;
 
     /**
      * Constructs an instance of the UserService.
@@ -46,21 +49,22 @@ public class UserService {
      * @param verificationUserUpdateDto         Validator for updating user DTOs.
      * @param verificationUserPasswordUpdateDto Validator for updating user password DTOs.
      * @param verificationEmailUpdateDto        Validator for updating user email DTOs.
-     * @param webClient                         Builder for creating a WebClient instance.
+     * @param peselValidationRequestSender      Validator for sending request with pesel number.
+     * @param validationPageableInput           Validator for validating pageable input.
      */
     @Autowired
     public UserService(UserRepository userRepository,
                        VerificationUserDto verificationUserDto,
                        VerificationUserUpdateDto verificationUserUpdateDto,
                        VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto,
-                       VerificationEmailUpdateDto verificationEmailUpdateDto,
-                       WebClient webClient) {
+                       VerificationEmailUpdateDto verificationEmailUpdateDto, PeselValidationRequestSender peselValidationRequestSender, ValidationPageableInput validationPageableInput) {
         this.userRepository = userRepository;
         this.verificationUserDto = verificationUserDto;
         this.verificationUserUpdateDto = verificationUserUpdateDto;
         this.verificationUserPasswordUpdateDto = verificationUserPasswordUpdateDto;
         this.verificationEmailUpdateDto = verificationEmailUpdateDto;
-        this.webClient = webClient;
+        this.peselValidationRequestSender = peselValidationRequestSender;
+        this.validationPageableInput = validationPageableInput;
     }
 
     /**
@@ -75,7 +79,7 @@ public class UserService {
     public Page<UsersPageDto> getAllUsers(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
         if (sortByInput == null) {
-            //todo validacja ujemnego inta
+            validationPageableInput.validate(pageNumber, pageSize);
             pageable = PageRequest.of(pageNumber, pageSize);
             return userRepository.findAll(pageable).map(UserMapper::mapUsersEntityToUsersPageDto);
         } else {
@@ -131,7 +135,7 @@ public class UserService {
      */
     public CreateUser saveUser(UserDto dto) {
         verificationUserDto.userDto(dto);
-        ResponseEntity<String> response = sendPeselValidationRequestToExternalApp(dto.getNumberPesel());
+        ResponseEntity<String> response = peselValidationRequestSender.sendPeselValidationRequest(dto.getNumberPesel());
         if (response.getStatusCode().value() == 200) {
             UserEntity save = userRepository.save(UserMapper.toEntity(dto));
             return new CreateUser(save.getId());
@@ -188,25 +192,6 @@ public class UserService {
         verificationEmailUpdateDto.verificationEmailUpdateDto(emailUpdateDto);
         userEntity.setEmail(emailUpdateDto.getEmail());
         userRepository.save(userEntity);
-    }
-
-    /**
-     * Sends a PESEL validation request to an external application.
-     *
-     * @param peselNumber The PESEL number to validate.
-     * @return The response from the external application.
-     */
-    public ResponseEntity<String> sendPeselValidationRequestToExternalApp(String peselNumber) {
-        //todo ogarnac to jako class
-        String baseUrl = "http://localhost:8082/api/verify-pesel";
-        WebClient.ResponseSpec responseSpec = webClient
-                .post()
-                .uri(baseUrl)
-                .body(BodyInserters.fromValue(peselNumber))
-                .retrieve();
-
-        String responseBody = responseSpec.bodyToMono(String.class).block();
-        return ResponseEntity.ok(responseBody);
     }
 
     private String generateResetToken() {

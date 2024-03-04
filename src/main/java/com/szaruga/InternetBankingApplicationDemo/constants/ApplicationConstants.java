@@ -37,6 +37,7 @@ public enum ApplicationConstants {
     MAX_CHAR("can't be longer than "),
     INVALID("invalid "),
     CHARACTERS(" characters "),
+    PAGE_REQUEST("Page number and page size must be positive whole numbers"),
     PESEL_INVALID_VALIDATION("Pesel validation failed"),
     NAMING_ALREADY_EXIST("with this naming already exist, please choose another name for account"),
     INSUFFICIENT_BALANCE("Insufficient balance for withdrawal"),

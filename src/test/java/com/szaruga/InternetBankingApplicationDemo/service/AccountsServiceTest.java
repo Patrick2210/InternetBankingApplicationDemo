@@ -6,6 +6,7 @@ import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSo
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils;
+import com.szaruga.InternetBankingApplicationDemo.util.ValidationPageableInput;
 import com.szaruga.InternetBankingApplicationDemo.verification.accountdto.ValidationAccountDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,8 @@ public class AccountsServiceTest {
                 accountRepository,
                 new AccountUtils(accountRepository),
                 new ValidationAccountDto(),
-                userRepository);
+                userRepository,
+                new ValidationPageableInput());
     }
 
     /**
@@ -57,7 +59,7 @@ public class AccountsServiceTest {
         int pageNumber = 0;
         int pageSize = 10;
 
-        // Create pageable object without sorting
+        // Create a pageable object without sorting
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         // Create a list and add test user accounts
