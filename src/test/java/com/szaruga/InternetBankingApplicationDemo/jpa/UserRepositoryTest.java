@@ -1,15 +1,14 @@
 package com.szaruga.InternetBankingApplicationDemo.jpa;
 
-import com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -19,9 +18,6 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    private final UserEntity testUserOne = UserBuilder.createTestUserOne();
-    private final UserEntity testUserTwo = UserBuilder.createTestUserTwo();
-
     /**
      * Test case for {@link UserRepository#save(Object)} to verify that a user is saved successfully.
      * This test checks if the saved user is not null and has a valid ID (greater than 0).
@@ -29,7 +25,7 @@ public class UserRepositoryTest {
     @Test
     public void userRepository_SaveAll_ReturnSavedUser() {
         //Act
-        UserEntity saveUser = userRepository.save(testUserOne);
+        UserEntity saveUser = userRepository.save(createTestUserOne());
 
         //Assert
         assertThat(saveUser).isNotNull();
@@ -44,8 +40,8 @@ public class UserRepositoryTest {
     @Test
     public void userRepository_GetAll_ReturnMoreThenOneUser() {
         // Saving two test users into the repository
-        userRepository.save(testUserOne);
-        userRepository.save(testUserTwo);
+        userRepository.save(createTestUserOne());
+        userRepository.save(createTestUserTwo());
 
         // Retrieving all users from the repository
         List<UserEntity> usersList = userRepository.findAll();
@@ -63,10 +59,10 @@ public class UserRepositoryTest {
     @Test
     public void userRepository_FindById_ReturnUser() {
         // Saving a test user into the repository
-        UserEntity savedUser = userRepository.save(testUserOne);
+        UserEntity savedUser = userRepository.save(createTestUserOne());
 
         // Retrieving the saved user by ID
-        Optional<UserEntity> userReturn = userRepository.findById(testUserOne.getId());
+        Optional<UserEntity> userReturn = userRepository.findById(createTestUserOne().getId());
 
         // Assertions
         assertThat(userReturn).isPresent();
@@ -80,17 +76,17 @@ public class UserRepositoryTest {
     @Test
     public void userRepository_Delete_ReturnEmptyRepository() {
         // Saving a test user into the repository
-        userRepository.save(testUserOne);
+        userRepository.save(createTestUserOne());
 
         // Retrieving the saved user by ID
-        Optional<UserEntity> userOptional = userRepository.findById(testUserOne.getId());
+        Optional<UserEntity> userOptional = userRepository.findById(createTestUserOne().getId());
         assertThat(userOptional.isPresent());
 
         // Deleting user
-        userRepository.delete(testUserOne);
+        userRepository.delete(createTestUserOne());
 
         // Retrieving the user again after deletion
-        Optional<UserEntity> userOptionalAfterDeletion = userRepository.findById(testUserOne.getId());
+        Optional<UserEntity> userOptionalAfterDeletion = userRepository.findById(createTestUserOne().getId());
 
         // Assertions
         assertThat(userOptionalAfterDeletion).isEmpty();

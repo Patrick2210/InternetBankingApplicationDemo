@@ -2,6 +2,7 @@ package com.szaruga.InternetBankingApplicationDemo.util;
 
 import com.szaruga.InternetBankingApplicationDemo.jpa.AccountRepository;
 import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,32 +11,20 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for {@link AccountUtils}
  */
+@ExtendWith(MockitoExtension.class)
 public class AccountUtilsTest {
-
+    @Mock
     private AccountRepository accountRepository;
     private AccountUtils accountUtils;
 
-    @Before("")
+    @BeforeEach()
     public void setUp() {
-        // Mocking the AccountRepository
-        accountRepository = mock(AccountRepository.class);
         // Creating an instance of AccountUtils with the mocked repository
         accountUtils = new AccountUtils(accountRepository);
-    }
-
-    @Test
-    public void testGenerateReferenceAccountNumber() {
-
-    }
-
-    @Test
-    public void testGenerateReferenceAccountNumber1() {
-
     }
 }
