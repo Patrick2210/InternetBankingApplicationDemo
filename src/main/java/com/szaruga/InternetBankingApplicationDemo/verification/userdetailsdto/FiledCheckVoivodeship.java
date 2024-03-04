@@ -1,5 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto;
 
+import com.szaruga.InternetBankingApplicationDemo.exception.address.InvalidCountyException;
 import com.szaruga.InternetBankingApplicationDemo.exception.address.InvalidVoivodeshipException;
 import com.szaruga.InternetBankingApplicationDemo.service.AddressService;
 import com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils;
@@ -22,13 +23,19 @@ public class FiledCheckVoivodeship {
      *
      * @param voivodeship The address flat number to validate.
      */
-    public  void validate(String voivodeship) {
+    public void validate(String voivodeship) {
         ValidationDtoUtils.checkNotNull(voivodeship, VOIVODESHIP.getMessage());
         ValidationDtoUtils.checkNotEmpty(voivodeship, VOIVODESHIP.getMessage());
         ValidationDtoUtils.checkIfContainsSpecialCharacters(voivodeship, VOIVODESHIP.getMessage());
         checkVoivodeship(voivodeship);
     }
 
+    /**
+     * Checks if the provided voivodeship exists in the database.
+     *
+     * @param voivodeship The voivodeship to check.
+     * @throws InvalidVoivodeshipException If the voivodeship does not exist in the database.
+     */
     private void checkVoivodeship(String voivodeship) {
         boolean isVoivodeshipExist = addressService.existsByVoivodeship(voivodeship);
         if (!isVoivodeshipExist) {

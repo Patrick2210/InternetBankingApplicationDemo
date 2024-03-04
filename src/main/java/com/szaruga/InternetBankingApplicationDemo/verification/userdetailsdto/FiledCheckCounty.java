@@ -1,6 +1,7 @@
 package com.szaruga.InternetBankingApplicationDemo.verification.userdetailsdto;
 
 import com.szaruga.InternetBankingApplicationDemo.exception.address.InvalidCountyException;
+import com.szaruga.InternetBankingApplicationDemo.exception.address.InvalidPostcodeException;
 import com.szaruga.InternetBankingApplicationDemo.service.AddressService;
 import com.szaruga.InternetBankingApplicationDemo.util.ValidationDtoUtils;
 
@@ -29,6 +30,12 @@ public class FiledCheckCounty {
         checkCounty(county);
     }
 
+    /**
+     * Checks if the provided county exists in the database.
+     *
+     * @param county The county to check.
+     * @throws InvalidCountyException If the county does not exist in the database.
+     */
     private void checkCounty(String county) {
         boolean countyExist = addressService.existsByCounty(county);
         if (!countyExist) {
