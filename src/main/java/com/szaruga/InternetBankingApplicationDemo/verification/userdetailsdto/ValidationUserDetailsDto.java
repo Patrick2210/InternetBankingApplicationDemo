@@ -17,6 +17,10 @@ public class ValidationUserDetailsDto {
     protected FieldCheckPostCode fieldCheckPostCode;
     @Autowired
     protected FieldCheckCity fieldCheckCity;
+    @Autowired
+    protected FiledCheckVoivodeship filedCheckVoivodeship;
+    @Autowired
+    protected FiledCheckCounty filedCheckCounty;
 
     /**
      * Validates the provided UserDetailsDto object.
@@ -32,7 +36,7 @@ public class ValidationUserDetailsDto {
         FieldCheckCorrespondenceAddressFlatNumber.validate(userDetailsDto.getCorrespondenceAddressFlatNumber());
         fieldCheckPostCode.validate(userDetailsDto.getPostCode());
         fieldCheckCity.validate(userDetailsDto.getCity());
-        FiledCheckVoivodeship.validate(userDetailsDto.getVoivodeship());
-        FiledCheckCount.validate(userDetailsDto.getCounty());
+        filedCheckVoivodeship.validate(userDetailsDto.getVoivodeship());
+        filedCheckCounty.validate(userDetailsDto.getCounty());
     }
 }
