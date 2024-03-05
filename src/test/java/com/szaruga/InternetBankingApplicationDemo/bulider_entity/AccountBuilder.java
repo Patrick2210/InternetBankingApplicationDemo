@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public class AccountBuilder {
     public static AccountEntity createTestAccountOne(UserEntity userEntity) {
         return new AccountEntity.Builder()
-                .id(2)
+                .id(1)
                 .accountType("Savings")
                 .balance(BigDecimal.valueOf(100))
                 .referenceAccountNumber(123456)
@@ -18,7 +18,7 @@ public class AccountBuilder {
 
     public static AccountEntity createTestAccountTwo(UserEntity userEntity) {
         return new AccountEntity.Builder()
-                .id(1)
+                .id(2)
                 .accountType("Main")
                 .balance(BigDecimal.valueOf(1200))
                 .referenceAccountNumber(654321)
