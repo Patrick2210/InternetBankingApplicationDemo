@@ -1,16 +1,16 @@
 package com.szaruga.InternetBankingApplicationDemo.jpa;
 
 import com.szaruga.InternetBankingApplicationDemo.entity.AccountEntity;
-import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.AccountBuilder.createTestAccountOne;
-import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.UserBuilder.createTestUserOne;
+import static com.szaruga.InternetBankingApplicationDemo.bulider_entity.AccountBuilder.createTestAccountTwo;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -44,7 +44,16 @@ public class AccountRepositoryTest {
      */
     @Test
     public void accountRepository_GetAll_ReturnMoreThenOneAccount() {
+        // Saving a test accounts into the repository
+        accountRepository.save(createTestAccountOne(any()));
+        accountRepository.save(createTestAccountTwo(any()));
 
+        // Retrieving all accounts from the repository
+        List<AccountEntity> accountEntityList = accountRepository.findAll();
+
+        // Assertions
+        assertThat(accountEntityList).isNotNull();
+        assertThat(accountEntityList.size()).isEqualTo(2);
     }
 
     /**
@@ -53,6 +62,15 @@ public class AccountRepositoryTest {
      */
     @Test
     public void accountRepository_FindById_ReturnAccount() {
+        // Saving a test account into the repository
+        AccountEntity savedTestAccount = accountRepository.save(createTestAccountOne(any()));
+
+        // Retrieving the saved account by ID
+        Optional<AccountEntity> accountReturn = accountRepository.findById(createTestAccountOne(any()).getId());
+
+        // Assertions
+        assertThat(accountReturn).isPresent();
+        assertThat(accountReturn.get()).isEqualTo(savedTestAccount);
     }
 
     /**
