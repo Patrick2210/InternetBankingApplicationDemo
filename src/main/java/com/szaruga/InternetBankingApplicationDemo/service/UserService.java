@@ -57,7 +57,9 @@ public class UserService {
                        VerificationUserDto verificationUserDto,
                        VerificationUserUpdateDto verificationUserUpdateDto,
                        VerificationUserPasswordUpdateDto verificationUserPasswordUpdateDto,
-                       VerificationEmailUpdateDto verificationEmailUpdateDto, PeselValidationRequestSender peselValidationRequestSender, ValidationPageableInput validationPageableInput) {
+                       VerificationEmailUpdateDto verificationEmailUpdateDto,
+                       PeselValidationRequestSender peselValidationRequestSender,
+                       ValidationPageableInput validationPageableInput) {
         this.userRepository = userRepository;
         this.verificationUserDto = verificationUserDto;
         this.verificationUserUpdateDto = verificationUserUpdateDto;

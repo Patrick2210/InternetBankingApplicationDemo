@@ -68,11 +68,8 @@ public class UserServiceTest {
                 new VerificationUserUpdateDto(),
                 new VerificationUserPasswordUpdateDto(),
                 new VerificationEmailUpdateDto(),
-                new PeselValidationRequestSender(webClient),
+                peselValidationRequestSender,
                 new ValidationPageableInput());
-
-        // Create a spy of the UserService instance for potential verification and stubbing
-        //userService = Mockito.spy(userService);
     }
 
     /**
@@ -83,9 +80,8 @@ public class UserServiceTest {
     public void testSaveNewUsers_PeselValidationFailSuccess() {
         // Create a test user DTO without providing PESEL
         UserDto testUserDto = new UserDto.Builder().build();
-        //todo poprawic test
-        // Mock the userService to return an OK response when sending a PESEL validation request
 
+        // Mock the userService to return an OK response when sending a PESEL validation request
         doReturn(ResponseEntity.ok("OK")).when(peselValidationRequestSender).sendPeselValidationRequest(any());
 
         // Mock the userRepository to return a test user entity when saving the user
@@ -106,9 +102,10 @@ public class UserServiceTest {
     public void testSaveNewUsers_PeselValidationFail() {
         // Create a test user DTO without providing PESEL
         UserDto testUserDto = new UserDto.Builder().build();
-        //todo poprawic test
+
         // Mock the userService to return a bad request response when sending a PESEL validation request
-        doReturn(ResponseEntity.ok("OK")).when(peselValidationRequestSender).sendPeselValidationRequest(any());
+        ResponseEntity<String> badRequestResponse = ResponseEntity.badRequest().build();
+        doReturn(badRequestResponse).when(peselValidationRequestSender).sendPeselValidationRequest(any());
 
         // Verify that a PeselValidationException is thrown when attempting to save the user
         assertThrows(PeselValidationException.class, () -> userService.saveUser(testUserDto));
@@ -196,8 +193,9 @@ public class UserServiceTest {
         // Define test parameters
         int pageNumber = 0;
         int pageSize = 10;
-        //todo poprawic test z validate pagerequest
-        // Create a pageable object without sorting
+
+        // Validate pageable inputs
+        validationPageableInput.validate(pageNumber, pageSize);
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         // Create a list and add test users
@@ -232,10 +230,10 @@ public class UserServiceTest {
         int pageNumber = 0;
         int pageSize = 10;
 
-        // Possible values include: id, referenceAccountNumber, postcode, city, firstName, lastName, birthday
+        // Possible values include: id, referenceAccountNumber, zip code, city, firstName, lastName, birthday
         String sortByInput = "id";
 
-        // Create sort object based on input
+        // Create a sort object based on input
         Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
 
         // Create pageable object

@@ -7,6 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 
 import static io.restassured.RestAssured.*;
+
 /**
  * Note: To pass these tests, an external application must be running to handle the requests sent by the PeselValidationRequestSender class.
  * The external application should be accessible at http://localhost:8082/api/verify-pesel.
