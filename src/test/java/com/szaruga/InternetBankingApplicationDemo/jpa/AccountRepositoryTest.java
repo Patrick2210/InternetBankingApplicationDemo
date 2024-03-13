@@ -57,7 +57,7 @@ public class AccountRepositoryTest {
     }
 
     /**
-     * Test case for {@link AccountRepository#findById(Object)} to verify that the correct accounts are retrieved by ID.
+     * Test case for {@link AccountRepository#findById(Object)} to verify that ID retrieves the correct accounts.
      * This test checks if the repository returns the correct accounts by ID.
      */
     @Test

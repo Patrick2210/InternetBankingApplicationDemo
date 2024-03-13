@@ -53,7 +53,7 @@ public class UserRepositoryTest {
     }
 
     /**
-     * Test case for {@link UserRepository#findById(Object)} to verify that the correct user is retrieved by ID.
+     * Test case for {@link UserRepository#findById(Object)} to verify that ID retrieves the correct user.
      * This test checks if the repository returns the correct user by ID.
      */
     @Test

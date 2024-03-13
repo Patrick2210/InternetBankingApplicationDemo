@@ -85,6 +85,7 @@ public class UserServiceTest {
         UserDto testUserDto = new UserDto.Builder().build();
         //todo poprawic test
         // Mock the userService to return an OK response when sending a PESEL validation request
+
         doReturn(ResponseEntity.ok("OK")).when(peselValidationRequestSender).sendPeselValidationRequest(any());
 
         // Mock the userRepository to return a test user entity when saving the user

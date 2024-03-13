@@ -97,7 +97,7 @@ public class AccountsServiceTest {
         // Possible values include: id, referenceAccountNumber, postcode, city, firstName, lastName, birthday
         String sortByInput = "postcode";
 
-        // Create sort object based on input
+        // Create a sort object based on input
         Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
 
         // Create pageable object
