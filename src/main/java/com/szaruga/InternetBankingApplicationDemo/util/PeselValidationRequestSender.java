@@ -1,5 +1,6 @@
 package com.szaruga.InternetBankingApplicationDemo.util;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -10,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
  */
 @Component
 public class PeselValidationRequestSender {
-
+    @Autowired
     private final WebClient webClient;
 
     /**

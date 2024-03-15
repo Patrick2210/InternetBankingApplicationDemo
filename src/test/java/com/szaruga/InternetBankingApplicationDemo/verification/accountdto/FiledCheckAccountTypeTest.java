@@ -38,13 +38,13 @@ public class FiledCheckAccountTypeTest {
      */
     @Test
     public void testIsAccountTypeExists_WhenTypeExists() {
-        // Define test account type
+        // Define a test account type
         String accountType = "Main";
 
         // Stub the behavior of accountRepository.existsByAccountType() method
         when(accountRepository.existsByAccountType(accountType)).thenReturn(true);
 
-        // Assert that ValidationException is thrown when account type exists
+        // Assert that ValidationException is thrown when an account type exists
         assertThrows(ValidationException.class, () -> isAccountTypeExists(accountType));
 
         // Verify that accountRepository.existsByAccountType() method is called
@@ -55,13 +55,13 @@ public class FiledCheckAccountTypeTest {
      */
     @Test
     public void isAccountTypeExists_WhenTypeDoesNotExist() {
-        // Define test account type
+        // Define a test account type
         String accountType = "Savings";
 
         // Stub the behavior of accountRepository.existsByAccountType() method
         when(accountRepository.existsByAccountType(accountType)).thenReturn(false);
 
-        // Assert that no exception is thrown when account type does not exist
+        // Assert that no exception is thrown when an account type does not exist
         assertDoesNotThrow(() -> isAccountTypeExists(accountType));
 
         // Verify that accountRepository.existsByAccountType() method is called

@@ -149,7 +149,7 @@ public class UserController {
      * @return ResponseEntity indicating the success of the operation.
      */
     @PutMapping("/users/{id}/email-change")
-    public ResponseEntity<Void> updateUser(
+    public ResponseEntity<Void> updateUserEmail(
             @PathVariable long id,
             @RequestBody UserEmailUpdateDto emailUpdate
     ) {

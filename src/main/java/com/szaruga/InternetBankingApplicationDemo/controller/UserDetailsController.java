@@ -38,7 +38,7 @@ public class UserDetailsController {
      * @param page The page of user details.
      * @return A formatted map representing the response.
      */
-    private Object responsePage(Page<UsersDetailsPageDto> page) {
+    private Map<String, Object> responsePage(Page<UsersDetailsPageDto> page) {
         Map<String, Object> response = new HashMap<>();
         response.put("users", page.getContent());
         response.put("currentPage", page.getNumber());

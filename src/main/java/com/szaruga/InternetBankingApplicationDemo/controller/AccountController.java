@@ -39,7 +39,7 @@ public class AccountController {
      * @param page The paginated account data.
      * @return A structured response.
      */
-    private Object responsePage(Page<AccountsPageDto> page) {
+    private Map<String, Object> responsePage(Page<AccountsPageDto> page) {
         Map<String, Object> response = new HashMap<>();
         response.put("accounts", page.getContent());
         response.put("currentPage", page.getNumber());
