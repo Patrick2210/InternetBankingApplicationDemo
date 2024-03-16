@@ -9,8 +9,7 @@ import org.springframework.context.annotation.Import;
 @Import(WebClientConfig.class)
 public class InternetBankingApplicationDemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(InternetBankingApplicationDemoApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(InternetBankingApplicationDemoApplication.class, args);
+    }
 }

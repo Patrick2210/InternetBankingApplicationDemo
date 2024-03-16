@@ -14,7 +14,7 @@ import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.AccountMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.account.CreateAccount;
 import com.szaruga.InternetBankingApplicationDemo.util.AccountUtils;
-import com.szaruga.InternetBankingApplicationDemo.util.SortingStringValues;
+import com.szaruga.InternetBankingApplicationDemo.util.StringSortCriteria;
 import com.szaruga.InternetBankingApplicationDemo.util.ValidationPageableInput;
 import com.szaruga.InternetBankingApplicationDemo.verification.accountdto.ValidationAccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +39,11 @@ public class AccountsService {
     /**
      * Constructor for AccountsService.
      *
-     * @param accountRepository    The repository for AccountEntity.
-     * @param accountUtils         Utility class for account-related operations.
-     * @param validationAccountDto Utility class for validating AccountDto objects.
-     * @param userRepository       The repository for UserEntity.
-     * @param validationPageableInput           Validator for validating pageable input.
+     * @param accountRepository       The repository for AccountEntity.
+     * @param accountUtils            Utility class for account-related operations.
+     * @param validationAccountDto    Utility class for validating AccountDto objects.
+     * @param userRepository          The repository for UserEntity.
+     * @param validationPageableInput Validator for validating pageable input.
      */
     @Autowired
     public AccountsService(
@@ -65,26 +65,17 @@ public class AccountsService {
      * @param pageSize    The size of each page.
      * @param sortByInput The field to sort by.
      * @return A page of accounts.
-     * @throws IllegalSortingRequest If the sorting request is invalid.
      */
     public Page<AccountsPageDto> getAllAccounts(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
         if (sortByInput == null) {
             validationPageableInput.validate(pageNumber, pageSize);
             pageable = PageRequest.of(pageNumber, pageSize);
-            return accountRepository.findAll(pageable).map(AccountMapper::mapAccountsEntityToPageDto);
         } else {
-            Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
+            Sort sort = Sort.by(Sort.Direction.ASC, StringSortCriteria.preprocessSortingCriteria(sortByInput));
             pageable = PageRequest.of(pageNumber, pageSize, sort);
-            for (String sortMessage : SortingStringValues.sortingMessages) {
-                {
-                    if (sortMessage.equalsIgnoreCase(sortByInput)) {
-                        return accountRepository.findAll(pageable).map(AccountMapper::mapAccountsEntityToPageDto);
-                    }
-                }
-            }
         }
-        throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
+        return accountRepository.findAll(pageable).map(AccountMapper::mapAccountsEntityToPageDto);
     }
 
     /**

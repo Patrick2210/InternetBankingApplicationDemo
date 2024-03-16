@@ -5,6 +5,8 @@ import com.szaruga.InternetBankingApplicationDemo.dto.user.GetUserByIdDto;
 import com.szaruga.InternetBankingApplicationDemo.dto.user.UsersPageDto;
 import com.szaruga.InternetBankingApplicationDemo.entity.UserEntity;
 
+import java.util.Objects;
+
 /**
  * Mapper class responsible for mapping between User DTOs and entities.
  */
@@ -58,5 +60,4 @@ public class UserMapper {
         userPageDto.setEmail(user.getEmail());
         return userPageDto;
     }
-    //todo zrobic mapowanie na sortowanie aby nie wyrzucalo 500 wjezeli wpisze sie np. postcode, a w encji jest postCode
 }

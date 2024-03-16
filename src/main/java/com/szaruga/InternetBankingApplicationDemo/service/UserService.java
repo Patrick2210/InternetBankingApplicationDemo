@@ -6,14 +6,13 @@ import com.szaruga.InternetBankingApplicationDemo.exception.user.PeselValidation
 import com.szaruga.InternetBankingApplicationDemo.util.PeselValidationRequestSender;
 import com.szaruga.InternetBankingApplicationDemo.util.ValidationPageableInput;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.reactive.function.BodyInserters;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserHasAccountsException;
 import com.szaruga.InternetBankingApplicationDemo.exception.user.UserNotFoundException;
 import com.szaruga.InternetBankingApplicationDemo.exception.validation.IllegalSortingRequest;
 import com.szaruga.InternetBankingApplicationDemo.jpa.UserRepository;
 import com.szaruga.InternetBankingApplicationDemo.mapper.UserMapper;
 import com.szaruga.InternetBankingApplicationDemo.model.user.CreateUser;
-import com.szaruga.InternetBankingApplicationDemo.util.SortingStringValues;
+import com.szaruga.InternetBankingApplicationDemo.util.StringSortCriteria;
 import com.szaruga.InternetBankingApplicationDemo.verification.userdto.VerificationUserDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.useremailupdatedto.VerificationEmailUpdateDto;
 import com.szaruga.InternetBankingApplicationDemo.verification.userpasswordupdatedto.VerificationUserPasswordUpdateDto;
@@ -21,7 +20,6 @@ import com.szaruga.InternetBankingApplicationDemo.verification.userupgradedto.Ve
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.UUID;
 
@@ -76,26 +74,18 @@ public class UserService {
      * @param pageSize    The size of each page.
      * @param sortByInput The field to sort by.
      * @return A page of user DTOs.
-     * @throws IllegalSortingRequest If an illegal sorting request is made.
+
      */
     public Page<UsersPageDto> getAllUsers(int pageNumber, int pageSize, String sortByInput) {
         Pageable pageable;
         if (sortByInput == null) {
             validationPageableInput.validate(pageNumber, pageSize);
             pageable = PageRequest.of(pageNumber, pageSize);
-            return userRepository.findAll(pageable).map(UserMapper::mapUsersEntityToUsersPageDto);
         } else {
-            Sort sort = Sort.by(Sort.Direction.ASC, sortByInput);
+            Sort sort = Sort.by(Sort.Direction.ASC, StringSortCriteria.preprocessSortingCriteria(sortByInput));
             pageable = PageRequest.of(pageNumber, pageSize, sort);
-            for (String sortMessage : SortingStringValues.sortingMessages) {
-                {
-                    if (sortMessage.equalsIgnoreCase(sortByInput)) {
-                        return userRepository.findAll(pageable).map(UserMapper::mapUsersEntityToUsersPageDto);
-                    }
-                }
-            }
         }
-        throw new IllegalSortingRequest(INVALID_SORT_FIELD.getMessage() + sortByInput);
+        return userRepository.findAll(pageable).map(UserMapper::mapUsersEntityToUsersPageDto);
     }
 
     /**
